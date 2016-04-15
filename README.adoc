@@ -1,22 +1,6 @@
 = Tournament++
-:toc:
 
-== Działanie programu
-
-=== Role w systemie
-
-Organizator turnieju:: Tworzy i zarządza turniejami, od niego zależy miejsce, czas, opis i format turnieju. Akceptuje, dodaje i usuwa zawodników.
-Obsługa turnieju:: Uaktualnia stan turnieju w czasie jego trwania. Ogłasza początek i koniec poszczególnych rund. Uzupełnia informacje o tym, który zawodnik wygrał, a który przegrał w każdej rundzie.
-Zawodnik:: Rejestruje się i bierze udział w turniejach. Może zgłaszać organizatorowi chęć uczestnictwa w danym turnieju. Może również sprawdzać  informacje na swój temat.
-Widz:: Obserwuje przebieg turnieju. Ma dostęp do podstawowych informacjo o turnieju takich jak miejsce, czas, opis i format zawodów. Może na bieżąco śledzić wyniki turnieju. Może wyszukać wyniki określonego zawodnika.
-Użytkownik zalogowany:: Posiada i jest zalogowany na swoje konto w systemie. Z kontem są powiązane pewne informacje mogące identyfikować osobę. Bycie zalogowanym umożliwia również dostęp do funkcji systemu wymagających autoryzacji. Osoby będące aktorami typu organizator, obsługa turnieju, zawodnik są jednocześnie aktorami tego typu, chcąc obsługiwać system zgodnie ze swoją rolą. 
-Użytkownik niezalogowany:: Osoba niezalogowana do systemu. Może próbować dokonać rejestracji w systemie lub się zalogować.
-
-=== Diagram przypadków użycia
-
-image::http://stud.ics.p.lodz.pl/~michalsosn/Zwinne/UseCaseDiagram.png[Diagram przypadków użycia]
-
-== Przygotowanie środowiska
+== Środowisko deweloperskie
 
 === Baza danych PostgreSQL
 
@@ -30,7 +14,36 @@ projektu plik `application.properties` i umieśćcie w nim dane do połączenia 
  spring.datasource.password=pass
  spring.jpa.hibernate.ddl-auto=create-drop
 
-WARNING: Nie edytujcie istniejącego pliku `tournamentpp/src/main/resources/application.properties`, lecz dodajcie
-         nowy `tournamentpp/application.properties`. Ten pierwszy zawiera współdzieloną konfigurację, a dane do 
-         połączenie z bazą każdy będzie miał własne, dlatego tworzymy osobny plik, którym nie będziemy się dzielić.
- 
+Uwaga:: Nie edytujcie istniejącego pliku `tournamentpp/src/main/resources/application.properties`, lecz dodajcie
+nowy `tournamentpp/application.properties`. Ten pierwszy zawiera współdzieloną konfigurację, a dane do 
+połączenie z bazą każdy będzie miał własne, dlatego tworzymy osobny plik, którym nie będziemy się dzielić.
+
+=== Travis
+
+Zintegrowałem nasze repozytorium z serwerem Travis CI. Współdziałanie to powinno wyglądać tak:
+
+. Nie można pushować bezpośrednio do mastera.
+. Najpierw commit musi zostać pushnięty na osobnego brancha.
+. Tam zostanie on w kilka minut przetestowany przez Travis.
+. Jak testy przejdą, to będzie możliwe wmergowanie tego brancha do mastera. Status builda travisa wyświetla się ładnie na liście branchy.
+
+Nie wiem jeszcze czy mergowanie też będzie możliwe do wykonania z poziomu githuba, pewnie tak. 
+Dzięki temu praca będzie trochę bardziej ogarnięta, lecz nie tak męcząca jak pull requesty.
+Uwaga. Branch przeznaczony do merge powinien zostać zrebase'owany na najnowszy commit mastera. Inaczej merge nie uda się niezależnie od wyniku testów.
+
+== Działanie programu
+
+Tournament++ to projekt do organizowania i zarządzania turniejami.
+
+=== Role w systemie
+
+Organizator turnieju:: Tworzy i zarządza turniejami, od niego zależy miejsce, czas, opis i format turnieju. Akceptuje, dodaje i usuwa zawodników.
+Obsługa turnieju:: Uaktualnia stan turnieju w czasie jego trwania. Ogłasza początek i koniec poszczególnych rund. Uzupełnia informacje o tym, który zawodnik wygrał, a który przegrał w każdej rundzie.
+Zawodnik:: Rejestruje się i bierze udział w turniejach. Może zgłaszać organizatorowi chęć uczestnictwa w danym turnieju. Może również sprawdzać  informacje na swój temat.
+Widz:: Obserwuje przebieg turnieju. Ma dostęp do podstawowych informacjo o turnieju takich jak miejsce, czas, opis i format zawodów. Może na bieżąco śledzić wyniki turnieju. Może wyszukać wyniki określonego zawodnika.
+Użytkownik zalogowany:: Posiada i jest zalogowany na swoje konto w systemie. Z kontem są powiązane pewne informacje mogące identyfikować osobę. Bycie zalogowanym umożliwia również dostęp do funkcji systemu wymagających autoryzacji. Osoby będące aktorami typu organizator, obsługa turnieju, zawodnik są jednocześnie aktorami tego typu, chcąc obsługiwać system zgodnie ze swoją rolą. 
+Użytkownik niezalogowany:: Osoba niezalogowana do systemu. Może próbować dokonać rejestracji w systemie lub się zalogować.
+
+=== Diagram przypadków użycia
+
+image::http://stud.ics.p.lodz.pl/~michalsosn/Zwinne/UseCaseDiagram.png[Diagram przypadków użycia]
