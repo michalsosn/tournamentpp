@@ -1,0 +1,36 @@
+= Tournament++
+:toc:
+
+== Działanie programu
+
+=== Role w systemie
+
+Organizator turnieju:: Tworzy i zarządza turniejami, od niego zależy miejsce, czas, opis i format turnieju. Akceptuje, dodaje i usuwa zawodników.
+Obsługa turnieju:: Uaktualnia stan turnieju w czasie jego trwania. Ogłasza początek i koniec poszczególnych rund. Uzupełnia informacje o tym, który zawodnik wygrał, a który przegrał w każdej rundzie.
+Zawodnik:: Rejestruje się i bierze udział w turniejach. Może zgłaszać organizatorowi chęć uczestnictwa w danym turnieju. Może również sprawdzać  informacje na swój temat.
+Widz:: Obserwuje przebieg turnieju. Ma dostęp do podstawowych informacjo o turnieju takich jak miejsce, czas, opis i format zawodów. Może na bieżąco śledzić wyniki turnieju. Może wyszukać wyniki określonego zawodnika.
+Użytkownik zalogowany:: Posiada i jest zalogowany na swoje konto w systemie. Z kontem są powiązane pewne informacje mogące identyfikować osobę. Bycie zalogowanym umożliwia również dostęp do funkcji systemu wymagających autoryzacji. Osoby będące aktorami typu organizator, obsługa turnieju, zawodnik są jednocześnie aktorami tego typu, chcąc obsługiwać system zgodnie ze swoją rolą. 
+Użytkownik niezalogowany:: Osoba niezalogowana do systemu. Może próbować dokonać rejestracji w systemie lub się zalogować.
+
+=== Diagram przypadków użycia
+
+image::http://stud.ics.p.lodz.pl/~michalsosn/Zwinne/UseCaseDiagram.png[Diagram przypadków użycia]
+
+== Przygotowanie środowiska
+
+=== Baza danych PostgreSQL
+
+Projekt wymaga do działania bazy danych PostgreSQL i raczej nie jest planowane skonfigurowanie go do współpracy z inną.
+
+Zainstalujcie go zgodnie z dokumentacją i utwórzcie bazę danych dla projektu Tournament++. Następnie utwórzcie w katalogu
+projektu plik `application.properties` i umieśćcie w nim dane do połączenia ze swoją bazą, na przykład:
+
+ spring.datasource.url=jdbc:postgresql://localhost:5432/tournamentppdb
+ spring.datasource.username=admin
+ spring.datasource.password=pass
+ spring.jpa.hibernate.ddl-auto=create-drop
+
+WARNING: Nie edytujcie istniejącego pliku `tournamentpp/src/main/resources/application.properties`, lecz dodajcie
+         nowy `tournamentpp/application.properties`. Ten pierwszy zawiera współdzieloną konfigurację, a dane do 
+         połączenie z bazą każdy będzie miał własne, dlatego tworzymy osobny plik, którym nie będziemy się dzielić.
+ 
