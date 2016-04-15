@@ -1,0 +1,8 @@
+language: java
+jdk:
+    - oraclejdk8
+services:
+    - postgresql
+before_script:
+    - psql -c 'create database tournamentpp_test_db;' -U postgres
+    - mv .travis-application.properties application.properties
