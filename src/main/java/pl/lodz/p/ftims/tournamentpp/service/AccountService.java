@@ -31,7 +31,7 @@ public class AccountService {
         accountRepository.save(accountEntity);
         log.info("Account {} registered", accountEntity.getUsername());
     }
-    
+
     private void checkUsernameUnique(AccountDto account) {
         if (accountRepository.findByUsername(account.getUsername()).isPresent()) {
             throw new IllegalArgumentException(

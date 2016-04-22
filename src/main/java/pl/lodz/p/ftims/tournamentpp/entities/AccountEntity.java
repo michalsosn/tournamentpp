@@ -69,19 +69,6 @@ public class AccountEntity implements Serializable {
         this.active = active;
     }
 
-    public AccountEntity(String username, String password, boolean active,
-                         String name, String email, LocalDate birthdate,
-                         String phone, String description) {
-        this.username = username;
-        this.password = password;
-        this.active = active;
-        this.name = name;
-        this.email = email;
-        this.birthdate = birthdate;
-        this.phone = phone;
-        this.description = description;
-    }
-
     public long getId() {
         return id;
     }

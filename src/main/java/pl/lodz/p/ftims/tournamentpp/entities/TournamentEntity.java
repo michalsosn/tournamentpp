@@ -45,11 +45,15 @@ public class TournamentEntity implements Serializable {
     private OrganizerRoleEntity organizer;
 
     @ManyToMany
-    @JoinTable(name="tournament_competitor",
-               joinColumns =
-               @JoinColumn(name="tournament_id", referencedColumnName="tournament_id"),
-               inverseJoinColumns =
-               @JoinColumn(name="competitor_id", referencedColumnName="role_id")
+    @JoinTable(name = "tournament_competitor",
+               joinColumns = @JoinColumn(
+                       name = "tournament_id",
+                       referencedColumnName = "tournament_id"
+               ),
+               inverseJoinColumns = @JoinColumn(
+                       name = "competitor_id",
+                       referencedColumnName = "role_id"
+               )
     )
     private List<CompetitorRoleEntity> competitors = new ArrayList<>();
 
