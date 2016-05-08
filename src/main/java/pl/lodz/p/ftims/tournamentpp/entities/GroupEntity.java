@@ -50,29 +50,10 @@ public class GroupEntity {
                     referencedColumnName = "role_id"
             )
     )
-    private List<CompetitorRoleEntity> competitors;
+    List<CompetitorRoleEntity> competitors;
 
     @ManyToOne
     @JoinColumn(name = "tournament_id")
     private TournamentEntity tournament;
-
-    public long getId() {
-        return id;
-    }
-
-    public long getVersion() {
-        return version;
-    }
-
-    public List<CompetitorRoleEntity> getCompetitors() {
-        return competitors;
-    }
-
-    public TournamentEntity getTournament() {
-        return tournament;
-    }
-    
-    
-    
 
 }
