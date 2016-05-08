@@ -56,7 +56,8 @@ public class TournamentEntity implements Serializable {
                )
     )
     private List<CompetitorRoleEntity> competitors = new ArrayList<>();
-    
+
+    @OneToMany(mappedBy = "tournament")
     private List<RoundEntity> rounds = new ArrayList<>();
 
     public TournamentEntity() {
