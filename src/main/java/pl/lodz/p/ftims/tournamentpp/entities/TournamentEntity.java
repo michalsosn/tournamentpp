@@ -46,16 +46,29 @@ public class TournamentEntity implements Serializable {
 
     @ManyToMany
     @JoinTable(name = "tournament_competitor",
-               joinColumns = @JoinColumn(
-                       name = "tournament_id",
-                       referencedColumnName = "tournament_id"
-               ),
-               inverseJoinColumns = @JoinColumn(
-                       name = "competitor_id",
-                       referencedColumnName = "role_id"
-               )
+            joinColumns = @JoinColumn(
+                    name = "tournament_id",
+                    referencedColumnName = "tournament_id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "competitor_id",
+                    referencedColumnName = "role_id"
+            )
     )
     private List<CompetitorRoleEntity> competitors = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(name = "group_competitor",
+            joinColumns = @JoinColumn(
+                    name = "tournament_id",
+                    referencedColumnName = "tournament_id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "group_id",
+                    referencedColumnName = "group_id"
+            )
+    )
+    private List<GroupEntity> groups = new ArrayList<>();
 
     @OneToMany(mappedBy = "tournament")
     private List<RoundEntity> rounds = new ArrayList<>();
