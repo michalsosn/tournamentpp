@@ -12,6 +12,6 @@ import pl.lodz.p.ftims.tournamentpp.entities.RoundEntity;
  * @author r4pt0r
  */
 public interface TournamentFormat {
-    public RoundEntity prepareRound(TournamentFormat tournament);
-    
+    RoundEntity prepareRound(TournamentFormat tournament);
+
 }
