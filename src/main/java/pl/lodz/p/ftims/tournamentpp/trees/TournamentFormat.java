@@ -1,17 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pl.lodz.p.ftims.tournamentpp.trees;
 
 import pl.lodz.p.ftims.tournamentpp.entities.RoundEntity;
+import pl.lodz.p.ftims.tournamentpp.entities.TournamentEntity;
 
 /**
- *
- * @author r4pt0r
+ * Created by Daniel on 2016-05-09.
  */
 public interface TournamentFormat {
-    RoundEntity prepareRound(TournamentFormat tournament);
-
+    RoundEntity prepareRound(TournamentEntity tournament);
 }
