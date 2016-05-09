@@ -57,7 +57,7 @@ public class TournamentEntity implements Serializable {
     )
     private List<CompetitorRoleEntity> competitors = new ArrayList<>();
     
-    private List<RoundEntity> rounds = new ArrayList<>();
+//    private List<RoundEntity> rounds = new ArrayList<>();
 
     public TournamentEntity() {
     }
@@ -106,7 +106,5 @@ public class TournamentEntity implements Serializable {
         this.organizer = organizer;
     }
 
-    public List<CompetitorRoleEntity> getCompetitors() {
-        return competitors;
-    }
+    public List<CompetitorRoleEntity> getCompetitors() {return competitors;}
 }
