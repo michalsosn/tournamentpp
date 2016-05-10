@@ -43,8 +43,7 @@ public class GameEntity {
     )
     private List<CompetitorRoleEntity> competitors = new ArrayList<>();
 
-    public GameEntity(){
-
+    public GameEntity() {
     }
 
     public Long getId() {

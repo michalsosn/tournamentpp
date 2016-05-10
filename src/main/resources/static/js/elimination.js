@@ -21,20 +21,11 @@ $(window).load(function(){
                 player2: { name: "Kamilus", ID: 212, points: 11 }
             }
         ],
-        [
-            {
-                player1: { name: "Majkelus", winner: true, ID: 111, points: 211 },
-                player2: { name: "Łukaszus", ID: 112 , points: 50}
-            }
-        ],
-        [
-            {
-                player1: { name: "Majkelus", winner: true, ID: 111, points: 211  }
-            }
-        ]
+        [],[]
+
     ];
 
-    var titles = ['Round', 'Final',  'Winner'];
+    var titles = ['Round', 'Final', 'Winner'];
     $(".brackets").brackets({
         titles: titles,
         rounds: rounds,

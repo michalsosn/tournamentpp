@@ -1,7 +1,6 @@
 package pl.lodz.p.ftims.tournamentpp.entities;
 
 import javax.persistence.*;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +35,8 @@ public class RoundEntity {
     @OneToMany(mappedBy = "round")
     private List<GameEntity> games = new ArrayList<>();
 
+    public RoundEntity() {
+    }
 
     public Long getId() {
         return id;
