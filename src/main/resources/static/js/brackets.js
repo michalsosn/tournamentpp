@@ -20,7 +20,7 @@
                 html_player += '       </div>';
 
 
-            
+
 
             return html_player;
         },
@@ -28,12 +28,16 @@
         get_html_match = function(match){
             var html_match = '   <div class="match">';
 
-            if(match.player1)
+
+            $.each(match, function(key, player){
+                html_match += get_html_player(player);
+            });
+          /*  if(match.player1)
             html_match += get_html_player(match.player1);
 
             if(match.player2)
             html_match += get_html_player(match.player2);
-
+*/
             html_match += '   </div>';
 
             return html_match;

@@ -29,7 +29,7 @@ $(window).load(function(){
         ],
         [
             {
-                player1: { name: "Majkelus", winner: true, ID: 111, points: 211  },
+                player1: { name: "Majkelus", winner: true, ID: 111, points: 211  }
             }
         ]
     ];
