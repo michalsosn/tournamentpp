@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
  	<meta charset="utf-8">
@@ -21,26 +21,86 @@
 	<article>
 		<div class="row">
 			<div class="col-md-4"></div>
+			<!--
 			<div class="col-md-4">
 				<label>Profil użytkownika</label>
 			</div>
+			 -->
 		</div>
 		<div class="row">
-		
+			<div class="col-md-1"></div>
+			<div class="col-md-10">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+    					<h3 class="panel-title">Profil użytkownika</h3>
+  					</div>
+  					<div class="panel-body">
+	  					<div class="row">
+							<div class="col-md-2"></div>
+							<div class="col-md-3"></div>
+							<div class="col-md-4">
+								<label th:text="${login}"></label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-2"></div>
+							<div class="col-md-3">
+								<span class="fa fa-user" aria-hidden="true"></span>
+								<label>Imię i Nazwisko: </label>
+							</div>
+							<div class="col-md-4">
+								<label th:text="${name}"></label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-2"></div>
+							<div class="col-md-3">
+								<span class="fa fa-calendar" aria-hidden="true"></span>
+								<label>Data urodzenia: </label>
+							</div>
+							<div class="col-md-4">
+								<label th:text="${birthday}"></label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-2"></div>
+							<div class="col-md-3">
+								<span class="fa fa-envelope" aria-hidden="true"></span>
+								<label>E-Mail: </label>
+							</div>
+							<div class="col-md-4">
+								<label th:text="${email}"></label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-2"></div>
+							<div class="col-md-3">
+								<span class="fa fa-phone-square" aria-hidden="true"></span>
+								<label >Tel: </label>
+							</div>
+							<div class="col-md-4">
+								<label th:text="${phone}"></label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-2"></div>
+							<div class="col-md-3">
+								<span class="fa fa-pencil-square-o" aria-hidden="true"></span>
+								<label>Opis: </label>
+							</div>
+							<div class="col-md-4">
+								<label th:text="${description}"></label>
+							</div>
+						</div>
+  					</div>
+				</div>
+			</div>
 		</div>
-		<label>&lt;login &gt;</label><br>
-		<label>Imię i nazwiko: </label><label>&lt;Imię Nazwisko &gt;</label><br>
-		<label>Data urodzenia: </label> <label>&lt;data ur. &gt;</label><br>
-		<label>Email: </label> <label>&lt;email &gt;</label><br>
-		<label>telefon: </label> <label>&lt;tel &gt;</label><br>
-		<label>Emali: </label> <label>&lt;email &gt;</label><br>
-		<label>Opis: </label> <label>&lt;opis &gt;</label><br>
-        <div class="row">
+		<div class="row">
   			<div class="col-md-4"></div>
   			<div class="col-md-4">
-  			    <button type="submit" class="btn btn-lg btn-primary btn-block">
-            		<i class="fa fa-chevron-circle-up"></i>Edytuj
-          		</button>
+  				<a class="btn btn-lg btn-primary btn-block" href=# th:href="@{/editprofile}">Edytuj</a>
+
   			</div>
 		</div>
 	</article>

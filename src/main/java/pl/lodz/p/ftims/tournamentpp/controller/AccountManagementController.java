@@ -33,10 +33,6 @@ public class AccountManagementController {
     public String signInAccount() {
         return "signin";
     }
-    @RequestMapping(path = "/profile", method = RequestMethod.GET)
-    public String viewProfile() {
-        return "profile";
-    }
 
     @RequestMapping(path = "/register", method = RequestMethod.GET)
     public String registerAccount(Model model) {
