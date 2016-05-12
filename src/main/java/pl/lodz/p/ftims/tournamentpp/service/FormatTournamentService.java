@@ -25,7 +25,7 @@ public class FormatTournamentService {
         return rounds;
     }
 
-    private void checkIfTournamentExists(Long tournamentId) {
+    public void checkIfTournamentExists(Long tournamentId) {
         if (!tournamentRepository.findById(tournamentId).isPresent()) {
             throw new IllegalArgumentException(
                     "Tournament " + tournamentId + " not exists");
