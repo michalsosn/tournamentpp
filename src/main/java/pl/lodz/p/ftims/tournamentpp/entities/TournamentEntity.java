@@ -110,4 +110,8 @@ public class TournamentEntity implements Serializable {
     public List<CompetitorRoleEntity> getCompetitors() {
         return competitors;
     }
+
+    public List<RoundEntity> getRounds() {
+        return rounds;
+    }
 }
