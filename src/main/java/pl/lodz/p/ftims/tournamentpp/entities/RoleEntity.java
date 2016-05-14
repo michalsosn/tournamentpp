@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type")
 @SequenceGenerator(name = "role_sequence", sequenceName = "role_sequence",
-                   allocationSize = 3)
+        allocationSize = 3)
 public abstract class RoleEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -35,7 +35,7 @@ public abstract class RoleEntity implements Serializable {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "account_id", referencedColumnName = "account_id",
-                nullable = false, updatable = false)
+            nullable = false, updatable = false)
     private AccountEntity account;
 
     public RoleEntity() {

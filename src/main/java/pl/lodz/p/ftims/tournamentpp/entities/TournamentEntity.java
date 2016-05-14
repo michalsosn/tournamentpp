@@ -13,7 +13,7 @@ import java.util.List;
 @Entity(name = "Tournament")
 @Table(name = "tournament")
 @SequenceGenerator(name = "tournament_sequence", sequenceName = "tournament_sequence",
-                   allocationSize = 1)
+        allocationSize = 1)
 public class TournamentEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,21 +41,24 @@ public class TournamentEntity implements Serializable {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "organizer_id", referencedColumnName = "role_id",
-                nullable = false)
+            nullable = false)
     private OrganizerRoleEntity organizer;
 
     @ManyToMany
     @JoinTable(name = "tournament_competitor",
-               joinColumns = @JoinColumn(
-                       name = "tournament_id",
-                       referencedColumnName = "tournament_id"
-               ),
-               inverseJoinColumns = @JoinColumn(
-                       name = "competitor_id",
-                       referencedColumnName = "role_id"
-               )
+            joinColumns = @JoinColumn(
+                    name = "tournament_id",
+                    referencedColumnName = "tournament_id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "competitor_id",
+                    referencedColumnName = "role_id"
+            )
     )
     private List<CompetitorRoleEntity> competitors = new ArrayList<>();
+
+    @OneToMany
+    private List<RoundEntity> rounds = new ArrayList<>();
 
     public TournamentEntity() {
     }
@@ -106,5 +109,9 @@ public class TournamentEntity implements Serializable {
 
     public List<CompetitorRoleEntity> getCompetitors() {
         return competitors;
+    }
+
+    public List<RoundEntity> getRounds() {
+        return rounds;
     }
 }
