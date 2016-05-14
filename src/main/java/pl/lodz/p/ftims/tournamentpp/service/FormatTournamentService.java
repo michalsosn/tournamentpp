@@ -19,6 +19,11 @@ public class FormatTournamentService {
     @Autowired
     private TournamentRepository tournamentRepository;
 
+    public TournamentEntity getTournament(long tournamentId) {
+        TournamentEntity tournament = tournamentRepository.findOne(tournamentId);
+        return tournament;
+    }
+
     public List<RoundEntity> getRounds(long tournamentId) {
         TournamentEntity tournament = tournamentRepository.findOne(tournamentId);
         List<RoundEntity> rounds = null;

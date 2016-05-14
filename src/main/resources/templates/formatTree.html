@@ -21,9 +21,61 @@
     <script src="../static/js/brackets.js"
             th:src="@{/js/brackets.js}">
     </script>
-    <script src="../static/js/elimination.js"
-            th:src="@{js/elimination.js}">
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        $(window).load(function() {
+            var message = [[${tournamentId}]];
+            console.log(message);
+            var message2 = [[${type}]];
+            console.log(message2);
+            var roundsJson = [[${rounds}]];
+
+            roundsNames = [];
+            tournamentRounds = [];
+
+            $.each(roundsJson, function (roundKey, roundValue) {
+                roundTab = [];
+                roundsNames.push(roundValue.round);
+                $.each(roundValue.games, function (gameKey, gameValue) {
+                    game = {};
+                    $.each(gameValue.competitors, function (competitorKey, competitorValue) {
+                        game["player" + competitorValue.id] = {
+                            name: competitorValue.name,
+                            ID: competitorValue.id,
+                            winner: competitorValue.id === gameValue.winner.id ? true : false
+                        };
+                    });
+                    roundTab.push(game);
+                });
+                tournamentRounds.push(roundTab);
+            });
+            //Trzeba pobrać ostatniego zawodnika, jeśli była tam para
+            lastWinner = {};
+
+            $.each(tournamentRounds[tournamentRounds.length-1][0], function(playerKey, playerValue){
+               if(playerValue.winner === true){
+                   lastWinner = playerValue;
+               }
+            });
+            tournamentRounds.push([{winner: lastWinner}]);
+
+            $(".brackets").brackets({
+                titles: roundsNames,
+                rounds: tournamentRounds,
+                color_title: 'black',
+                border_color: 'gray',
+                color_player: 'black',
+                bg_player: 'white',
+                color_player_hover: 'lightGray',
+                bg_player_hover: 'gray',
+                border_radius_player: '10px',
+                border_radius_lines: '10px',
+            });
+        });
+        /*]]>*/
     </script>
+
     <title>Single Elimination</title>
 </head>
 <body>
