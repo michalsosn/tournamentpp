@@ -6,6 +6,7 @@ import pl.lodz.p.ftims.tournamentpp.entities.RoundEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.TournamentEntity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -15,19 +16,17 @@ import java.util.Random;
 public class SingleEliminationFormat implements TournamentFormat {
 
     @Override
-    public RoundEntity prepareRound(TournamentEntity tournament) {
-
+    public RoundEntity prepareRound(TournamentEntity tournament, Random random) {
         if (tournament.getRounds().isEmpty()) {
-            return prepareFirstRound(tournament.getCompetitors());
+            return prepareFirstRound(tournament.getCompetitors(), random);
         } else {
             return prepareRoundBasedOnRound(
-                    tournament.getRounds()
-                            .get(tournament.getRounds().size() - 1));
+                    tournament.getRounds().get(tournament.getRounds().size() - 1)
+            );
         }
     }
 
     private RoundEntity prepareRoundBasedOnRound(RoundEntity lastRoundEntity) {
-
         RoundEntity roundEntity = new RoundEntity();
         List<GameEntity> lastGames = lastRoundEntity.getGames();
         List<CompetitorRoleEntity> competitorsInThisRound = new ArrayList<>();
@@ -45,24 +44,19 @@ public class SingleEliminationFormat implements TournamentFormat {
         return roundEntity;
     }
 
-    private RoundEntity prepareFirstRound(List<CompetitorRoleEntity> competitors) {
+    private RoundEntity prepareFirstRound(
+            List<CompetitorRoleEntity> competitors, Random random
+    ) {
         RoundEntity roundEntity = new RoundEntity();
-        List<CompetitorRoleEntity> competitorsInRounds
-                = new ArrayList<>(competitors);
+        List<CompetitorRoleEntity> competitorsInRounds = new ArrayList<>(competitors);
 
-        for (CompetitorRoleEntity c : competitorsInRounds) {
-            System.out.println(c.getAccount().getName());
-        }
-        Random random = new Random();
-        for (int i = 0; i < competitors.size() / 2; i++) {
-            GameEntity game = new GameEntity();
-            game.setRound(roundEntity);
-            int firstPlayer = random.nextInt(competitorsInRounds.size());
-            game.getCompetitors().add(competitorsInRounds.get(firstPlayer));
-            competitorsInRounds.remove(firstPlayer);
-            int secondPlayer = random.nextInt(competitorsInRounds.size());
-            game.getCompetitors().add(competitorsInRounds.get(secondPlayer));
-            competitorsInRounds.remove(secondPlayer);
+        Collections.shuffle(competitorsInRounds, random);
+        for (int i = 0; i < competitorsInRounds.size() / 2; ++i) {
+            final CompetitorRoleEntity first = competitorsInRounds.get(2 * i);
+            final CompetitorRoleEntity second = competitorsInRounds.get(2 * i + 1);
+            GameEntity game = new GameEntity(roundEntity);
+            game.getCompetitors().add(first);
+            game.getCompetitors().add(second);
             roundEntity.getGames().add(game);
         }
 

@@ -1,6 +1,6 @@
 package pl.lodz.p.ftims.tournamentpp.entities;
 
-import pl.lodz.p.ftims.tournamentpp.trees.TorunamentType;
+import pl.lodz.p.ftims.tournamentpp.trees.Format;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -41,13 +41,16 @@ public class TournamentEntity implements Serializable {
     @Column(name = "start_time", nullable = false)
     private LocalDateTime startTime;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "format", length = 32, nullable = false)
+    private Format format;
+
+    @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "organizer_id", referencedColumnName = "role_id",
-            nullable = false)
+                nullable = false)
     private OrganizerRoleEntity organizer;
-
-    @Column(name = "type", nullable = false)
-    private TorunamentType torunamentType = TorunamentType.SINGLE_ELIMINATION;
 
     @ManyToMany
     @JoinTable(name = "tournament_competitor",
@@ -62,17 +65,18 @@ public class TournamentEntity implements Serializable {
     )
     private List<CompetitorRoleEntity> competitors = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "tournament", orphanRemoval = true)
     private List<RoundEntity> rounds = new ArrayList<>();
 
     public TournamentEntity() {
     }
 
-    public TournamentEntity(String location, String description,
-                            LocalDateTime startTime, OrganizerRoleEntity organizer) {
+    public TournamentEntity(String location, String description, LocalDateTime startTime,
+                            Format format, OrganizerRoleEntity organizer) {
         this.location = location;
         this.description = description;
         this.startTime = startTime;
+        this.format = format;
         this.organizer = organizer;
     }
 
@@ -104,6 +108,14 @@ public class TournamentEntity implements Serializable {
         this.startTime = startTime;
     }
 
+    public Format getFormat() {
+        return format;
+    }
+
+    public void setFormat(Format format) {
+        this.format = format;
+    }
+
     public OrganizerRoleEntity getOrganizer() {
         return organizer;
     }
@@ -120,11 +132,4 @@ public class TournamentEntity implements Serializable {
         return rounds;
     }
 
-    public TorunamentType getTorunamentType() {
-        return torunamentType;
-    }
-
-    public void setTorunamentType(TorunamentType torunamentType) {
-        this.torunamentType = torunamentType;
-    }
 }
