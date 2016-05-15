@@ -58,4 +58,15 @@ public class AccountService {
         return name;
     }
 
+    public void updateAccount(ProfileDto account) {
+         Long id = accountRepository.findByUsername(checkLoggedUser()).get().getId();
+         AccountEntity accountEntity = accountRepository.findOne(id);
+         if (account.getPassword().isEmpty()) {
+             account.applyToEntityWithoutPassword(accountEntity);
+         } else {
+             account.applyToEntity(accountEntity, passwordEncoder);
+         }
+         log.info("Account {} updated", checkLoggedUser());
+    }
+
 }
