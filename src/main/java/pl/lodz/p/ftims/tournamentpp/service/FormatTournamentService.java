@@ -20,8 +20,7 @@ public class FormatTournamentService {
     private TournamentRepository tournamentRepository;
 
     public TournamentEntity getTournament(long tournamentId) {
-        TournamentEntity tournament = tournamentRepository.findOne(tournamentId);
-        return tournament;
+        return tournamentRepository.findOne(tournamentId);
     }
 
     public List<RoundEntity> getRounds(long tournamentId) {

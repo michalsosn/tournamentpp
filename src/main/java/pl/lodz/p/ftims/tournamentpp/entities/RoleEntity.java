@@ -1,6 +1,7 @@
 package pl.lodz.p.ftims.tournamentpp.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -25,6 +26,7 @@ public abstract class RoleEntity implements Serializable {
     @Column(name = "version")
     private Long version;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "type", length = 32,
             nullable = false, insertable = false, updatable = false)
@@ -35,7 +37,7 @@ public abstract class RoleEntity implements Serializable {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "account_id", referencedColumnName = "account_id",
-            nullable = false, updatable = false)
+                nullable = false, updatable = false)
     private AccountEntity account;
 
     public RoleEntity() {
