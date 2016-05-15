@@ -34,12 +34,12 @@
 					<div class="panel-heading">
     					<h3 class="panel-title">Profil użytkownika</h3>
   					</div>
-  					<div class="panel-body">
+  					<div class="panel-body" th:object="${account}">
 	  					<div class="row">
 							<div class="col-md-2"></div>
 							<div class="col-md-3"></div>
 							<div class="col-md-4">
-								<label th:text="${login}"></label>
+								<label th:field="*{username}" id="username" th:text="${username}"></label>
 							</div>
 						</div>
 						<div class="row">
@@ -49,7 +49,7 @@
 								<label>Imię i Nazwisko: </label>
 							</div>
 							<div class="col-md-4">
-								<label th:text="${name}"></label>
+								<label th:field="*{name}" id="name" th:text="${name}"></label>
 							</div>
 						</div>
 						<div class="row">
@@ -59,7 +59,7 @@
 								<label>Data urodzenia: </label>
 							</div>
 							<div class="col-md-4">
-								<label th:text="${birthday}"></label>
+								<label th:field="*{birthdate}" id="birthdate" th:text="${#temporals.format(birthdate, 'dd.MM.yyyy')}"></label>
 							</div>
 						</div>
 						<div class="row">
@@ -69,7 +69,7 @@
 								<label>E-Mail: </label>
 							</div>
 							<div class="col-md-4">
-								<label th:text="${email}"></label>
+								<label th:field="*{email}" id="email" th:text="${email}"></label>
 							</div>
 						</div>
 						<div class="row">
@@ -79,7 +79,7 @@
 								<label >Tel: </label>
 							</div>
 							<div class="col-md-4">
-								<label th:text="${phone}"></label>
+								<label th:field="*{phone}" id="phone" th:text="${phone}"></label>
 							</div>
 						</div>
 						<div class="row">
@@ -89,7 +89,7 @@
 								<label>Opis: </label>
 							</div>
 							<div class="col-md-4">
-								<label th:text="${description}"></label>
+								<label th:field="*{description}" id="description" th:text="${description}"></label>
 							</div>
 						</div>
   					</div>
