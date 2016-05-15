@@ -1,16 +1,9 @@
 package pl.lodz.p.ftims.tournamentpp;
 
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
-import pl.lodz.p.ftims.tournamentpp.entities.*;
-import pl.lodz.p.ftims.tournamentpp.repository.*;
-
-import java.time.LocalDateTime;
 
 @SpringBootApplication
 public class TournamentPpApplication {
@@ -24,7 +17,7 @@ public class TournamentPpApplication {
         return new Java8TimeDialect();
     }
 
-    @Bean
+   /* @Bean
     public CommandLineRunner demo(AccountRepository accountRepository,
                                   TournamentRepository tournamentRepository,
                                   GameRepository gameRepository,
@@ -136,5 +129,5 @@ public class TournamentPpApplication {
             tournament.getRounds().add(r2);
             tournamentRepository.save(tournament);
         };
-    }
+    }*/
 }

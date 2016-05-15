@@ -1,5 +1,7 @@
 package pl.lodz.p.ftims.tournamentpp.entities;
 
+import pl.lodz.p.ftims.tournamentpp.trees.TorunamentType;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -43,6 +45,9 @@ public class TournamentEntity implements Serializable {
     @JoinColumn(name = "organizer_id", referencedColumnName = "role_id",
             nullable = false)
     private OrganizerRoleEntity organizer;
+
+    @Column(name = "type", nullable = false)
+    private TorunamentType torunamentType = TorunamentType.SINGLE_ELIMINATION;
 
     @ManyToMany
     @JoinTable(name = "tournament_competitor",
@@ -113,5 +118,13 @@ public class TournamentEntity implements Serializable {
 
     public List<RoundEntity> getRounds() {
         return rounds;
+    }
+
+    public TorunamentType getTorunamentType() {
+        return torunamentType;
+    }
+
+    public void setTorunamentType(TorunamentType torunamentType) {
+        this.torunamentType = torunamentType;
     }
 }
