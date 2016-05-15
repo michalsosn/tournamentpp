@@ -1,10 +1,13 @@
 package pl.lodz.p.ftims.tournamentpp.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,14 +36,10 @@ public class ProfileController {
     @RequestMapping(path = "/profile")
     public String showData(Model model) {
 
-//        AccountEntity ae = new AccountEntity("Luka",
-//        passwordEncoder.encode("ppppp"),true);
-//        ae.setEmail("kluchus@gmai.com");
-//        ae.setName("Jasiooo");
-//        ae.setPhone("883229686");
-//        repository.save(ae);
-
-        Optional<AccountEntity> account = repository.findByUsername("Luka");
+        Authentication authentication = SecurityContextHolder.getContext()
+                                                             .getAuthentication();
+        String name = authentication.getName();
+        Optional<AccountEntity> account = repository.findByUsername(name);
         if (account.isPresent()) {
             model.addAttribute("login", account.get().getUsername());
             model.addAttribute("email", account.get().getEmail());
@@ -48,13 +47,15 @@ public class ProfileController {
             model.addAttribute("phone", account.get().getPhone());
             model.addAttribute("birthday", account.get().getBirthdate());
             model.addAttribute("description", account.get().getDescription());
-//        }
         }
         return "profile";
     }
     @RequestMapping(path = "/editprofile", method = RequestMethod.GET)
     public String makeEditProfile(Model model) {
-        Optional<AccountEntity> account = repository.findByUsername("Luka");
+        Authentication authentication = SecurityContextHolder.getContext()
+                .getAuthentication();
+        String name = authentication.getName();
+        Optional<AccountEntity> account = repository.findByUsername(name);
         model.addAttribute("account", account);
         return "editprofile";
     }
@@ -67,10 +68,9 @@ public class ProfileController {
         if (bindingResult.hasErrors()) {
             return "editprofile";
         }
-        accountService.updateAccount(account);
+        accountService.createAccount(account);
         return "redirect:/profile";
     }
-
 
 }
 
