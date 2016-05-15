@@ -33,6 +33,8 @@ public class FormatTournamentController {
     public String getTournamentTree(@PathVariable long tournamentId, Model model) {
         model.addAttribute("tournamentId", tournamentId);
         model.addAttribute("type", TorunamentType.SINGLE_ELIMINATION);
+
+
         List<RoundDto> rounds = new ArrayList<>();
 
         int i = 1;
