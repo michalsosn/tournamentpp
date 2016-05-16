@@ -64,7 +64,7 @@ public class DoubleEliminationFormatTest {
         );
     }
 
-    @Test
+   /* @Test
     public void shouldCreateNextRoundForDoubleElimination(){
         final TournamentEntity tournament = linker.getTournaments().get(0);
         final List<CompetitorRoleEntity> competitors = tournament.getCompetitors();
@@ -90,15 +90,5 @@ public class DoubleEliminationFormatTest {
 
         RoundEntity round2 = format.prepareRound(tournament, new Random());
 
-        List<CompetitorRoleEntity> newCompetitors = round2.getGames().stream()
-                .flatMap(game -> game.getCompetitors().stream())
-                .collect(Collectors.toList());
-
-        List<CompetitorRoleEntity> lastWinners = tournament.getRounds().stream()
-                .flatMap(round -> round.getGames().stream())
-                .map(GameEntity::getWinner)
-                .collect(Collectors.toList());
-
-
-    }
+    }*/
 }

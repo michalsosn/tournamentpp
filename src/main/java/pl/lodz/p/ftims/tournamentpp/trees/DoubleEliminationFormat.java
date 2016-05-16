@@ -6,14 +6,13 @@ import pl.lodz.p.ftims.tournamentpp.entities.RoundEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.TournamentEntity;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 /**
  * Created by Daniel on 2016-05-15.
  */
-public class DoubleEliminationFormat implements TournamentFormat {
+public class DoubleEliminationFormat extends EliminationFormat implements TournamentFormat {
 
     @Override
     public RoundEntity prepareRound(TournamentEntity tournament, Random random) {
@@ -62,32 +61,9 @@ public class DoubleEliminationFormat implements TournamentFormat {
             competitorsForThisRound.add(losers.get(i));
         }
 
-        for (int i = 0; i < competitorsForThisRound.size(); i += 2) {
-            GameEntity game = new GameEntity();
-            game.getCompetitors().add(competitorsForThisRound.get(i));
-            game.getCompetitors().add(competitorsForThisRound.get(i + 1));
-            roundEntity.getGames().add(game);
-        }
-        System.out.println(competitorsForThisRound);
-        return roundEntity;
-    }
+        addNextRoundCompetitorsToRound(roundEntity, competitorsForThisRound);
 
-    private RoundEntity prepareFirstRound(
-            List<CompetitorRoleEntity> competitors, Random random
-    ) {
-        RoundEntity roundEntity = new RoundEntity();
-        List<CompetitorRoleEntity> competitorsInRounds = new ArrayList<>(competitors);
-
-        Collections.shuffle(competitorsInRounds, random);
-        for (int i = 0; i < competitorsInRounds.size() / 2; ++i) {
-            final CompetitorRoleEntity first = competitorsInRounds.get(2 * i);
-            final CompetitorRoleEntity second = competitorsInRounds.get(2 * i + 1);
-            GameEntity game = new GameEntity(roundEntity);
-            game.getCompetitors().add(first);
-            game.getCompetitors().add(second);
-            roundEntity.getGames().add(game);
-        }
-
+//        System.out.println(competitorsForThisRound);
         return roundEntity;
     }
 }

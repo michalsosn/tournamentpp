@@ -76,7 +76,6 @@ public class SingleEliminationFormatTest {
         GameEntity game12 = linker.makeGame().apply(env);
         game12.setWinner(competitors.get(2));
 
-        // TODO To chujowe, że korzystamy z zewnętrznego formatu zamiast z TournamentEntity
         RoundEntity round2 = format.prepareRound(tournament, new Random());
 
         List<CompetitorRoleEntity> newCompetitors = round2.getGames().stream()
