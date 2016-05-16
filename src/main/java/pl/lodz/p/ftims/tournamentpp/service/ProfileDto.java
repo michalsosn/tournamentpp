@@ -3,7 +3,7 @@ package pl.lodz.p.ftims.tournamentpp.service;
 import java.time.LocalDate;
 
 import javax.validation.constraints.Pattern;
-//import javax.validation.constraints.Size;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -14,8 +14,7 @@ import pl.lodz.p.ftims.tournamentpp.entities.AccountEntity;
  */
 public class ProfileDto {
 
-//    @Size(min = 4)
-    @Pattern(regexp = "(^$|.{4,})")
+    @Pattern(regexp = "(^$|.{4,})", message = "Must be empty or more than 4")
     private String password;
 
     private String name;

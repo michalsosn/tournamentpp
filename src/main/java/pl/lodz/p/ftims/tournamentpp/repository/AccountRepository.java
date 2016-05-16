@@ -14,5 +14,4 @@ import pl.lodz.p.ftims.tournamentpp.entities.AccountEntity;
 @Transactional(propagation = Propagation.MANDATORY)
 public interface AccountRepository extends CrudRepository<AccountEntity, Long> {
     Optional<AccountEntity> findByUsername(String username);
-    AccountEntity findById(Long id);
 }

@@ -3,12 +3,9 @@ package pl.lodz.p.ftims.tournamentpp.controller;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-//import org.springframework.web.bind.WebDataBinder;
-//import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,12 +19,6 @@ import pl.lodz.p.ftims.tournamentpp.service.ProfileDto;
  */
 @Controller
 public class ProfileController {
-
-//    @InitBinder
-//    public void initBinder(WebDataBinder binder) {
-//       binder.registerCustomEditor(String.class,
-//                 "password", new StringTrimmerEditor(true));
-//    }
 
     @Autowired
     private AccountService accountService;
