@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import pl.lodz.p.ftims.tournamentpp.entities.RoundEntity;
 import pl.lodz.p.ftims.tournamentpp.service.FormatTournamentService;
 import pl.lodz.p.ftims.tournamentpp.service.RoundDto;
-import pl.lodz.p.ftims.tournamentpp.trees.TorunamentType;
+import pl.lodz.p.ftims.tournamentpp.trees.Format;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +32,9 @@ public class FormatTournamentController {
             method = RequestMethod.GET)
     public String getTournamentTree(@PathVariable long tournamentId, Model model) {
         model.addAttribute("tournamentId", tournamentId);
-        model.addAttribute("type", TorunamentType.SINGLE_ELIMINATION);
+        model.addAttribute("type", Format.SINGLE_ELIMINATION);
+
+
         List<RoundDto> rounds = new ArrayList<>();
 
         int i = 1;

@@ -11,6 +11,7 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Michał Sośnicki
@@ -114,11 +115,8 @@ public class AccountDto {
         accountEntity.setBirthdate(birthdate);
         accountEntity.setPhone(phone);
         accountEntity.setDescription(description);
-        for (Role role : Role.values()) {
-            boolean active = roles.contains(role);
-            RoleEntity roleEntity = role.getConstructor().apply(active, accountEntity);
-            accountEntity.getRoles().put(role, roleEntity);
-        }
+        final Map<Role, RoleEntity> allRoles = Role.constructAll(accountEntity, roles);
+        accountEntity.getRoles().putAll(allRoles);
     }
 
 }

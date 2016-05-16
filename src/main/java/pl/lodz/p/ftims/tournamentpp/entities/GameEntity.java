@@ -45,6 +45,10 @@ public class GameEntity {
     public GameEntity() {
     }
 
+    public GameEntity(RoundEntity round) {
+        this.round = round;
+    }
+
     public Long getId() {
         return id;
     }

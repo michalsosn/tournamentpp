@@ -1,5 +1,6 @@
 package pl.lodz.p.ftims.tournamentpp.entities;
 
+import java.util.*;
 import java.util.function.BiFunction;
 
 /**
@@ -23,4 +24,17 @@ public enum Role {
     public BiFunction<Boolean, AccountEntity, RoleEntity> getConstructor() {
         return constructor;
     }
+
+    public static Map<Role, RoleEntity> constructAll(
+            AccountEntity accountEntity, Collection<Role> roles
+    ) {
+        Map<Role, RoleEntity> returnMap = new HashMap<>(values().length);
+        for (Role role : values()) {
+            boolean active = roles.contains(role);
+            RoleEntity roleEntity = role.getConstructor().apply(active, accountEntity);
+            returnMap.put(role, roleEntity);
+        }
+        return returnMap;
+    }
+
 }
