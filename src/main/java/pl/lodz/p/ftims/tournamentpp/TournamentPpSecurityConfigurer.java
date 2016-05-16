@@ -57,6 +57,9 @@ public class TournamentPpSecurityConfigurer extends WebSecurityConfigurerAdapter
                 .antMatchers("/competitor/**").hasAuthority(Role.COMPETITOR)
                 .antMatchers("/organizer/**").hasAuthority(Role.ORGANIZER)
                 .antMatchers("/support/**").hasAuthority(Role.SUPPORT)
+                .antMatchers("/competitor/**").hasAuthority(Role.COMPETITOR)
+                .antMatchers("/profile").authenticated()
+                .antMatchers("/editprofile").authenticated()
                 .anyRequest().permitAll();
         http.formLogin().loginPage("/signin");
     }
