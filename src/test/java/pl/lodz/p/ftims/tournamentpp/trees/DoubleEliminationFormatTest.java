@@ -17,16 +17,15 @@ import java.util.stream.Collectors;
 
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 /**
- * Created by Daniel on 2016-05-15.
+ * Created by Daniel on 2016-05-16.
  */
-public class SingleEliminationFormatTest {
-
+public class DoubleEliminationFormatTest {
     private Generator.Environment env;
     private GeneratorLinker linker;
-    private TournamentFormat format = new SingleEliminationFormat();
+    private TournamentFormat format = new DoubleEliminationFormat();
 
     @Before
     public void setUp() throws Exception {
@@ -38,11 +37,11 @@ public class SingleEliminationFormatTest {
         linker = new GeneratorLinker();
 
         linker.makeAccount(true, Role.ROLE_ORGANIZER).apply(env);
-        for (int i = 0; i < 6; ++i) {
+        for (int i = 0; i < 8; ++i) {
             linker.makeAccount(true, Role.ROLE_COMPETITOR).apply(env);
         }
         linker.makeTournament(
-                Format.SINGLE_ELIMINATION,
+                Format.DOUBLE_ELIMINATION,
                 linker.getCompetitors().stream().toArray(CompetitorRoleEntity[]::new)
         ).apply(env);
     }
@@ -52,7 +51,7 @@ public class SingleEliminationFormatTest {
     }
 
     @Test
-    public void shouldCreateFirstRoundForSingleElimination(){
+    public void shouldCreateFirstRoundForDoubleElimination(){
         final TournamentEntity tournament = linker.getTournaments().get(0);
 
         final RoundEntity round = format.prepareRound(tournament, new Random());
@@ -65,31 +64,31 @@ public class SingleEliminationFormatTest {
         );
     }
 
-    @Test
-    public void shouldCreateNextRoundForSingleElimination(){
+   /* @Test
+    public void shouldCreateNextRoundForDoubleElimination(){
         final TournamentEntity tournament = linker.getTournaments().get(0);
         final List<CompetitorRoleEntity> competitors = tournament.getCompetitors();
 
         linker.makeRound().apply(env);
         GameEntity game11 = linker.makeGame().apply(env);
         game11.setWinner(competitors.get(0));
+        game11.getCompetitors().add(competitors.get(0));
+        game11.getCompetitors().add(competitors.get(1));
         GameEntity game12 = linker.makeGame().apply(env);
         game12.setWinner(competitors.get(2));
+        game12.getCompetitors().add(competitors.get(2));
+        game12.getCompetitors().add(competitors.get(3));
+
+        GameEntity game13 = linker.makeGame().apply(env);
+        game13.setWinner(competitors.get(4));
+        game13.getCompetitors().add(competitors.get(4));
+        game13.getCompetitors().add(competitors.get(5));
+        GameEntity game14 = linker.makeGame().apply(env);
+        game14.setWinner(competitors.get(6));
+        game14.getCompetitors().add(competitors.get(6));
+        game14.getCompetitors().add(competitors.get(7));
 
         RoundEntity round2 = format.prepareRound(tournament, new Random());
 
-        List<CompetitorRoleEntity> newCompetitors = round2.getGames().stream()
-                .flatMap(game -> game.getCompetitors().stream())
-                .collect(Collectors.toList());
-
-        List<CompetitorRoleEntity> lastWinners = tournament.getRounds().stream()
-                .flatMap(round -> round.getGames().stream())
-                .map(GameEntity::getWinner)
-                .collect(Collectors.toList());
-
-        assertThat("Competitors in new round are paired from top to down",
-                newCompetitors, contains(lastWinners.toArray())
-        );
-    }
-
+    }*/
 }
