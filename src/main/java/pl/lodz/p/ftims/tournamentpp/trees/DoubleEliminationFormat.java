@@ -32,17 +32,19 @@ public class DoubleEliminationFormat implements TournamentFormat {
         List<CompetitorRoleEntity> winners = new ArrayList<>();
         List<CompetitorRoleEntity> losers = new ArrayList<>();
         List<CompetitorRoleEntity> luckyWinners = new ArrayList<>();
+        //TODO - trzeba sobie popaczeć co się odpierdala dla różnych wielkości
         //Zwycięzców z pierwszej połowy gier do pierwszej połowy sparować
         //Przegrani z pierwszej dołączają do zwycięzców z drugiej
         for (int i = 0; i < lastGames.size(); i++) {
 
             if (i < lastGames.size() / 2) {
-                long winnerId = lastGames.get(i).getWinner().getId();
+//                String winner = lastGames.get(i).getWinner().getAccount().getUsername();
                 winners.add(lastGames.get(i).getWinner());
                 for (CompetitorRoleEntity competitor : lastGames
                         .get(i).getCompetitors()) {
-                    if (competitor.getId() != winnerId) {
+                    if (!lastGames.get(i).getWinner().equals(competitor)) {
                         losers.add(competitor);
+                        break;
                     }
                 }
             } else {
@@ -66,7 +68,7 @@ public class DoubleEliminationFormat implements TournamentFormat {
             game.getCompetitors().add(competitorsForThisRound.get(i + 1));
             roundEntity.getGames().add(game);
         }
-
+        System.out.println(competitorsForThisRound);
         return roundEntity;
     }
 
