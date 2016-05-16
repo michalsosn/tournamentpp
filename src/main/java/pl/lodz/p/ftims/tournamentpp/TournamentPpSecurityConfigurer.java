@@ -46,13 +46,15 @@ public class TournamentPpSecurityConfigurer extends WebSecurityConfigurerAdapter
                      + " FROM role"
                      + " INNER JOIN account"
                      + " ON role.account_id = account.account_id"
-                     + " WHERE account.username = ?"
+                     + " WHERE account.username = ? AND role.active = TRUE"
                 );
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/account/**").authenticated()
+                .antMatchers("/competitor/**").hasAuthority(Role.COMPETITOR)
                 .antMatchers("/organizer/**").hasAuthority(Role.ORGANIZER)
                 .antMatchers("/support/**").hasAuthority(Role.SUPPORT)
                 .antMatchers("/competitor/**").hasAuthority(Role.COMPETITOR)
