@@ -17,14 +17,14 @@ import pl.lodz.p.ftims.tournamentpp.repository.TournamentRepository;
 @Transactional
 public class TournamentService {
 
-    private final int PAEG_SIZE = 10;
+    private static final int PAGE_SIZE = 10;
 
     @Autowired
     private TournamentRepository tournamentRepository;
 
     public Page<TournamentEntity> listTournaments(int page) {
         Pageable pageRequest = new PageRequest(
-                page, PAEG_SIZE, Sort.Direction.DESC, "startTime"
+                page, PAGE_SIZE, Sort.Direction.DESC, "startTime"
         );
         return tournamentRepository.findAll(pageRequest);
     }
