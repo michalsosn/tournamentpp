@@ -13,16 +13,16 @@ import pl.lodz.p.ftims.tournamentpp.repository.TournamentRepository;
 @Service
 public class TournamentService {
 
-	private final Logger log = LoggerFactory.getLogger(AccountService.class);
-	
-	@Autowired
+    private final Logger log = LoggerFactory.getLogger(AccountService.class);
+
+    @Autowired
     private TournamentRepository tournamentRepository;
-	
-	public void createTournament(TournamentDto tournament) {
-		TournamentEntity tournamentEntity = new TournamentEntity();
-		tournament.applyToEntity(tournamentEntity);
-		tournamentRepository.save(tournamentEntity);
-		 log.info("Tournament {} created", tournamentEntity.getId());
-	}
-	
+
+    public void createTournament(TournamentDto tournament) {
+        TournamentEntity tournamentEntity = new TournamentEntity();
+        tournament.applyToEntity(tournamentEntity);
+        tournamentRepository.save(tournamentEntity);
+        log.info("Tournament {} created", tournamentEntity.getId());
+    }
+
 }
