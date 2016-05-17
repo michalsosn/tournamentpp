@@ -54,9 +54,9 @@
 					th:class="${#fields.hasErrors('startTime')}? has-error">
 					<label for="format">Format</label> 
 					<select th:field="*{format}" class="form-control">
-						<option th:each="err : ${#fields.errors('format')}" 
-							th:value="${allFormats}"
-							th:text="#{err}">Very Nice Format</option>
+						<option th:each="type : ${allFormats}" 
+							th:value="${type}"
+							th:text="#{${type}}"></option>
 					</select>
 					<span class="help-block" th:each="err : ${#fields.errors('format')}"
 						th:text="${err}" />
