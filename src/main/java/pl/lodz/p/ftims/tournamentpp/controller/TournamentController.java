@@ -20,32 +20,32 @@ import pl.lodz.p.ftims.tournamentpp.trees.Format;
 @Controller
 public class TournamentController {
 
-	@Autowired
-	private TournamentService tournamentService;
+    @Autowired
+    private TournamentService tournamentService;
 
-	@ModelAttribute("allFormats")
-	public List<Format> populateFormats() {
-		return Arrays.asList(Format.values());
-	}
+    @ModelAttribute("allFormats")
+    public List<Format> populateFormats() {
+        return Arrays.asList(Format.values());
+    }
 
-	@RequestMapping(path = "/createTournament", method = RequestMethod.GET)
-	public String createTournament(Model model) {
-		model.addAttribute("tournament", new TournamentDto());
-		//model.addAllAttributes(populateFormats());
-		return "createTournament";
-	}
-	
-	@RequestMapping(path = "/createTournament", method = RequestMethod.POST)
-	public String createTournament(
-			@Valid @ModelAttribute("tournament") TournamentDto tournament,
-			BindingResult bindingResult) {
-		if(bindingResult.hasErrors()) {
-			return "createTournament";
-		}
-		tournamentService.createTournament(tournament);
-		return "redirect:/createTournament";
-	}
-	
+    @RequestMapping(path = "/createTournament", method = RequestMethod.GET)
+    public String createTournament(Model model) {
+        model.addAttribute("tournament", new TournamentDto());
+        // model.addAllAttributes(populateFormats());
+        return "createTournament";
+    }
+
+    @RequestMapping(path = "/createTournament", method = RequestMethod.POST)
+    public String createTournament(@Valid
+            @ModelAttribute("tournament") TournamentDto tournament,
+            BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "createTournament";
+        }
+        tournamentService.createTournament(tournament);
+        return "redirect:/createTournament";
+    }
+
 }
 
 

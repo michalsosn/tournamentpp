@@ -37,11 +37,11 @@ public class TournamentService {
         return tournamentRepository.findOne(id);
     }
 
-	public void createTournament(TournamentDto tournament) {
-		TournamentEntity tournamentEntity = new TournamentEntity();
-		tournament.applyToEntity(tournamentEntity);
-		tournamentRepository.save(tournamentEntity);
-		 log.info("Tournament {} created", tournamentEntity.getId());
-	}
-	
+    public void createTournament(TournamentDto tournament) {
+        TournamentEntity tournamentEntity = new TournamentEntity();
+        tournament.applyToEntity(tournamentEntity);
+        tournamentRepository.save(tournamentEntity);
+        log.info("Tournament {} created", tournamentEntity.getId());
+    }
+
 }
