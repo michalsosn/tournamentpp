@@ -1,5 +1,7 @@
 package pl.lodz.p.ftims.tournamentpp.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +19,8 @@ import pl.lodz.p.ftims.tournamentpp.repository.TournamentRepository;
 @Transactional
 public class TournamentService {
 
+    private final Logger log = LoggerFactory.getLogger(AccountService.class);
+
     private static final int PAGE_SIZE = 10;
 
     @Autowired
@@ -33,4 +37,11 @@ public class TournamentService {
         return tournamentRepository.findOne(id);
     }
 
+	public void createTournament(TournamentDto tournament) {
+		TournamentEntity tournamentEntity = new TournamentEntity();
+		tournament.applyToEntity(tournamentEntity);
+		tournamentRepository.save(tournamentEntity);
+		 log.info("Tournament {} created", tournamentEntity.getId());
+	}
+	
 }
