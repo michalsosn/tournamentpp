@@ -62,7 +62,11 @@ public class TournamentDto {
 	}
 	
 	public void applyToEntity(TournamentEntity tournamentEntity) {
-		//TODO
+		tournamentEntity.setLocation(location);
+		tournamentEntity.setDescription(description);
+		tournamentEntity.setStartTime(startTime);
+		tournamentEntity.setFormat(format);
+		tournamentEntity.setOrganizer(organizer);
 	}
 	
 }
