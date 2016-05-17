@@ -28,12 +28,10 @@ public class FormatTournamentController {
         return "singleElimination";
     }
 
-    @RequestMapping(path = "/{tournamentId}/tree",
-            method = RequestMethod.GET)
+    @RequestMapping(path = "/{tournamentId}/tree", method = RequestMethod.GET)
     public String getTournamentTree(@PathVariable long tournamentId, Model model) {
         model.addAttribute("tournamentId", tournamentId);
         model.addAttribute("type", Format.SINGLE_ELIMINATION);
-
 
         List<RoundDto> rounds = new ArrayList<>();
 
