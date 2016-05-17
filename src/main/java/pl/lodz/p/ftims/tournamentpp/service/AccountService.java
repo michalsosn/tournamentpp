@@ -1,7 +1,5 @@
 package pl.lodz.p.ftims.tournamentpp.service;
 
-import java.util.Optional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.ftims.tournamentpp.entities.AccountEntity;
 import pl.lodz.p.ftims.tournamentpp.repository.AccountRepository;
+
+import java.util.Optional;
 
 /**
  * @author Michał Sośnicki
@@ -42,31 +42,23 @@ public class AccountService {
                     "User " + account.getUsername() + " already exists"
             );
         }
-
     }
 
-    public Optional<AccountEntity> showProfile() {
-        Optional<AccountEntity> accountEntity = accountRepository.findByUsername(
-                                                checkLoggedUser());
-        return accountEntity;
+    public AccountEntity findAccount() {
+        return findLoggedUser().get();
     }
 
-    private String checkLoggedUser() {
-        Authentication authentication = SecurityContextHolder.getContext()
-                .getAuthentication();
-        String name = authentication.getName();
-        return name;
+    public void updateAccount(ProfileDto accountDto) {
+         AccountEntity accountEntity = findLoggedUser().get();
+         accountDto.applyToEntity(accountEntity, passwordEncoder);
+         log.info("Account {} updated", accountEntity.getUsername());
     }
 
-    public void updateAccount(ProfileDto account) {
-         Long id = accountRepository.findByUsername(checkLoggedUser()).get().getId();
-         AccountEntity accountEntity = accountRepository.findOne(id);
-         if (account.getPassword().isEmpty()) {
-             account.applyToEntityWithoutPassword(accountEntity);
-         } else {
-             account.applyToEntity(accountEntity, passwordEncoder);
-         }
-         log.info("Account {} updated", checkLoggedUser());
+    private Optional<AccountEntity> findLoggedUser() {
+        Authentication authentication
+                = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        return accountRepository.findByUsername(username);
     }
 
 }

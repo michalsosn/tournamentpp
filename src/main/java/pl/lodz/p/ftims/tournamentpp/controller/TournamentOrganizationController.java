@@ -20,6 +20,7 @@ public class TournamentOrganizationController {
     @Autowired
     private TournamentService tournamentService;
 
+    // TODO to może być przydatne do wyświetlenia listy turniejów!
     @RequestMapping(path = "/tournament", method = RequestMethod.GET)
     public String listTournaments(
             @RequestParam(name = "page", defaultValue = "0") Integer page,
@@ -28,17 +29,15 @@ public class TournamentOrganizationController {
         final Page<TournamentEntity> tournaments
                 = tournamentService.listTournaments(page);
         model.addAttribute("tournaments", tournaments);
-        return "tournaments";
+        return "/tournaments";
     }
 
+    // TODO to może być przydatne do wyświetlenia turnieju
     @RequestMapping(path = "/tournament/{id}", method = RequestMethod.GET)
-    public String getTournament(
-            @PathVariable long id,
-            Model model
-    ) {
+    public String getTournament(@PathVariable long id, Model model) {
         final TournamentEntity tournament = tournamentService.findTournament(id);
         model.addAttribute("tournament", tournament);
-        return "tournament";
+        return "/tournament";
     }
 
 }

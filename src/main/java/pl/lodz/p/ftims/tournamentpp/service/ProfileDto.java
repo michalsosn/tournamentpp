@@ -1,13 +1,11 @@
 package pl.lodz.p.ftims.tournamentpp.service;
 
-import java.time.LocalDate;
-
-import javax.validation.constraints.Pattern;
-
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import pl.lodz.p.ftims.tournamentpp.entities.AccountEntity;
+
+import javax.validation.constraints.Pattern;
+import java.time.LocalDate;
 
 /**
  * @author Łukasz Kluch
@@ -21,7 +19,7 @@ public class ProfileDto {
 
     private String email;
 
-    @DateTimeFormat(pattern = "dd.MM.yyyy")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate birthdate;
 
     private String phone;
@@ -81,15 +79,9 @@ public class ProfileDto {
 
     public void applyToEntity(AccountEntity accountEntity,
                PasswordEncoder passwordEncoder) {
-        accountEntity.setPassword(passwordEncoder.encode(password));
-        accountEntity.setName(name);
-        accountEntity.setEmail(email);
-        accountEntity.setBirthdate(birthdate);
-        accountEntity.setPhone(phone);
-        accountEntity.setDescription(description);
-    }
-
-    public void applyToEntityWithoutPassword(AccountEntity accountEntity) {
+        if (password != null && !password.isEmpty()) {
+            accountEntity.setPassword(passwordEncoder.encode(password));
+        }
         accountEntity.setName(name);
         accountEntity.setEmail(email);
         accountEntity.setBirthdate(birthdate);

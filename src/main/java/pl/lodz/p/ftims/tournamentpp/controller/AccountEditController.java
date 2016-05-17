@@ -12,38 +12,32 @@ import pl.lodz.p.ftims.tournamentpp.service.AccountService;
 import pl.lodz.p.ftims.tournamentpp.service.ProfileDto;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 /**
  * @author Łukasz Kluch
  */
 @Controller
-public class ProfileController {
+public class AccountEditController {
 
     @Autowired
     private AccountService accountService;
 
     @RequestMapping(path = "/account/account", method = RequestMethod.GET)
-    public String showData(Model model) {
-        Optional<AccountEntity> account = accountService.showProfile();
-        if (account.isPresent()) {
-            model.addAttribute("username", account.get().getUsername());
-            model.addAttribute("email", account.get().getEmail());
-            model.addAttribute("name", account.get().getName());
-            model.addAttribute("phone", account.get().getPhone());
-            model.addAttribute("birthdate", account.get().getBirthdate());
-            model.addAttribute("description", account.get().getDescription());
-        }
+    public String showAccount(Model model) {
+        AccountEntity account = accountService.findAccount();
+        model.addAttribute("account", account);
         return "/account/account";
     }
+
     @RequestMapping(path = "/account/editaccount", method = RequestMethod.GET)
-    public String showEditProfile(Model model) {
-        model.addAttribute("account", accountService.showProfile());
+    public String showEditAccount(Model model) {
+        AccountEntity account = accountService.findAccount();
+        model.addAttribute("account", account);
         return "/account/editaccount";
     }
 
-    @RequestMapping(path = "/account/account", method = RequestMethod.POST)
-    public String editProfile(
+    @RequestMapping(path = "/account/editaccount", method = RequestMethod.POST)
+    public String editAccount(
             @Valid @ModelAttribute("account") ProfileDto account,
             BindingResult bindingResult
     ) {

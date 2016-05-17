@@ -27,85 +27,80 @@
 			</div>
 			 -->
 		</div>
-		<div class="row">
-			<div class="col-md-1"></div>
-			<div class="col-md-10">
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-    					<h3 class="panel-title">Profil użytkownika</h3>
-  					</div>
-  					<div class="panel-body" th:object="${account}">
-	  					<div class="row">
-							<div class="col-md-2"></div>
-							<div class="col-md-3"></div>
-							<div class="col-md-4">
-								<label th:field="*{username}" id="username" th:text="${username}"></label>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-2"></div>
-							<div class="col-md-3">
-								<span class="fa fa-user" aria-hidden="true"></span>
-								<label>Imię i Nazwisko: </label>
-							</div>
-							<div class="col-md-4">
-								<label th:field="*{name}" id="name" th:text="${name}"></label>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-2"></div>
-							<div class="col-md-3">
-								<span class="fa fa-calendar" aria-hidden="true"></span>
-								<label>Data urodzenia: </label>
-							</div>
-							<div class="col-md-4">
-								<label th:field="*{birthdate}" id="birthdate" th:text="${#temporals.format(birthdate, 'dd.MM.yyyy')}"></label>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-2"></div>
-							<div class="col-md-3">
-								<span class="fa fa-envelope" aria-hidden="true"></span>
-								<label>E-Mail: </label>
-							</div>
-							<div class="col-md-4">
-								<label th:field="*{email}" id="email" th:text="${email}"></label>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-2"></div>
-							<div class="col-md-3">
-								<span class="fa fa-phone-square" aria-hidden="true"></span>
-								<label >Tel: </label>
-							</div>
-							<div class="col-md-4">
-								<label th:field="*{phone}" id="phone" th:text="${phone}"></label>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-2"></div>
-							<div class="col-md-3">
-								<span class="fa fa-pencil-square-o" aria-hidden="true"></span>
-								<label>Opis: </label>
-							</div>
-							<div class="col-md-4">
-								<label th:field="*{description}" id="description" th:text="${description}"></label>
-							</div>
-						</div>
-  					</div>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-  			<div class="col-md-4"></div>
-  			<div class="col-md-4">
-  				<a class="btn btn-lg btn-primary btn-block" href="#"
-						 th:href="@{/account/editaccount}">
-						Edytuj
-					</a>
-  			</div>
-		</div>
-	</article>
-	<footer></footer>
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Profil użytkownika</h3>
+          </div>
+          <div class="panel-body" th:object="${account}">
+            <div class="row">
+              <div class="col-md-2"></div>
+              <div class="col-md-3"></div>
+              <div th:text="*{username}" id="username" class="col-md-4">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2"></div>
+              <div class="col-md-3">
+                <span class="fa fa-user" aria-hidden="true"></span>
+                <label>Imię i Nazwisko:</label>
+              </div>
+              <div th:text="*{name}" id="name" class="col-md-4">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2"></div>
+              <div class="col-md-3">
+                <span class="fa fa-calendar" aria-hidden="true"></span>
+                <label>Data urodzenia:</label>
+              </div>
+              <div th:text="${#temporals.format(account.birthdate, 'dd.MM.yyyy')}"
+                   id="birthdate" class="col-md-4">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2"></div>
+              <div class="col-md-3">
+                <span class="fa fa-envelope" aria-hidden="true"></span>
+                <label>E-Mail:</label>
+              </div>
+              <div th:text="*{email}" id="email" class="col-md-4">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2"></div>
+              <div class="col-md-3">
+                <span class="fa fa-phone-square" aria-hidden="true"></span>
+                <label>Tel:</label>
+              </div>
+              <div th:text="*{phone}" id="phone" class="col-md-4">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2"></div>
+              <div class="col-md-3">
+                <span class="fa fa-pencil-square-o" aria-hidden="true"></span>
+                <label>Opis: </label>
+              </div>
+              <div th:text="*{description}" class="col-md-4" id="description">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+        <a href="editaccount.html" th:href="@{/account/editaccount}"
+           class="btn btn-lg btn-primary btn-block">
+          Edytuj
+        </a>
+      </div>
+    </div>
+  </article>
+  <footer></footer>
 </body>
 </html>
