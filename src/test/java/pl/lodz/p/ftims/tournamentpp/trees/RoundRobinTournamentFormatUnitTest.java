@@ -5,9 +5,9 @@ import pl.lodz.p.ftims.tournamentpp.entities.CompetitorRoleEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.GameEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.RoundEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.TournamentEntity;
-import pl.lodz.p.ftims.tournamentpp.entities.builders.GameEntityBuilder;
-import pl.lodz.p.ftims.tournamentpp.entities.builders.RoundEntityBuilder;
-import pl.lodz.p.ftims.tournamentpp.entities.builders.TournamentEntityBuilder;
+import pl.lodz.p.ftims.tournamentpp.builders.GameEntityBuilder;
+import pl.lodz.p.ftims.tournamentpp.builders.RoundEntityBuilder;
+import pl.lodz.p.ftims.tournamentpp.builders.TournamentEntityBuilder;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -46,7 +46,9 @@ public class RoundRobinTournamentFormatUnitTest {
         RoundEntity result = objectUnderTest.prepareRound(tournamentEntity, null);
         //then
         assertThat(result.getGames()).hasSize(1);
-        assertThat(result.getGames().get(0).getCompetitors()).extracting(CompetitorRoleEntity::getId).containsExactly(1L, 2L);
+        assertThat(result.getGames().get(0).getCompetitors())
+                .extracting(CompetitorRoleEntity::getId)
+                .containsExactlyInAnyOrder(1L, 2L);
     }
 
     private CompetitorRoleEntity aCompetitor(Long id) {

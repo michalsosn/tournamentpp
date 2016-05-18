@@ -15,9 +15,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
-import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Created by Daniel on 2016-05-15.
@@ -53,20 +51,24 @@ public class SingleEliminationFormatTest {
 
     @Test
     public void shouldCreateFirstRoundForSingleElimination(){
+        // given
         final TournamentEntity tournament = linker.getTournaments().get(0);
 
+        // when
         final RoundEntity round = format.prepareRound(tournament, new Random());
 
-        final List<CompetitorRoleEntity> competitors = round.getGames().stream()
+        // then
+        final List<CompetitorRoleEntity> roundCompetitors = round.getGames().stream()
                 .flatMap(game -> game.getCompetitors().stream())
                 .collect(Collectors.toList());
-        assertThat("All competitors are in the first round",
-                competitors, containsInAnyOrder(tournament.getCompetitors().toArray())
-        );
+        final CompetitorRoleEntity[] tournamentCompetitors
+                = tournament.getCompetitors().toArray(new CompetitorRoleEntity[0]);
+        assertThat(roundCompetitors).containsExactlyInAnyOrder(tournamentCompetitors);
     }
 
     @Test
     public void shouldCreateNextRoundForSingleElimination(){
+        // given
         final TournamentEntity tournament = linker.getTournaments().get(0);
         final List<CompetitorRoleEntity> competitors = tournament.getCompetitors();
 
@@ -76,20 +78,20 @@ public class SingleEliminationFormatTest {
         GameEntity game12 = linker.makeGame().apply(env);
         game12.setWinner(competitors.get(2));
 
+        // when
         RoundEntity round2 = format.prepareRound(tournament, new Random());
 
-        List<CompetitorRoleEntity> newCompetitors = round2.getGames().stream()
+        // then
+        final List<CompetitorRoleEntity> newCompetitors = round2.getGames().stream()
                 .flatMap(game -> game.getCompetitors().stream())
                 .collect(Collectors.toList());
 
-        List<CompetitorRoleEntity> lastWinners = tournament.getRounds().stream()
+        final CompetitorRoleEntity[] lastWinners = tournament.getRounds().stream()
                 .flatMap(round -> round.getGames().stream())
                 .map(GameEntity::getWinner)
-                .collect(Collectors.toList());
+                .toArray(CompetitorRoleEntity[]::new);
 
-        assertThat("Competitors in new round are paired from top to down",
-                newCompetitors, contains(lastWinners.toArray())
-        );
+        assertThat(newCompetitors).containsExactly(lastWinners);
     }
 
 }

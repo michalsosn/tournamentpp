@@ -23,9 +23,9 @@ public class RoundRobinTournamentFormat implements TournamentFormat {
         RoundEntity lastRound = tournament.getRounds()
                 .get(tournament.getRounds().size() - 1);
         Map<CompetitorRoleEntity, Long> winners = lastRound.getGames().stream()
-                .map(GameEntity::getWinner)
                 .collect(Collectors.groupingBy(
-                        gameWinner -> gameWinner, Collectors.counting()));
+                        GameEntity::getWinner, Collectors.counting()
+                ));
 
         List<CompetitorRoleEntity> winnersWithSameScore = winners.entrySet().stream()
                 .filter(entry ->

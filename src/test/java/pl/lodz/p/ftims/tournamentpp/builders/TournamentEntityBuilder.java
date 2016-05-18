@@ -1,4 +1,4 @@
-package pl.lodz.p.ftims.tournamentpp.entities.builders;
+package pl.lodz.p.ftims.tournamentpp.builders;
 
 import pl.lodz.p.ftims.tournamentpp.entities.CompetitorRoleEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.OrganizerRoleEntity;
