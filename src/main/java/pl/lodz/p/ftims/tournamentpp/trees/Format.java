@@ -7,10 +7,10 @@ public enum Format {
     ROUND_ROBIN("Round robin"),
     SINGLE_ELIMINATION("Single elimination"),
     DOUBLE_ELIMINATION("Double elimination");
-   
+
     private final String niceName;
-    
-    private Format(String niceName) {
+
+    Format(String niceName) {
         this.niceName = niceName;
     }
 
