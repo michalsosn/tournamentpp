@@ -21,24 +21,41 @@ public class TournamentOrganizationController {
     private TournamentService tournamentService;
 
     // TODO to może być przydatne do wyświetlenia listy turniejów!
-    @RequestMapping(path = "/tournament", method = RequestMethod.GET)
+//    @RequestMapping(path = "/tournament/tournaments", method = RequestMethod.GET)
+//    public String listTournaments(
+//            @RequestParam(name = "page", defaultValue = "0") Integer page,
+//            Model model
+//    ) {
+//        final Page<TournamentEntity> tournaments
+//                = tournamentService.listTournaments(page);
+//        model.addAttribute("tournaments", tournaments);
+//        return "/tournament/tournaments";
+//    }
+
+    @RequestMapping(path = "/tournament/tournaments", method = RequestMethod.GET)
     public String listTournaments(
-            @RequestParam(name = "page", defaultValue = "0") Integer page,
             Model model
     ) {
-        final Page<TournamentEntity> tournaments
-                = tournamentService.listTournaments(page);
+        final TournamentEntity tournaments = new TournamentEntity();
         model.addAttribute("tournaments", tournaments);
-        return "/tournaments";
+        return "/tournament/tournaments";
     }
 
     // TODO to może być przydatne do wyświetlenia turnieju
-    @RequestMapping(path = "/tournament/{id}", method = RequestMethod.GET)
+    @RequestMapping(path = "/tournament/tournament/{id}", method = RequestMethod.GET)
     public String getTournament(@PathVariable long id, Model model) {
         final TournamentEntity tournament = tournamentService.findTournament(id);
         model.addAttribute("tournament", tournament);
-        return "/tournament";
+        return "/tournament/tournament";
     }
+
+
+//  @RequestMapping(path = "/tournament/tournament", method = RequestMethod.GET)
+//  public String getTournament(Model model) {
+//      final TournamentEntity tournament = new TournamentEntity();
+//      model.addAttribute("tournament", tournament);
+//      return "/tournament/tournament";
+//  }
 
 }
 

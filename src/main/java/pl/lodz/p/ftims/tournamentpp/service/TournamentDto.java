@@ -14,7 +14,9 @@ public class TournamentDto {
 
     private String description;
 
-    @DateTimeFormat(pattern = "dd.MM.yyyy")
+    private String name;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime startTime;
 
     private Format format;
@@ -62,11 +64,20 @@ public class TournamentDto {
     }
 
     public void applyToEntity(TournamentEntity tournamentEntity) {
+        tournamentEntity.setName(name);
         tournamentEntity.setLocation(location);
         tournamentEntity.setDescription(description);
         tournamentEntity.setStartTime(startTime);
         tournamentEntity.setFormat(format);
         tournamentEntity.setOrganizer(organizer);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }
