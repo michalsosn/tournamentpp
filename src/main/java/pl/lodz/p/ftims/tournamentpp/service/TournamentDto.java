@@ -16,7 +16,7 @@ public class TournamentDto {
 
     private String name;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startTime;
 
     private Format format;

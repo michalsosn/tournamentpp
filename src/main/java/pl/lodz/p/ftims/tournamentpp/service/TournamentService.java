@@ -1,5 +1,7 @@
 package pl.lodz.p.ftims.tournamentpp.service;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,10 @@ public class TournamentService {
                 page, PAGE_SIZE, Sort.Direction.DESC, "startTime"
         );
         return tournamentRepository.findAll(pageRequest);
+    }
+
+    public Iterable<TournamentEntity> listAllTournaments() {
+        return tournamentRepository.findAll();
     }
 
     public TournamentEntity findTournament(long id) {

@@ -1,5 +1,7 @@
 package pl.lodz.p.ftims.tournamentpp.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -33,10 +35,9 @@ public class TournamentOrganizationController {
 //    }
 
     @RequestMapping(path = "/tournament/tournaments", method = RequestMethod.GET)
-    public String listTournaments(
-            Model model
-    ) {
-        final TournamentEntity tournaments = new TournamentEntity();
+    public String listTournaments(Model model) {
+        final Iterable<TournamentEntity> tournaments =
+                       tournamentService.listAllTournaments();
         model.addAttribute("tournaments", tournaments);
         return "/tournament/tournaments";
     }
@@ -48,14 +49,6 @@ public class TournamentOrganizationController {
         model.addAttribute("tournament", tournament);
         return "/tournament/tournament";
     }
-
-
-//  @RequestMapping(path = "/tournament/tournament", method = RequestMethod.GET)
-//  public String getTournament(Model model) {
-//      final TournamentEntity tournament = new TournamentEntity();
-//      model.addAttribute("tournament", tournament);
-//      return "/tournament/tournament";
-//  }
 
 }
 
