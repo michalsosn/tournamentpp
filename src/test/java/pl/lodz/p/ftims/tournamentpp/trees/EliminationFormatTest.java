@@ -4,7 +4,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import pl.lodz.p.ftims.tournamentpp.entities.*;
+import pl.lodz.p.ftims.tournamentpp.entities.CompetitorRoleEntity;
+import pl.lodz.p.ftims.tournamentpp.entities.Role;
+import pl.lodz.p.ftims.tournamentpp.entities.RoundEntity;
+import pl.lodz.p.ftims.tournamentpp.entities.TournamentEntity;
 import pl.lodz.p.ftims.tournamentpp.generator.Generator;
 import pl.lodz.p.ftims.tournamentpp.generator.GeneratorLinker;
 
@@ -18,13 +21,12 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Created by Daniel on 2016-05-15.
+ * Created by Daniel on 2016-05-28.
  */
-public class SingleEliminationFormatTest extends EliminationFormatTest{
-
-//    private Generator.Environment env;
-//    private GeneratorLinker linker;
-//    private TournamentFormat format = new SingleEliminationFormat();
+public class EliminationFormatTest {
+    protected Generator.Environment env;
+    protected GeneratorLinker linker;
+    protected TournamentFormat format = new SingleEliminationFormat();
 
     @Before
     public void setUp() throws Exception {
@@ -36,7 +38,7 @@ public class SingleEliminationFormatTest extends EliminationFormatTest{
         linker = new GeneratorLinker();
 
         linker.makeAccount(true, Role.ROLE_ORGANIZER).apply(env);
-        for (int i = 0; i < 8; ++i) {
+        for (int i = 0; i < 16; ++i) {
             linker.makeAccount(true, Role.ROLE_COMPETITOR).apply(env);
         }
         linker.makeTournament(
@@ -50,31 +52,19 @@ public class SingleEliminationFormatTest extends EliminationFormatTest{
     }
 
     @Test
-    public void shouldCreateNextRoundForSingleElimination(){
+    public void shouldCreateFirstRoundForEliminationFormat(){
         // given
         final TournamentEntity tournament = linker.getTournaments().get(0);
-        final List<CompetitorRoleEntity> competitors = tournament.getCompetitors();
-
-        linker.makeRound().apply(env);
-        GameEntity game11 = linker.makeGame().apply(env);
-        game11.setWinner(competitors.get(0));
-        GameEntity game12 = linker.makeGame().apply(env);
-        game12.setWinner(competitors.get(2));
 
         // when
-        RoundEntity round2 = format.prepareRound(tournament, new Random());
+        final RoundEntity round = format.prepareRound(tournament, new Random());
 
         // then
-        final List<CompetitorRoleEntity> newCompetitors = round2.getGames().stream()
+        final List<CompetitorRoleEntity> roundCompetitors = round.getGames().stream()
                 .flatMap(game -> game.getCompetitors().stream())
                 .collect(Collectors.toList());
-
-        final CompetitorRoleEntity[] lastWinners = tournament.getRounds().stream()
-                .flatMap(round -> round.getGames().stream())
-                .map(GameEntity::getWinner)
-                .toArray(CompetitorRoleEntity[]::new);
-
-        assertThat(newCompetitors).containsExactly(lastWinners);
+        final CompetitorRoleEntity[] tournamentCompetitors
+                = tournament.getCompetitors().toArray(new CompetitorRoleEntity[0]);
+        assertThat(roundCompetitors).containsExactlyInAnyOrder(tournamentCompetitors);
     }
-
 }
