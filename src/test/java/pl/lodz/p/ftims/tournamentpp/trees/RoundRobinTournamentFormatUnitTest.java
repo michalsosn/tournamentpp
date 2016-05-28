@@ -22,7 +22,7 @@ public class RoundRobinTournamentFormatUnitTest {
     private RoundRobinTournamentFormat objectUnderTest = new RoundRobinTournamentFormat();
 
     @Test
-    public void shouldPrepareFirstRound() throws Exception {
+    public void shouldPrepareFirstRoundForRoundRobin() throws Exception {
         //given
         TournamentEntity tournamentEntity = TournamentEntityBuilder.aTournamentEntity()
                 .withCompetitors(
@@ -37,7 +37,7 @@ public class RoundRobinTournamentFormatUnitTest {
     }
 
     @Test
-    public void shouldPrepareNextRound() throws Exception {
+    public void shouldPrepareNextRoundforRoundRobin() throws Exception {
         //given
         TournamentEntity tournamentEntity = TournamentEntityBuilder.aTournamentEntity()
                 .withRound(aRound())
