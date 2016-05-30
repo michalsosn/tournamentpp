@@ -24,54 +24,109 @@
 
     <script th:inline="javascript">
         /*<![CDATA[*/
+
         $(window).load(function() {
+
+
             var message = [[${tournamentId}]];
             console.log(message);
             var message2 = [[${type}]];
             console.log(message2);
             var roundsJson = [[${rounds}]];
+            var tournamentRounds = []
+            var roundsNames = [];
 
-            roundsNames = [];
-            tournamentRounds = [];
-
-            $.each(roundsJson, function (roundKey, roundValue) {
-                roundTab = [];
-                roundsNames.push(roundValue.round);
-                $.each(roundValue.games, function (gameKey, gameValue) {
-                    game = {};
-                    $.each(gameValue.competitors, function (competitorKey, competitorValue) {
-                        game["player" + competitorValue.id] = {
-                            name: competitorValue.name,
-                            ID: competitorValue.id,
-                            winner: competitorValue.id === gameValue.winner.id ? true : false
-                        };
+            if([[${tournament-type}]] === "Single"){
+                $("main").append($('<div></div>').addClass("brackets"));
+                $.each(roundsJson, function (roundKey, roundValue) {
+                    roundTab = [];
+                    roundsNames.push(roundValue.round);
+                    $.each(roundValue.games, function (gameKey, gameValue) {
+                        game = {};
+                        $.each(gameValue.competitors, function (competitorKey, competitorValue) {
+                            game["player" + competitorValue.id] = {
+                                name: competitorValue.name,
+                                ID: competitorValue.id,
+                                winner: competitorValue.id === gameValue.winner.id ? true : false
+                            };
+                        });
+                        roundTab.push(game);
                     });
-                    roundTab.push(game);
+                    tournamentRounds.push(roundTab);
                 });
-                tournamentRounds.push(roundTab);
-            });
-            //Trzeba pobrać ostatniego zawodnika, jeśli była tam para
-            lastWinner = {};
+                //Trzeba pobrać ostatniego zawodnika, jeśli była tam para
+                lastWinner = {};
 
-            $.each(tournamentRounds[tournamentRounds.length-1][0], function(playerKey, playerValue){
-               if(playerValue.winner === true){
-                   lastWinner = playerValue;
-               }
-            });
-            tournamentRounds.push([{winner: lastWinner}]);
+                $.each(tournamentRounds[tournamentRounds.length-1][0], function(playerKey, playerValue){
+                    if(playerValue.winner === true){
+                        lastWinner = playerValue;
+                    }
+                });
+                tournamentRounds.push([{winner: lastWinner}]);
 
-            $(".brackets").brackets({
-                titles: roundsNames,
-                rounds: tournamentRounds,
-                color_title: 'black',
-                border_color: 'gray',
-                color_player: 'black',
-                bg_player: 'white',
-                color_player_hover: 'lightGray',
-                bg_player_hover: 'gray',
-                border_radius_player: '10px',
-                border_radius_lines: '10px',
-            });
+                $(".brackets").brackets({
+                    titles: roundsNames,
+                    rounds: tournamentRounds,
+                    color_title: 'black',
+                    border_color: 'gray',
+                    color_player: 'black',
+                    bg_player: 'white',
+                    color_player_hover: 'lightGray',
+                    bg_player_hover: 'gray',
+                    border_radius_player: '10px',
+                    border_radius_lines: '10px',
+                });
+            }else{
+                //Dla Round robin i double elimination
+
+                $.each(roundsJson, function (roundKey, roundValue) {
+                    tournamentRounds = [];
+                    roundsNames = [];
+                    var roundTab = [];
+                    var secondRound = [];
+                    roundsNames.push(roundValue.round);
+                    $.each(roundValue.games, function (gameKey, gameValue) {
+                        game = {};
+                        $.each(gameValue.competitors, function (competitorKey, competitorValue) {
+                            game["player" + competitorValue.id] = {
+                                name: competitorValue.name,
+                                ID: competitorValue.id,
+                                winner: competitorValue.id === gameValue.winner.id ? true : false
+                            };
+
+                            if(game["player" + competitorValue.id].winner === true){
+                                secondRound.push(game["player" + competitorValue.id] = {
+                                    name: competitorValue.name,
+                                    ID: competitorValue.id,
+                                    winner: true}
+                                );
+                            }
+                        });
+                        roundTab.push(game);
+                    });
+                    tournamentRounds.push(roundTab);
+                    tournamentRounds.push(secondRound);
+
+                    $("main").append($('<div></div>').addClass("brackets"+roundValue.round).addClass("col-xs-4"));
+
+                    $(".brackets"+roundValue.round).brackets({
+                        titles: roundsNames,
+                        rounds: tournamentRounds,
+                        color_title: 'black',
+                        border_color: 'gray',
+                        color_player: 'black',
+                        bg_player: 'white',
+                        color_player_hover: 'lightGray',
+                        bg_player_hover: 'gray',
+                        border_radius_player: '10px',
+                        border_radius_lines: '10px',
+                    });
+
+                });
+
+                $(".separator-brackets.rd-2").remove();
+            }
+
         });
         /*]]>*/
     </script>
@@ -85,8 +140,9 @@
     <main>
         <!--/*@thymesVar id="tournamentId" type=""*/-->
         <div  class = "hidden" th:class="${tournamentId}"></div>
+        <div class = "hidden tournament-type"></div>
         <h1 class="well">Tournament name</h1>
-        <div class="brackets"></div>
+
     </main>
 </div>
 </body>
