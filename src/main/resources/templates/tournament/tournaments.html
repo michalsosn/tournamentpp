@@ -20,11 +20,11 @@
 	<script type="text/javascript" src="https://cdn.datatables.net/t/dt/dt-1.10.11/datatables.min.js"></script>
 	<script type="text/javascript">
 	$(document).ready( function () {
-		$('#table').DataTable( {
-			language: {
-	                url: '//cdn.datatables.net/plug-ins/1.10.10/i18n/Polish.json'
-	        }
-		});
+	//	$('#table').DataTable( {
+	//		language: {
+	//                url: '//cdn.datatables.net/plug-ins/1.10.10/i18n/Polish.json'
+	//        }
+	//	});
 	});
 	</script>
   	<title>Tournaments</title>
@@ -44,28 +44,22 @@
 	             <div th:if="${not #lists.isEmpty(tournaments)}">
 	            	<table id="table" class="display nowrap dataTable dtr-inline" role="grid" aria-describedby="example_info" >
 	            		<tr role="row">
-							<th class="dt-body-center sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 5px;" aria-sort="ascending" aria-label="ID: activate to sort column descending">ID</th>
-							<th class="dt-body-center sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 100px;" aria-label="Name: activate to sort column ascending">Name</th>
-							<th class="dt-body-center sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 10px;" aria-label="Location: activate to sort column ascending">Location</th>
+							<th class="dt-body-center sorting col-md-4" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 100px;" aria-label="Name: activate to sort column ascending">Name</th>
+							<th class="dt-body-center sorting col-md-4" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 10px;" aria-label="Location: activate to sort column ascending">Location</th>
+	            			<th class="dt-body-center sorting col-md-1" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 5px;" aria-sort="ascending" aria-label="ID: activate to sort column descending">Link</th>
 	            		</tr>
 	            		<tr class="odd" role="row" th:each="tournament : ${tournaments}">
-	            			<td class="dt-body-center sorting_1" th:text="${tournament.id}"></td>
-	            			<td class="dt-body-center sorting_1" th:text="${tournament.name}"></td>
-	            			<td class="dt-body-center sorting_1" th:text="${tournament.location}"></td>
+	            			<td class="dt-body-center sorting_1 col-md-4" th:text="${tournament.name}"></td>
+	            			<td class="dt-body-center sorting_1 col-md-4" th:text="${tournament.location}"></td>
+	            			<td class="dt-body-center sorting_1 col-md-1">
+	            				<a  class="btn btn-lg btn-primary btn-block" href="/tournament/tournament.html" 
+	            				th:href="@{/tournament/tournament/{id}(id=${tournament.id})}">Go to page</a>	            				
+	            			</td>
 	            		</tr>
 	            	</table>
 	            </div>
 	          </div>
 	        </div>
-	      </div>
-	    </div>
-	    <div class="row">
-	      <div class="col-md-4"></div>
-	      <div class="col-md-4">
-	        <a href="/tournament/tournament.html" th:href="@{/tournament/tournament/{id}}"
-	           class="btn btn-lg btn-primary btn-block">
-	          Podgląd
-	        </a>
 	      </div>
 	    </div>
   </article>
