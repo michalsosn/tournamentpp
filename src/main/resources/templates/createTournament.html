@@ -56,7 +56,7 @@
 					<select th:field="*{format}" class="form-control">
 						<option th:each="type : ${allFormats}" 
 							th:value="${type}"
-							th:text="#{${type}}"></option>
+							th:text="${type.niceName}"></option>
 					</select>
 					<span class="help-block" th:each="err : ${#fields.errors('format')}"
 						th:text="${err}" />

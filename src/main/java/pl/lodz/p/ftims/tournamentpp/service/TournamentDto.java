@@ -10,63 +10,63 @@ import pl.lodz.p.ftims.tournamentpp.trees.Format;
 
 public class TournamentDto {
 
-	private String location;
+    private String location;
 
-	private String description;
-	
-	@DateTimeFormat(pattern = "dd.MM.yyyy")
-	private LocalDateTime startTime;
-	
-	private Format format;
-	
-	private OrganizerRoleEntity organizer;
-	
-	public String getLocation() {
-		return location;
-	}
+    private String description;
 
-	public void setLocation(String location) {
-		this.location = location;
-	}
+    @DateTimeFormat(pattern = "dd.MM.yyyy")
+    private LocalDateTime startTime;
 
-	public String getDescription() {
-		return description;
-	}
+    private Format format;
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    private OrganizerRoleEntity organizer;
 
-	public LocalDateTime getStartTime() {
-		return startTime;
-	}
+    public String getLocation() {
+        return location;
+    }
 
-	public void setStartTime(LocalDateTime startTime) {
-		this.startTime = startTime;
-	}
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
-	public Format getFormat() {
-		return format;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setFormat(Format format) {
-		this.format = format;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public OrganizerRoleEntity getOrganizer() {
-		return organizer;
-	}
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
 
-	public void setOrganizer(OrganizerRoleEntity organizer) {
-		this.organizer = organizer;
-	}
-	
-	public void applyToEntity(TournamentEntity tournamentEntity) {
-		tournamentEntity.setLocation(location);
-		tournamentEntity.setDescription(description);
-		tournamentEntity.setStartTime(startTime);
-		tournamentEntity.setFormat(format);
-		tournamentEntity.setOrganizer(organizer);
-	}
-	
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public Format getFormat() {
+        return format;
+    }
+
+    public void setFormat(Format format) {
+        this.format = format;
+    }
+
+    public OrganizerRoleEntity getOrganizer() {
+        return organizer;
+    }
+
+    public void setOrganizer(OrganizerRoleEntity organizer) {
+        this.organizer = organizer;
+    }
+
+    public void applyToEntity(TournamentEntity tournamentEntity) {
+        tournamentEntity.setLocation(location);
+        tournamentEntity.setDescription(description);
+        tournamentEntity.setStartTime(startTime);
+        tournamentEntity.setFormat(format);
+        tournamentEntity.setOrganizer(organizer);
+    }
+
 }
