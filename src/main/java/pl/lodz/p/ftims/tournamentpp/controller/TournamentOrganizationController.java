@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import pl.lodz.p.ftims.tournamentpp.entities.TournamentEntity;
-import pl.lodz.p.ftims.tournamentpp.repository.TournamentDataTableRepository;
 import pl.lodz.p.ftims.tournamentpp.service.TournamentService;
 
 /**
@@ -21,9 +19,6 @@ public class TournamentOrganizationController {
 
     @Autowired
     private TournamentService tournamentService;
-
-    @Autowired
-    private TournamentDataTableRepository tournamentDataTableRepository;
 
     // TODO to może być przydatne do wyświetlenia listy turniejów!
     @RequestMapping(path = "/tournament/tournaments", method = RequestMethod.GET)
