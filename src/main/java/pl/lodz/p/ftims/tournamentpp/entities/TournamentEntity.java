@@ -25,6 +25,10 @@ public class TournamentEntity implements Serializable {
     @Column(name = "tournament_id", nullable = false, updatable = false)
     private long id;
 
+    @NotNull
+    @Column(name = "name", length = 50, nullable = false)
+    private String name;
+
     @Version
     @Column(name = "version")
     private Long version;
@@ -130,6 +134,14 @@ public class TournamentEntity implements Serializable {
 
     public List<RoundEntity> getRounds() {
         return rounds;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

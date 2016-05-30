@@ -13,6 +13,8 @@ public class TournamentDto {
 
     private String description;
 
+    private String name;
+
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime startTime;
 
@@ -61,11 +63,20 @@ public class TournamentDto {
     }
 
     public void applyToEntity(TournamentEntity tournamentEntity) {
+        tournamentEntity.setName(name);
         tournamentEntity.setLocation(location);
         tournamentEntity.setDescription(description);
         tournamentEntity.setStartTime(startTime);
         tournamentEntity.setFormat(format);
         tournamentEntity.setOrganizer(organizer);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }
