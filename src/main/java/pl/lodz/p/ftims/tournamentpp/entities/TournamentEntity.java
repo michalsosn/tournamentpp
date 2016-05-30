@@ -25,13 +25,13 @@ public class TournamentEntity implements Serializable {
     @Column(name = "tournament_id", nullable = false, updatable = false)
     private long id;
 
-    @NotNull
-    @Column(name = "name", length = 50, nullable = false)
-    private String name;
-
     @Version
     @Column(name = "version")
     private Long version;
+
+    @NotNull
+    @Column(name = "name", length = 50, nullable = false)
+    private String name;
 
     @NotNull
     @Column(name = "location", nullable = false)
@@ -75,17 +75,16 @@ public class TournamentEntity implements Serializable {
     public TournamentEntity() {
     }
 
-    public TournamentEntity(String location, String description, LocalDateTime startTime,
-                            Format format, OrganizerRoleEntity organizer) {
-        this.location = location;
-        this.description = description;
-        this.startTime = startTime;
-        this.format = format;
-        this.organizer = organizer;
-    }
-
     public long getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getLocation() {
@@ -135,13 +134,4 @@ public class TournamentEntity implements Serializable {
     public List<RoundEntity> getRounds() {
         return rounds;
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
 }

@@ -9,11 +9,11 @@ import java.time.LocalDateTime;
 
 public class TournamentDto {
 
+    private String name;
+
     private String location;
 
     private String description;
-
-    private String name;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime startTime;
@@ -21,6 +21,14 @@ public class TournamentDto {
     private Format format;
 
     private OrganizerRoleEntity organizer;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getLocation() {
         return location;
@@ -69,14 +77,6 @@ public class TournamentDto {
         tournamentEntity.setStartTime(startTime);
         tournamentEntity.setFormat(format);
         tournamentEntity.setOrganizer(organizer);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
 }
