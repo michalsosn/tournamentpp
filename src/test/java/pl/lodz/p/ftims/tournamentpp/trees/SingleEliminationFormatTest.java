@@ -1,16 +1,11 @@
 package pl.lodz.p.ftims.tournamentpp.trees;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import pl.lodz.p.ftims.tournamentpp.entities.*;
-import pl.lodz.p.ftims.tournamentpp.generator.Generator;
-import pl.lodz.p.ftims.tournamentpp.generator.GeneratorLinker;
+import pl.lodz.p.ftims.tournamentpp.entities.CompetitorRoleEntity;
+import pl.lodz.p.ftims.tournamentpp.entities.GameEntity;
+import pl.lodz.p.ftims.tournamentpp.entities.RoundEntity;
+import pl.lodz.p.ftims.tournamentpp.entities.TournamentEntity;
 
-import java.time.Clock;
-import java.time.Instant;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -20,33 +15,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Created by Daniel on 2016-05-15.
  */
-public class SingleEliminationFormatTest extends EliminationFormatTest{
+public class SingleEliminationFormatTest extends EliminationFormatTest {
 
-//    private Generator.Environment env;
-//    private GeneratorLinker linker;
-//    private TournamentFormat format = new SingleEliminationFormat();
-
-    @Before
-    public void setUp() throws Exception {
-        env = new Generator.Environment(
-                new Random(),
-                Clock.fixed(Instant.now(), ZoneId.systemDefault()),
-                new BCryptPasswordEncoder()
-        );
-        linker = new GeneratorLinker();
-
-        linker.makeAccount(true, Role.ROLE_ORGANIZER).apply(env);
-        for (int i = 0; i < 8; ++i) {
-            linker.makeAccount(true, Role.ROLE_COMPETITOR).apply(env);
-        }
-        linker.makeTournament(
-                Format.SINGLE_ELIMINATION,
-                linker.getCompetitors().stream().toArray(CompetitorRoleEntity[]::new)
-        ).apply(env);
-    }
-
-    @After
-    public void tearDown() throws Exception {
+    public SingleEliminationFormatTest() {
+        super(new SingleEliminationFormat());
     }
 
     @Test
