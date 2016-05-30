@@ -21,7 +21,7 @@ public class TournamentOrganizationController {
     private TournamentService tournamentService;
 
     // TODO to może być przydatne do wyświetlenia listy turniejów!
-    @RequestMapping(path = "/tournament", method = RequestMethod.GET)
+    @RequestMapping(path = "/tournament/tournaments", method = RequestMethod.GET)
     public String listTournaments(
             @RequestParam(name = "page", defaultValue = "0") Integer page,
             Model model
@@ -29,15 +29,35 @@ public class TournamentOrganizationController {
         final Page<TournamentEntity> tournaments
                 = tournamentService.listTournaments(page);
         model.addAttribute("tournaments", tournaments);
-        return "/tournaments";
+        return "/tournament/tournaments";
     }
 
-    // TODO to może być przydatne do wyświetlenia turnieju
-    @RequestMapping(path = "/tournament/{id}", method = RequestMethod.GET)
+//    @JsonView(DataTablesOutput.View.class)
+//    @RequestMapping(value = "/tournament/tournaments", method = RequestMethod.GET)
+//    public DataTablesOutput<TournamentEntity> getUsers(@Valid DataTablesInput input) {
+//        return tournamentDataTableRepository.findAll(input);
+//    }
+
+//    @JsonView(DataTablesOutput.View.class)
+//    @RequestMapping(path = "/tournament/tournaments", method = RequestMethod.GET)
+//    public String listTournaments(Model model, DataTablesInput input) {
+//        final DataTablesOutput<TournamentEntity> tournaments =
+//              tournamentDataTableRepository.findAll(input);
+//        model.addAttribute("tournaments", tournaments);
+//        return "/tournament/tournaments";
+//    }
+
+//    @JsonView(DataTablesOutput.View.class)
+//    @RequestMapping(path = "/tournament/tournaments", method = RequestMethod.GET)
+//    public DataTablesOutput<TournamentEntity> getUsers(@Valid DataTablesInput input) {
+//        return tournamentDataTableRepository.findAll(input);
+//    }
+
+    @RequestMapping(path = "/tournament/tournament/{id}", method = RequestMethod.GET)
     public String getTournament(@PathVariable long id, Model model) {
         final TournamentEntity tournament = tournamentService.findTournament(id);
         model.addAttribute("tournament", tournament);
-        return "/tournament";
+        return "/tournament/tournament";
     }
 
 }

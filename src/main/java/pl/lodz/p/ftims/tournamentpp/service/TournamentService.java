@@ -38,6 +38,10 @@ public class TournamentService {
         return tournamentRepository.findAll(pageRequest);
     }
 
+    public Iterable<TournamentEntity> listAllTournaments() {
+        return tournamentRepository.findAll();
+    }
+
     public TournamentEntity findTournament(long id) {
         return tournamentRepository.findOne(id);
     }

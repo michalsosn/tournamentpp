@@ -5,6 +5,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
@@ -18,6 +22,7 @@ import pl.lodz.p.ftims.tournamentpp.generator.AccountGenerator;
 import pl.lodz.p.ftims.tournamentpp.generator.Environment;
 import pl.lodz.p.ftims.tournamentpp.repository.AccountRepository;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -37,6 +42,8 @@ public class AccountServiceTest extends AbstractTransactionalJUnit4SpringContext
     private AccountService accountService;
     @Autowired
     private AccountRepository accountRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private Environment env;
 
@@ -138,6 +145,104 @@ public class AccountServiceTest extends AbstractTransactionalJUnit4SpringContext
                 .contains(tuple(Role.ROLE_COMPETITOR, true),
                           tuple(Role.ROLE_ORGANIZER, false),
                           tuple(Role.ROLE_SUPPORT, true));
+    }
+
+    @Test
+    @Rollback
+    public void shouldFailWhenAccountNotExists() throws Exception {
+        // when
+        final Throwable throwable = catchThrowable(() ->
+                accountService.findAccount()
+        );
+
+        // then
+        assertThat(throwable).isInstanceOf(NoSuchElementException.class);
+    }
+
+    @Test
+    public void shouldReturnAccountWhenManyAccounts() throws Exception {
+        // given
+        accountService.createAccount(AccountGenerator.makeAccountDto().apply(env));
+        final AccountDto accountDto = AccountGenerator.makeAccountDto().apply(env);
+        accountService.createAccount(accountDto);
+        accountService.createAccount(AccountGenerator.makeAccountDto().apply(env));
+
+        // when
+        login(accountDto);
+        final AccountEntity account = accountService.findAccount();
+
+        // then
+        assertThat(accountDto).isEqualToIgnoringGivenFields(
+                account, "password", "roles"
+        );
+    }
+
+    @Test
+    public void shouldEditAccount() throws Exception {
+        // given
+        final AccountDto accountDto = AccountGenerator.makeAccountDto().apply(env);
+        accountService.createAccount(accountDto);
+
+        // when
+        login(accountDto);
+        final ProfileDto profileDto = AccountGenerator.makeProfileDto(true).apply(env);
+        accountService.updateAccount(profileDto);
+
+        // then
+        final AccountEntity account = accountService.findAccount();
+        assertThat(profileDto).isEqualToIgnoringGivenFields(
+                account, "password"
+        );
+        assertThat(passwordEncoder.matches(
+                profileDto.getPassword(), account.getPassword()
+        )).isTrue();
+    }
+
+    @Test
+    public void shouldNotChangePasswordWhenEmpty() throws Exception {
+        // given
+        final AccountDto accountDto = AccountGenerator.makeAccountDto().apply(env);
+        accountService.createAccount(accountDto);
+
+        // when
+        login(accountDto);
+        final ProfileDto profileDto = AccountGenerator.makeProfileDto(false).apply(env);
+        accountService.updateAccount(profileDto);
+
+        // then
+        final AccountEntity account = accountService.findAccount();
+        assertThat(profileDto).isEqualToIgnoringGivenFields(
+                account, "password"
+        );
+        assertThat(passwordEncoder.matches(
+                accountDto.getPassword(), account.getPassword()
+        )).isTrue();
+    }
+
+    @Test
+    @Rollback
+    public void shouldNotEditWhenPasswordTooShort() throws Exception {
+        // given
+        final AccountDto accountDto = AccountGenerator.makeAccountDto().apply(env);
+        accountService.createAccount(accountDto);
+
+        // when
+        login(accountDto);
+        final ProfileDto profileDto = AccountGenerator.makeProfileDto(false).apply(env);
+        profileDto.setPassword("ts");
+        final Throwable throwable = catchThrowable(() ->
+                accountService.updateAccount(profileDto)
+        );
+
+        // then
+        assertThat(throwable).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    private void login(AccountDto accountDto) {
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                accountDto.getUsername(), accountDto.getPassword()
+        );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
 }

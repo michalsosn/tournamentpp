@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 
 public class TournamentDto {
 
+    private String name;
+
     private String location;
 
     private String description;
@@ -19,6 +21,14 @@ public class TournamentDto {
     private Format format;
 
     private OrganizerRoleEntity organizer;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getLocation() {
         return location;
@@ -61,6 +71,7 @@ public class TournamentDto {
     }
 
     public void applyToEntity(TournamentEntity tournamentEntity) {
+        tournamentEntity.setName(name);
         tournamentEntity.setLocation(location);
         tournamentEntity.setDescription(description);
         tournamentEntity.setStartTime(startTime);

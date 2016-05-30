@@ -4,6 +4,7 @@ import pl.lodz.p.ftims.tournamentpp.entities.AccountEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.Role;
 import pl.lodz.p.ftims.tournamentpp.entities.RoleEntity;
 import pl.lodz.p.ftims.tournamentpp.service.AccountDto;
+import pl.lodz.p.ftims.tournamentpp.service.ProfileDto;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -71,6 +72,28 @@ public final class AccountGenerator {
             accountDto.setDescription(maybeNull(makeLongString()).apply(env));
 
             return accountDto;
+        };
+    }
+
+    public static Generator<ProfileDto> makeProfileDto(boolean newPassword) {
+        return env -> {
+            final ProfileDto profileDto = new ProfileDto();
+
+            if (newPassword) {
+                profileDto.setPassword(
+                        NumberGenerator.makeInt(4, 25)
+                                .flatMap(StringGenerator::makeAlpha)
+                                .apply(env)
+                );
+            }
+
+            profileDto.setName(maybeNull(makeShortString()).apply(env));
+            profileDto.setEmail(maybeNull(makeShortString()).apply(env));
+            profileDto.setBirthdate(maybeNull(makePastDate(70)).apply(env));
+            profileDto.setPhone(maybeNull(makeNumeric(9)).apply(env));
+            profileDto.setDescription(maybeNull(makeLongString()).apply(env));
+
+            return profileDto;
         };
     }
 
