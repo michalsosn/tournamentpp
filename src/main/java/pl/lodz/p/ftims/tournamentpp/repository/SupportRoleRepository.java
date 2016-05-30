@@ -6,9 +6,12 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.ftims.tournamentpp.entities.SupportRoleEntity;
 
+import java.util.Optional;
+
 /**
  * @author Michał Sośnicki
  */
 @Transactional(propagation = Propagation.MANDATORY)
 public interface SupportRoleRepository extends Repository<SupportRoleEntity, Long> {
+    Optional<SupportRoleEntity> findByAccountUsername(String username);
 }

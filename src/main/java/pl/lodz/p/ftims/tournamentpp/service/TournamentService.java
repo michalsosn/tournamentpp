@@ -9,7 +9,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.lodz.p.ftims.tournamentpp.entities.OrganizerRoleEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.TournamentEntity;
+import pl.lodz.p.ftims.tournamentpp.repository.OrganizerRoleRepository;
 import pl.lodz.p.ftims.tournamentpp.repository.TournamentRepository;
 
 /**
@@ -19,12 +21,15 @@ import pl.lodz.p.ftims.tournamentpp.repository.TournamentRepository;
 @Transactional
 public class TournamentService {
 
-    private final Logger log = LoggerFactory.getLogger(AccountService.class);
+    private final Logger log = LoggerFactory.getLogger(TournamentService.class);
 
     private static final int PAGE_SIZE = 10;
 
     @Autowired
     private TournamentRepository tournamentRepository;
+
+    @Autowired
+    private OrganizerRoleRepository organizerRoleRepository;
 
     public Page<TournamentEntity> listTournaments(int page) {
         Pageable pageRequest = new PageRequest(
@@ -37,9 +42,12 @@ public class TournamentService {
         return tournamentRepository.findOne(id);
     }
 
-    public void createTournament(TournamentDto tournament) {
-        TournamentEntity tournamentEntity = new TournamentEntity();
+    public void createTournament(TournamentDto tournament, String username) {
+        final TournamentEntity tournamentEntity = new TournamentEntity();
         tournament.applyToEntity(tournamentEntity);
+        final OrganizerRoleEntity organizer
+                = organizerRoleRepository.findByAccountUsername(username).get();
+        tournamentEntity.setOrganizer(organizer);
         tournamentRepository.save(tournamentEntity);
         log.info("Tournament {} created", tournamentEntity.getId());
     }

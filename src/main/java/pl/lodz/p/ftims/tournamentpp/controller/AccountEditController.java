@@ -29,20 +29,20 @@ public class AccountEditController {
         return "/account/account";
     }
 
-    @RequestMapping(path = "/account/editaccount", method = RequestMethod.GET)
+    @RequestMapping(path = "/account/editAccount", method = RequestMethod.GET)
     public String showEditAccount(Model model) {
         AccountEntity account = accountService.findAccount();
         model.addAttribute("account", account);
-        return "/account/editaccount";
+        return "/account/editAccount";
     }
 
-    @RequestMapping(path = "/account/editaccount", method = RequestMethod.POST)
+    @RequestMapping(path = "/account/editAccount", method = RequestMethod.POST)
     public String editAccount(
             @Valid @ModelAttribute("account") ProfileDto account,
             BindingResult bindingResult
     ) {
         if (bindingResult.hasErrors()) {
-            return "/account/editaccount";
+            return "/account/editAccount";
         }
         accountService.updateAccount(account);
         return "redirect:/account/account";

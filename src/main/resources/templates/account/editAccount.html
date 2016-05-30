@@ -24,7 +24,7 @@
         Edycja profilu
       </header>
       <main class="panel-body">
-        <form th:action="@{/account/editaccount}" th:object="${account}" method="post" action="#">
+        <form th:action="@{/account/editAccount}" th:object="${account}" method="post" action="#">
           <div class="form-group" th:class="${#fields.hasErrors('password')}? has-error">
             <label for="password">Password</label>
             <input type="password" th:field="*{password}" id="password" class="form-control"/>

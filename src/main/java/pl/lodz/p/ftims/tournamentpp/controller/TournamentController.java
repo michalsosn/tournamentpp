@@ -1,10 +1,5 @@
 package pl.lodz.p.ftims.tournamentpp.controller;
 
-import java.util.Arrays;
-import java.util.List;
-
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,10 +7,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import pl.lodz.p.ftims.tournamentpp.service.TournamentDto;
 import pl.lodz.p.ftims.tournamentpp.service.TournamentService;
 import pl.lodz.p.ftims.tournamentpp.trees.Format;
+
+import javax.validation.Valid;
+import java.security.Principal;
+import java.util.Arrays;
+import java.util.List;
 
 @Controller
 public class TournamentController {
@@ -28,22 +27,23 @@ public class TournamentController {
         return Arrays.asList(Format.values());
     }
 
-    @RequestMapping(path = "/createTournament", method = RequestMethod.GET)
+    @RequestMapping(path = "/organizer/createTournament", method = RequestMethod.GET)
     public String createTournament(Model model) {
         model.addAttribute("tournament", new TournamentDto());
-        // model.addAllAttributes(populateFormats());
-        return "createTournament";
+        return "/organizer/createTournament";
     }
 
-    @RequestMapping(path = "/createTournament", method = RequestMethod.POST)
-    public String createTournament(@Valid
-            @ModelAttribute("tournament") TournamentDto tournament,
-            BindingResult bindingResult) {
+    @RequestMapping(path = "/organizer/createTournament", method = RequestMethod.POST)
+    public String createTournament(
+            @Valid @ModelAttribute("tournament") TournamentDto tournament,
+            BindingResult bindingResult,
+            Principal principal
+    ) {
         if (bindingResult.hasErrors()) {
-            return "createTournament";
+            return "/organizer/createTournament";
         }
-        tournamentService.createTournament(tournament);
-        return "redirect:/createTournament";
+        tournamentService.createTournament(tournament, principal.getName());
+        return "redirect:/organizer/createTournament";
     }
 
 }
