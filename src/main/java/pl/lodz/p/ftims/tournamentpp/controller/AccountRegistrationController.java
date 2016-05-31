@@ -19,7 +19,7 @@ import java.util.List;
  * @author Michał Sośnicki
  */
 @Controller
-public class AccountManagementController {
+public class AccountRegistrationController {
 
     @Autowired
     private AccountService accountService;

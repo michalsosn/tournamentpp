@@ -24,16 +24,24 @@ public class FormatTournamentController {
     private FormatTournamentService formatTournamentService;
 
     @RequestMapping(path = "example/single", method = RequestMethod.GET)
-    public String showExample() {
-        return "singleElimination";
+    public String showSingleElimantionExample() {
+        return "singleEliminationExample";
     }
 
-    @RequestMapping(path = "/{tournamentId}/tree",
-            method = RequestMethod.GET)
+    @RequestMapping(path = "example/double", method = RequestMethod.GET)
+    public String showDoubleElimantionExample() {
+        return "doubleEliminationExample";
+    }
+
+    @RequestMapping(path = "example/robin", method = RequestMethod.GET)
+    public String showRoundRobinExample() {
+        return "roundRobinExample";
+    }
+
+    @RequestMapping(path = "/{tournamentId}/tree", method = RequestMethod.GET)
     public String getTournamentTree(@PathVariable long tournamentId, Model model) {
         model.addAttribute("tournamentId", tournamentId);
-        model.addAttribute("type", Format.SINGLE_ELIMINATION);
-
+        model.addAttribute("tournament-type", Format.SINGLE_ELIMINATION);
 
         List<RoundDto> rounds = new ArrayList<>();
 

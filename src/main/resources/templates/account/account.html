@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="../static/css/bootstrap.min.css"
+        th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  <link href="../static/css/navbar.css"
+        th:href="@{/css/navbar.css}" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"
+        rel="stylesheet">
+  <script src="../static/js/bootstrap.min.js"
+          th:src="@{/js/bootstrap.min.js}">
+  </script>
+  <title>Profile</title>
+</head>
+<body>
+<div class="container">
+  <header th:replace="fragments/header :: header"></header>
+  <article>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Your Account</h3>
+      </div>
+      <div class="panel-body" th:object="${account}">
+        <div class="row">
+          <div class="col-md-2"></div>
+          <div class="col-md-3"></div>
+          <div th:text="*{username}" id="username" class="col-md-4">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2"></div>
+          <div class="col-md-3">
+            <span class="fa fa-user" aria-hidden="true"></span>
+            <label>Imię i Nazwisko:</label>
+          </div>
+          <div th:text="*{name}" id="name" class="col-md-4">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2"></div>
+          <div class="col-md-3">
+            <span class="fa fa-calendar" aria-hidden="true"></span>
+            <label>Data urodzenia:</label>
+          </div>
+          <div th:text="${#temporals.format(account.birthdate, 'dd.MM.yyyy')}"
+               id="birthdate" class="col-md-4">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2"></div>
+          <div class="col-md-3">
+            <span class="fa fa-envelope" aria-hidden="true"></span>
+            <label>E-Mail:</label>
+          </div>
+          <div th:text="*{email}" id="email" class="col-md-4">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2"></div>
+          <div class="col-md-3">
+            <span class="fa fa-phone-square" aria-hidden="true"></span>
+            <label>Tel:</label>
+          </div>
+          <div th:text="*{phone}" id="phone" class="col-md-4">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2"></div>
+          <div class="col-md-3">
+            <span class="fa fa-pencil-square-o" aria-hidden="true"></span>
+            <label>Opis: </label>
+          </div>
+          <div th:text="*{description}" class="col-md-4" id="description">
+          </div>
+        </div>
+      </div>
+    </div>
+    <a href="editAccount.html" th:href="@{/account/editAccount}"
+       class="btn btn-lg btn-primary btn-block">
+      Edit
+    </a>
+  </article>
+</div>
+</body>
+</html>

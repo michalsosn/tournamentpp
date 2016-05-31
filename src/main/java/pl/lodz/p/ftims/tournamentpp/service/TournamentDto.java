@@ -10,16 +10,27 @@ import pl.lodz.p.ftims.tournamentpp.trees.Format;
 
 public class TournamentDto {
 
+    private String name;
+
     private String location;
 
     private String description;
 
-    @DateTimeFormat(pattern = "dd.MM.yyyy")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+
     private LocalDateTime startTime;
 
     private Format format;
 
     private OrganizerRoleEntity organizer;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getLocation() {
         return location;
@@ -62,6 +73,8 @@ public class TournamentDto {
     }
 
     public void applyToEntity(TournamentEntity tournamentEntity) {
+
+        tournamentEntity.setName(name);
         tournamentEntity.setLocation(location);
         tournamentEntity.setDescription(description);
         tournamentEntity.setStartTime(startTime);

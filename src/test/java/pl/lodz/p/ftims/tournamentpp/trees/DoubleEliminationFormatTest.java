@@ -1,71 +1,36 @@
 package pl.lodz.p.ftims.tournamentpp.trees;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import pl.lodz.p.ftims.tournamentpp.entities.*;
-import pl.lodz.p.ftims.tournamentpp.generator.Generator;
-import pl.lodz.p.ftims.tournamentpp.generator.GeneratorLinker;
+import pl.lodz.p.ftims.tournamentpp.builders.GameEntityBuilder;
+import pl.lodz.p.ftims.tournamentpp.builders.RoundEntityBuilder;
+import pl.lodz.p.ftims.tournamentpp.builders.TournamentEntityBuilder;
+import pl.lodz.p.ftims.tournamentpp.entities.CompetitorRoleEntity;
+import pl.lodz.p.ftims.tournamentpp.entities.GameEntity;
+import pl.lodz.p.ftims.tournamentpp.entities.RoundEntity;
+import pl.lodz.p.ftims.tournamentpp.entities.TournamentEntity;
 
-import java.time.Clock;
-import java.time.Instant;
-import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
-import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
-import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by Daniel on 2016-05-16.
  */
-public class DoubleEliminationFormatTest {
-    private Generator.Environment env;
-    private GeneratorLinker linker;
-    private TournamentFormat format = new DoubleEliminationFormat();
+public class DoubleEliminationFormatTest extends EliminationFormatTest {
 
-    @Before
-    public void setUp() throws Exception {
-        env = new Generator.Environment(
-                new Random(),
-                Clock.fixed(Instant.now(), ZoneId.systemDefault()),
-                new BCryptPasswordEncoder()
-        );
-        linker = new GeneratorLinker();
-
-        linker.makeAccount(true, Role.ROLE_ORGANIZER).apply(env);
-        for (int i = 0; i < 8; ++i) {
-            linker.makeAccount(true, Role.ROLE_COMPETITOR).apply(env);
-        }
-        linker.makeTournament(
-                Format.DOUBLE_ELIMINATION,
-                linker.getCompetitors().stream().toArray(CompetitorRoleEntity[]::new)
-        ).apply(env);
-    }
-
-    @After
-    public void tearDown() throws Exception {
+    public DoubleEliminationFormatTest() {
+        super(new DoubleEliminationFormat());
     }
 
     @Test
-    public void shouldCreateFirstRoundForDoubleElimination(){
-        final TournamentEntity tournament = linker.getTournaments().get(0);
-
-        final RoundEntity round = format.prepareRound(tournament, new Random());
-
-        final List<CompetitorRoleEntity> competitors = round.getGames().stream()
-                .flatMap(game -> game.getCompetitors().stream())
-                .collect(Collectors.toList());
-        assertThat("All competitors are in the first round",
-                competitors, containsInAnyOrder(tournament.getCompetitors().toArray())
-        );
-    }
-
-   /* @Test
-    public void shouldCreateNextRoundForDoubleElimination(){
+    public void shouldCreateSecondRoundForDoubleElimination() {
         final TournamentEntity tournament = linker.getTournaments().get(0);
         final List<CompetitorRoleEntity> competitors = tournament.getCompetitors();
 
@@ -75,7 +40,7 @@ public class DoubleEliminationFormatTest {
         game11.getCompetitors().add(competitors.get(0));
         game11.getCompetitors().add(competitors.get(1));
         GameEntity game12 = linker.makeGame().apply(env);
-        game12.setWinner(competitors.get(2));
+        game12.setWinner(competitors.get(3));
         game12.getCompetitors().add(competitors.get(2));
         game12.getCompetitors().add(competitors.get(3));
 
@@ -88,7 +53,280 @@ public class DoubleEliminationFormatTest {
         game14.getCompetitors().add(competitors.get(6));
         game14.getCompetitors().add(competitors.get(7));
 
-        RoundEntity round2 = format.prepareRound(tournament, new Random());
+        List<CompetitorRoleEntity> expected = new ArrayList<>();
+        expected.add(game11.getCompetitors().get(0));
+        expected.add(game12.getCompetitors().get(1));
+        expected.add(game13.getCompetitors().get(0));
+        expected.add(game14.getCompetitors().get(0));
+        expected.add(game11.getCompetitors().get(1));
+        expected.add(game12.getCompetitors().get(0));
+        expected.add(game13.getCompetitors().get(1));
+        expected.add(game14.getCompetitors().get(1));
 
-    }*/
+        // when
+        final RoundEntity round = format.prepareRound(tournament, new Random());
+
+        // then
+        final List<CompetitorRoleEntity> roundCompetitors = round.getGames().stream()
+                .flatMap(game -> game.getCompetitors().stream())
+                .collect(Collectors.toList());
+        assertThat(roundCompetitors).containsExactly(expected.toArray(new CompetitorRoleEntity[expected.size()]));
+    }
+
+    @Test
+    public void shouldCreateThirdRoundForDoubleElimination(){
+
+        RoundEntity r1 = RoundEntityBuilder.aRoundEntity().build();
+        List<CompetitorRoleEntity> participants = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            participants.add(aCompetitor((long) i+1));
+        }
+
+        GameEntity g1 = GameEntityBuilder
+                .aGameEntity()
+                .withCompetitor(participants.get(0))
+                .withCompetitor(participants.get(3))
+                .withWinner(participants.get(0))
+                .build();
+        GameEntity g2 = GameEntityBuilder
+                .aGameEntity()
+                .withCompetitor(participants.get(4))
+                .withCompetitor(participants.get(6))
+                .withWinner(participants.get(6))
+                .build();
+        GameEntity g3 = GameEntityBuilder
+                .aGameEntity()
+                .withCompetitor(participants.get(1))
+                .withCompetitor(participants.get(2))
+                .withWinner(participants.get(1))
+                .build();
+        GameEntity g4 = GameEntityBuilder
+                .aGameEntity()
+                .withCompetitor(participants.get(5))
+                .withCompetitor(participants.get(7))
+                .withWinner(participants.get(5))
+                .build();
+
+        RoundEntity r2 = RoundEntityBuilder
+                .aRoundEntity()
+                .withGame(g1)
+                .withGame(g2)
+                .withGame(g3)
+                .withGame(g4)
+                .build();
+
+
+
+        TournamentEntity tournamentEntity = TournamentEntityBuilder.aTournamentEntity()
+                .withCompetitors(
+                        LongStream.rangeClosed(1L, 8L)
+                                .mapToObj(this::aCompetitor)
+                                .collect(Collectors.toList()))
+                .withRound(r1)
+                .withRound(r2)
+                .build();
+
+        List<CompetitorRoleEntity> expected = new ArrayList<>();
+        expected.add(participants.get(0));
+        expected.add(participants.get(6));
+        expected.add(participants.get(3));
+        expected.add(participants.get(1));
+        expected.add(participants.get(4));
+        expected.add(participants.get(5));
+
+        System.out.println("Tournament rounds "+tournamentEntity.getRounds().size());
+        // when
+        final RoundEntity round = format.prepareRound(tournamentEntity, new Random());
+
+        // then
+        final List<CompetitorRoleEntity> roundCompetitors = round.getGames().stream()
+                .flatMap(game -> game.getCompetitors().stream())
+                .collect(Collectors.toList());
+        assertThat(roundCompetitors).containsExactly(expected.toArray(new CompetitorRoleEntity[expected.size()]));
+
+    }
+
+    @Test
+    public void shouldCreateFourthRoundForDoubleElimination(){
+        RoundEntity r = RoundEntityBuilder.aRoundEntity().build();
+        List<CompetitorRoleEntity> participants = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            participants.add(aCompetitor((long) i+1));
+        }
+
+        GameEntity g1 = GameEntityBuilder
+                .aGameEntity()
+                .withCompetitor(participants.get(0))
+                .withCompetitor(participants.get(6))
+                .withWinner(participants.get(0))
+                .build();
+        GameEntity g2 = GameEntityBuilder
+                .aGameEntity()
+                .withCompetitor(participants.get(1))
+                .withCompetitor(participants.get(3))
+                .withWinner(participants.get(1))
+                .build();
+        GameEntity g3 = GameEntityBuilder
+                .aGameEntity()
+                .withCompetitor(participants.get(4))
+                .withCompetitor(participants.get(5))
+                .withWinner(participants.get(4))
+                .build();
+
+        RoundEntity r3 = RoundEntityBuilder
+                .aRoundEntity()
+                .withGame(g1)
+                .withGame(g2)
+                .withGame(g3)
+                .build();
+
+        TournamentEntity tournamentEntity = TournamentEntityBuilder.aTournamentEntity()
+                .withCompetitors(
+                        LongStream.rangeClosed(1L, 8L)
+                                .mapToObj(this::aCompetitor)
+                                .collect(Collectors.toList()))
+                .withRound(r)
+                .withRound(r)
+                .withRound(r3)
+                .build();
+
+        List<CompetitorRoleEntity> expected = new ArrayList<>();
+        expected.add(participants.get(0));
+        expected.add(participants.get(6));
+        expected.add(participants.get(1));
+        expected.add(participants.get(4));
+
+        System.out.println("Tournament rounds "+tournamentEntity.getRounds().size());
+        // when
+        final RoundEntity round = format.prepareRound(tournamentEntity, new Random());
+
+        // then
+        final List<CompetitorRoleEntity> roundCompetitors = round.getGames().stream()
+                .flatMap(game -> game.getCompetitors().stream())
+                .collect(Collectors.toList());
+        assertThat(roundCompetitors).containsExactly(expected.toArray(new CompetitorRoleEntity[expected.size()]));
+    }
+
+    @Test
+    public void shouldCreateFifthRoundForDoubleElimination(){
+        RoundEntity r = RoundEntityBuilder.aRoundEntity().build();
+        List<CompetitorRoleEntity> participants = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            participants.add(aCompetitor((long) i+1));
+        }
+
+        GameEntity g1 = GameEntityBuilder
+                .aGameEntity()
+                .withCompetitor(participants.get(0))
+                .withCompetitor(participants.get(6))
+                .withWinner(participants.get(0))
+                .build();
+        GameEntity g2 = GameEntityBuilder
+                .aGameEntity()
+                .withCompetitor(participants.get(1))
+                .withCompetitor(participants.get(4))
+                .withWinner(participants.get(1))
+                .build();
+
+
+        RoundEntity r4 = RoundEntityBuilder
+                .aRoundEntity()
+                .withGame(g1)
+                .withGame(g2)
+                .build();
+
+        TournamentEntity tournamentEntity = TournamentEntityBuilder.aTournamentEntity()
+                .withCompetitors(
+                        LongStream.rangeClosed(1L, 8L)
+                                .mapToObj(this::aCompetitor)
+                                .collect(Collectors.toList()))
+                .withRound(r)
+                .withRound(r)
+                .withRound(r)
+                .withRound(r4)
+                .build();
+
+        List<CompetitorRoleEntity> expected = new ArrayList<>();
+        expected.add(participants.get(0));
+        expected.add(participants.get(6));
+        expected.add(participants.get(1));
+
+        System.out.println("Tournament rounds "+tournamentEntity.getRounds().size());
+        // when
+        final RoundEntity round = format.prepareRound(tournamentEntity, new Random());
+
+        // then
+        final List<CompetitorRoleEntity> roundCompetitors = round.getGames().stream()
+                .flatMap(game -> game.getCompetitors().stream())
+                .collect(Collectors.toList());
+        assertThat(roundCompetitors).containsExactly(expected.toArray(new CompetitorRoleEntity[expected.size()]));
+    }
+
+    @Test
+    public void shouldCreateSixthRoundForDoubleElimination(){
+        RoundEntity r = RoundEntityBuilder.aRoundEntity().build();
+        List<CompetitorRoleEntity> participants = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            participants.add(aCompetitor((long) i+1));
+        }
+
+        GameEntity g1 = GameEntityBuilder
+                .aGameEntity()
+                .withCompetitor(participants.get(0))
+                .withWinner(participants.get(0))
+                .build();
+        GameEntity g2 = GameEntityBuilder
+                .aGameEntity()
+                .withCompetitor(participants.get(6))
+                .withCompetitor(participants.get(1))
+                .withWinner(participants.get(6))
+                .build();
+
+
+        RoundEntity r6 = RoundEntityBuilder
+                .aRoundEntity()
+                .withGame(g1)
+                .withGame(g2)
+                .build();
+
+        TournamentEntity tournamentEntity = TournamentEntityBuilder.aTournamentEntity()
+                .withCompetitors(
+                        LongStream.rangeClosed(1L, 8L)
+                                .mapToObj(this::aCompetitor)
+                                .collect(Collectors.toList()))
+                .withRound(r)
+                .withRound(r)
+                .withRound(r)
+                .withRound(r)
+                .withRound(r6)
+                .build();
+
+        List<CompetitorRoleEntity> expected = new ArrayList<>();
+        expected.add(participants.get(0));
+        expected.add(participants.get(6));
+
+        System.out.println("Tournament rounds "+tournamentEntity.getRounds().size());
+        // when
+        final RoundEntity round = format.prepareRound(tournamentEntity, new Random());
+
+        // then
+        final List<CompetitorRoleEntity> roundCompetitors = round.getGames().stream()
+                .flatMap(game -> game.getCompetitors().stream())
+                .collect(Collectors.toList());
+        assertThat(roundCompetitors).containsExactly(expected.toArray(new CompetitorRoleEntity[expected.size()]));
+    }
+
+    private CompetitorRoleEntity aCompetitor(Long id) {
+        CompetitorRoleEntity competitor = mock(CompetitorRoleEntity.class);
+        when(competitor.getId()).thenReturn(id);
+        return competitor;
+    }
+
+    private GameEntity aGame(CompetitorRoleEntity... competitors) {
+        GameEntityBuilder builder = GameEntityBuilder.aGameEntity();
+        Arrays.stream(competitors).forEach(builder::withCompetitor);
+        builder.withWinner(competitors[0]);
+        return builder.build();
+    }
+
 }

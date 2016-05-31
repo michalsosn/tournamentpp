@@ -1,5 +1,6 @@
 package pl.lodz.p.ftims.tournamentpp.controller;
 
+import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,25 +30,7 @@ public class TournamentController {
         return Arrays.asList(Format.values());
     }
 
-    @RequestMapping(path = "/createTournament", method = RequestMethod.GET)
-    public String createTournament(Model model) {
-        model.addAttribute("tournament", new TournamentDto());
-        // model.addAllAttributes(populateFormats());
-        return "createTournament";
-    }
-
-    @RequestMapping(path = "/createTournament", method = RequestMethod.POST)
-    public String createTournament(@Valid
-            @ModelAttribute("tournament") TournamentDto tournament,
-            BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "createTournament";
-        }
-        tournamentService.createTournament(tournament);
-        return "redirect:/createTournament";
-    }
-
-    @RequestMapping(path = "/deleteTournament/{tournamentId}",
+    @RequestMapping(path = "/organizer/deleteTournament/{tournamentId}",
             method = RequestMethod.POST)
     public String deleteTournament(@PathVariable long tournamentId) {
 
@@ -57,10 +40,10 @@ public class TournamentController {
          * TODO
          * na co przekierowywac
          */
-        return "redirect:/createTournament";
+        return "redirect:/organizer/createTournament";
     }
 
-    @RequestMapping(path = "/updateTournament/{tournamentId}",
+    @RequestMapping(path = "/organizer/updateTournament/{tournamentId}",
             method = RequestMethod.GET)
     public String updateTournament(Model model, @PathVariable long tournamentId) {
         TournamentDto tournamentDto = tournamentService.getTournamentDto(tournamentId);
@@ -69,7 +52,7 @@ public class TournamentController {
         return "updateTournament";
     }
 
-    @RequestMapping(path = "/deleteTournament",
+    @RequestMapping(path = "/organizer/deleteTournament",
             method = RequestMethod.POST)
     public String updateTournament(@Valid
             @ModelAttribute("tournament") TournamentDto tournament,
@@ -83,8 +66,28 @@ public class TournamentController {
          * TODO
          * na co przekierowywac
          */
-        return "redirect:/createTournament";
+        return "redirect:/organizer/createTournament";
     }
+
+    @RequestMapping(path = "/organizer/createTournament", method = RequestMethod.GET)
+    public String createTournament(Model model) {
+        model.addAttribute("tournament", new TournamentDto());
+        return "/organizer/createTournament";
+    }
+
+    @RequestMapping(path = "/organizer/createTournament", method = RequestMethod.POST)
+    public String createTournament(
+            @Valid @ModelAttribute("tournament") TournamentDto tournament,
+            BindingResult bindingResult,
+            Principal principal
+    ) {
+        if (bindingResult.hasErrors()) {
+            return "/organizer/createTournament";
+        }
+        tournamentService.createTournament(tournament, principal.getName());
+        return "redirect:/organizer/createTournament";
+    }
+
 }
 
 

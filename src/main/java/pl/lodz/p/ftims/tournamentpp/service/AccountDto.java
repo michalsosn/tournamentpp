@@ -30,7 +30,7 @@ public class AccountDto {
 
     private String email;
 
-    @DateTimeFormat(pattern = "dd.MM.yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthdate;
 
     private String phone;

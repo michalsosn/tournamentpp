@@ -21,10 +21,10 @@
   <main>
     <article class="panel panel-default">
       <header class="panel-heading panel-title">
-        Edycja profilu
+        Edit Account
       </header>
       <main class="panel-body">
-        <form th:action="@{/editprofile}" th:object="${account}" method="post" action="#" >
+        <form th:action="@{/account/editAccount}" th:object="${account}" method="post" action="#">
           <div class="form-group" th:class="${#fields.hasErrors('password')}? has-error">
             <label for="password">Password</label>
             <input type="password" th:field="*{password}" id="password" class="form-control"/>
@@ -42,8 +42,9 @@
           </div>
           <div class="form-group" th:class="${#fields.hasErrors('birthdate')}? has-error">
             <label for="birthdate">Birthdate</label>
-            <!-- th:value="${#temporals.format(birthdate, 'dd.MM.yyyy')}" -->
-            <input type="date"  th:value="${birthdate} ? ${#temporals.format(birthdate, 'dd.MM.yyyy')}" th:field="*{birthdate}" id="birthdate" placeholder="dd.MM.yyyy" class="form-control"/>
+            <input type="date" th:value="${#temporals.format(account.birthdate, 'yyyy-MM-dd')}"
+                   th:name="birthdate" th:id="birthdate"
+                   id="birthdate" class="form-control" placeholder="yyyy-MM-dd"/>
             <span class="help-block" th:each="err : ${#fields.errors('birthdate')}" th:text="${err}"/>
           </div>
           <div class="form-group" th:class="${#fields.hasErrors('phone')}? has-error">

@@ -21,19 +21,26 @@
     <script src="../static/js/brackets.js"
             th:src="@{/js/brackets.js}">
     </script>
-    <script src="../static/js/singleElimination.js"
-            th:src="@{js/singleElimination.js}">
+    <script src="../static/js/doubleEliminationExample.js.js"
+            th:src="@{/js/doubleEliminationExample.js}">
     </script>
     <title>Single Elimination</title>
 </head>
 <body>
 
-    <div class="container">
-        <header th:replace="fragments/header :: header"></header>
-        <main>
-            <h1 class="well">Tournament name</h1>
-            <div class="brackets"></div>
-        </main>
-    </div>
+<div class="container">
+    <header th:replace="fragments/header :: header"></header>
+    <main>
+        <h1 class="well">Tournament name</h1>
+        <div class="row">
+            <div class="col-xs-4 brackets"></div>
+            <div class="col-xs-4 brackets2"></div>
+            <div class="col-xs-4 brackets3"></div>
+            <div class="col-xs-4 brackets4"></div>
+            <div class="col-xs-4 brackets5"></div>
+            <div class="col-xs-4 brackets6"></div>
+        </div>
+    </main>
+</div>
 </body>
 </html>

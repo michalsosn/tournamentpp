@@ -1,5 +1,6 @@
 package pl.lodz.p.ftims.tournamentpp.trees;
 
+import org.springframework.stereotype.Component;
 import pl.lodz.p.ftims.tournamentpp.entities.CompetitorRoleEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.GameEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.RoundEntity;
@@ -12,6 +13,8 @@ import java.util.Random;
 /**
  * Created by Daniel on 2016-05-15.
  */
+
+@Component
 public class SingleEliminationFormat extends EliminationFormat implements TournamentFormat {
 
     @Override
@@ -23,6 +26,11 @@ public class SingleEliminationFormat extends EliminationFormat implements Tourna
                     tournament.getRounds().get(tournament.getRounds().size() - 1)
             );
         }
+    }
+
+    @Override
+    public boolean supportedFormat(Format format) {
+        return format == Format.SINGLE_ELIMINATION;
     }
 
     private RoundEntity prepareRoundBasedOnRound(RoundEntity lastRoundEntity) {
