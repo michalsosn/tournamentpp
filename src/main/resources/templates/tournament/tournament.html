@@ -90,6 +90,8 @@
             <form action="#" th:action="@{/organizer/deleteTournament/} + ${tournament.id}" class="form" th:method="post">
               <input class="btn btn-success" type="submit" value="Delete tournament"/>
             </form>
+            <a  class="btn btn-primary btn-block" href="/tournament/updateTournament.html"
+                    th:href="@{/organizer/updateTournament/{id}(id=${tournament.id})}">Update Tournament</a>
           </div>
         </div>
       </div>
