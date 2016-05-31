@@ -87,6 +87,9 @@
             <form action="#" th:action="@{/tournament/tournament/} + ${tournament.id} + @{/round}" class="form" th:method="post">
               <input class="btn btn-success" type="submit" value="Add new round"/>
             </form>
+            <form action="#" th:action="@{/organizer/deleteTournament/} + ${tournament.id}" class="form" th:method="post">
+              <input class="btn btn-success" type="submit" value="Delete tournament"/>
+            </form>
           </div>
         </div>
       </div>

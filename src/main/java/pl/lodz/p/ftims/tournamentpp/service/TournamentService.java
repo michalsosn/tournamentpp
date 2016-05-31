@@ -53,7 +53,7 @@ public class TournamentService {
 
     public void deleteTournament(Long id) {
         tournamentRepository.delete(id);
-        log.info("Tournament id:{} created", id);
+        log.info("Tournament id:{} deleted", id);
     }
 
     public void updateTournament(TournamentDto tournament, Long tournamentId) {
