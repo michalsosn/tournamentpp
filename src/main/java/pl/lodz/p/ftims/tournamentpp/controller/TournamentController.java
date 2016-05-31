@@ -69,7 +69,7 @@ public class TournamentController {
         return "updateTournament";
     }
 
-    @RequestMapping(path = "/deleteTournament/{tournamentId}",
+    @RequestMapping(path = "/deleteTournament",
             method = RequestMethod.POST)
     public String updateTournament(@Valid
             @ModelAttribute("tournament") TournamentDto tournament,
