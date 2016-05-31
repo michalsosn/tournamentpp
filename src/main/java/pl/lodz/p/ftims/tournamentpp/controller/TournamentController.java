@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import pl.lodz.p.ftims.tournamentpp.entities.TournamentEntity;
 import pl.lodz.p.ftims.tournamentpp.service.TournamentDto;
 import pl.lodz.p.ftims.tournamentpp.service.TournamentService;
 import pl.lodz.p.ftims.tournamentpp.trees.Format;
@@ -47,16 +48,20 @@ public class TournamentController {
             method = RequestMethod.GET)
     public String updateTournament(Model model, @PathVariable long tournamentId) {
         TournamentDto tournamentDto = tournamentService.getTournamentDto(tournamentId);
+    	//TournamentEntity tournament = tournamentService.findTournament(tournamentId);
         model.addAttribute("tournament", tournamentDto);
+        model.addAttribute("tournamentId", tournamentId);
 
         return "tournament/updateTournament";
     }
 
     @RequestMapping(path = "/organizer/updateTournament/{tournamentId}",
             method = RequestMethod.POST)
-    public String updateTournament(@Valid
-            @ModelAttribute("tournament") TournamentDto tournament,
-            BindingResult bindingResult, @PathVariable long tournamentId) {
+    public String updateTournament(
+    		@Valid @ModelAttribute("tournament") TournamentDto tournament,
+            BindingResult bindingResult, 
+            @PathVariable long tournamentId,
+            Principal principal) {
         if (bindingResult.hasErrors()) {
             return "updateTournament";
         }
@@ -66,6 +71,7 @@ public class TournamentController {
          * TODO
          * na co przekierowywac
          */
+        tournamentService.createTournament(tournament, principal.getName());
         return "redirect:/organizer/updateTournament";
     }
 
