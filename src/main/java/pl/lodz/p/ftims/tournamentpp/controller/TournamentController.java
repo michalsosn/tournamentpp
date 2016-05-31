@@ -71,7 +71,6 @@ public class TournamentController {
          * TODO
          * na co przekierowywac
          */
-        tournamentService.createTournament(tournament, principal.getName());
         return "redirect:/organizer/updateTournament";
     }
 
@@ -85,8 +84,7 @@ public class TournamentController {
     public String createTournament(
             @Valid @ModelAttribute("tournament") TournamentDto tournament,
             BindingResult bindingResult,
-            Principal principal
-    ) {
+            Principal principal) {
         if (bindingResult.hasErrors()) {
             return "/organizer/createTournament";
         }
