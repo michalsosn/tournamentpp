@@ -13,5 +13,6 @@ import java.util.Optional;
  */
 @Transactional(propagation = Propagation.MANDATORY)
 public interface SupportRoleRepository extends Repository<SupportRoleEntity, Long> {
+    Iterable<SupportRoleEntity> findAll();
     Optional<SupportRoleEntity> findByAccountUsername(String username);
 }

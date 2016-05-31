@@ -30,7 +30,7 @@ public class TournamentEntity implements Serializable {
     private Long version;
 
     @NotNull
-    @Column(name = "name", length = 50, nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @NotNull

@@ -46,7 +46,7 @@
             <span class="fa fa-calendar" aria-hidden="true"></span>
             <label>Data urodzenia:</label>
           </div>
-          <div th:text="${#temporals.format(account.birthdate, 'dd.MM.yyyy')}"
+          <div th:text="${account.birthdate != null} ? ${#temporals.format(account.birthdate, 'dd.MM.yyyy')}"
                id="birthdate" class="col-md-4">
           </div>
         </div>

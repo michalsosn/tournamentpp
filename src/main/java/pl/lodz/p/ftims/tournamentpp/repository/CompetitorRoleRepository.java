@@ -13,5 +13,6 @@ import java.util.Optional;
  */
 @Transactional(propagation = Propagation.MANDATORY)
 public interface CompetitorRoleRepository extends Repository<CompetitorRoleEntity, Long> {
+    Iterable<CompetitorRoleEntity> findAll();
     Optional<CompetitorRoleEntity> findByAccountUsername(String username);
 }

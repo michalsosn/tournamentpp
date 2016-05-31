@@ -13,5 +13,6 @@ import java.util.Optional;
  */
 @Transactional(propagation = Propagation.MANDATORY)
 public interface OrganizerRoleRepository extends Repository<OrganizerRoleEntity, Long> {
+    Iterable<OrganizerRoleEntity> findAll();
     Optional<OrganizerRoleEntity> findByAccountUsername(String username);
 }

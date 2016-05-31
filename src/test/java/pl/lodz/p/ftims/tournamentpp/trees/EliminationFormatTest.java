@@ -9,6 +9,7 @@ import pl.lodz.p.ftims.tournamentpp.entities.RoundEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.TournamentEntity;
 import pl.lodz.p.ftims.tournamentpp.generator.Environment;
 import pl.lodz.p.ftims.tournamentpp.generator.GeneratorLinker;
+import pl.lodz.p.ftims.tournamentpp.generator.MemoryLinker;
 
 import java.util.List;
 import java.util.Random;
@@ -32,7 +33,7 @@ public abstract class EliminationFormatTest {
     @Before
     public void setUp() throws Exception {
         env = Environment.makeDefault();
-        linker = new GeneratorLinker();
+        linker = new MemoryLinker();
 
         linker.makeAccount(true, Role.ROLE_ORGANIZER).apply(env);
         for (int i = 0; i < 16; ++i) {
