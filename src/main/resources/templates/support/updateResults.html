@@ -10,21 +10,26 @@
         th:href="@{/css/navbar.css}" rel="stylesheet">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"
         rel="stylesheet">
-  <title>Error</title>
+  <script src="../static/js/bootstrap.min.js"
+          th:src="@{/js/bootstrap.min.js}">
+  </script>
+  <title>Register</title>
 </head>
-
 <body>
 <div class="container">
   <header th:replace="fragments/header :: header"></header>
   <main>
     <article class="panel panel-default">
       <header class="panel-heading panel-title">
-        An error has occurred
+        Update results
       </header>
-
       <main class="panel-body">
-        <h1 th:text="${errorCode}">500</h1>
-        <p th:text="${errorMessage}">java.lang.NullPointerException</p>
+        <form th:action="@{/support/updateResults}" th:object="${round}" method="post" action="#">
+
+          <button type="submit" class="btn btn-lg btn-primary btn-block">
+            <i class="fa fa-edit"></i> Update
+          </button>
+        </form>
       </main>
     </article>
   </main>

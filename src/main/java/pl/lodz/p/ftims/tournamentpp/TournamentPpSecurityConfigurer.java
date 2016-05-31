@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import pl.lodz.p.ftims.tournamentpp.entities.Role;
 
 import javax.sql.DataSource;
@@ -59,6 +60,8 @@ public class TournamentPpSecurityConfigurer extends WebSecurityConfigurerAdapter
                 .antMatchers("/support/**").hasAuthority(Role.SUPPORT)
                 .anyRequest().permitAll();
         http.formLogin().loginPage("/signin");
+        http.logout().logoutSuccessUrl("/signin")
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
     }
 
 }
