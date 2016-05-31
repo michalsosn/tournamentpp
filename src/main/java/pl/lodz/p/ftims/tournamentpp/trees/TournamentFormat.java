@@ -10,5 +10,5 @@ import java.util.Random;
  */
 public interface TournamentFormat {
     RoundEntity prepareRound(TournamentEntity tournament, Random random);
-
+    boolean supportedFormat(Format format);
 }

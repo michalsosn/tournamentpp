@@ -1,5 +1,6 @@
 package pl.lodz.p.ftims.tournamentpp.trees;
 
+import org.springframework.stereotype.Component;
 import pl.lodz.p.ftims.tournamentpp.entities.CompetitorRoleEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.GameEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.RoundEntity;
@@ -12,6 +13,7 @@ import java.util.Random;
 /**
  * Created by Daniel on 2016-05-15.
  */
+@Component
 public class DoubleEliminationFormat extends EliminationFormat implements TournamentFormat {
 
     @Override
@@ -29,6 +31,11 @@ public class DoubleEliminationFormat extends EliminationFormat implements Tourna
                     tournament.getCompetitors().size()
             );
         }
+    }
+
+    @Override
+    public boolean supportedFormat(Format format) {
+        return format == Format.DOUBLE_ELIMINATION;
     }
 
     private RoundEntity prepareSecondRound(RoundEntity firstRound) {

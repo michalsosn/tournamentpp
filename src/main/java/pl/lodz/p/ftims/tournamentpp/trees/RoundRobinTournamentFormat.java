@@ -1,5 +1,6 @@
 package pl.lodz.p.ftims.tournamentpp.trees;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import pl.lodz.p.ftims.tournamentpp.entities.CompetitorRoleEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.GameEntity;
@@ -9,6 +10,7 @@ import pl.lodz.p.ftims.tournamentpp.entities.TournamentEntity;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Component
 public class RoundRobinTournamentFormat implements TournamentFormat {
 
     @Override
@@ -17,6 +19,11 @@ public class RoundRobinTournamentFormat implements TournamentFormat {
             return prepareFirstRound(tournament);
         }
         return prepareNextRound(tournament);
+    }
+
+    @Override
+    public boolean supportedFormat(Format format) {
+        return format == Format.ROUND_ROBIN;
     }
 
     private RoundEntity prepareNextRound(TournamentEntity tournament) {

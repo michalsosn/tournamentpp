@@ -32,32 +32,18 @@ public class TournamentOrganizationController {
         return "/tournament/tournaments";
     }
 
-//    @JsonView(DataTablesOutput.View.class)
-//    @RequestMapping(value = "/tournament/tournaments", method = RequestMethod.GET)
-//    public DataTablesOutput<TournamentEntity> getUsers(@Valid DataTablesInput input) {
-//        return tournamentDataTableRepository.findAll(input);
-//    }
-
-//    @JsonView(DataTablesOutput.View.class)
-//    @RequestMapping(path = "/tournament/tournaments", method = RequestMethod.GET)
-//    public String listTournaments(Model model, DataTablesInput input) {
-//        final DataTablesOutput<TournamentEntity> tournaments =
-//              tournamentDataTableRepository.findAll(input);
-//        model.addAttribute("tournaments", tournaments);
-//        return "/tournament/tournaments";
-//    }
-
-//    @JsonView(DataTablesOutput.View.class)
-//    @RequestMapping(path = "/tournament/tournaments", method = RequestMethod.GET)
-//    public DataTablesOutput<TournamentEntity> getUsers(@Valid DataTablesInput input) {
-//        return tournamentDataTableRepository.findAll(input);
-//    }
-
     @RequestMapping(path = "/tournament/tournament/{id}", method = RequestMethod.GET)
     public String getTournament(@PathVariable long id, Model model) {
         final TournamentEntity tournament = tournamentService.findTournament(id);
         model.addAttribute("tournament", tournament);
         return "/tournament/tournament";
+    }
+
+    @RequestMapping(path = "/tournament/tournament/{id}/round",
+            method = RequestMethod.POST)
+    public String addNewRound(@PathVariable long id) {
+        tournamentService.generateRound(id);
+        return "redirect:/tournament/tournament/" + id;
     }
 
 }
