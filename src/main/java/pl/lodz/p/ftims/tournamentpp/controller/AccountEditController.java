@@ -48,5 +48,12 @@ public class AccountEditController {
         return "redirect:/account/account";
     }
 
+    @RequestMapping(path = "/account/playerTournaments", method = RequestMethod.GET)
+    public String showUserTournaments(Model model) {
+//        AccountEntity account = accountService.findAccount();
+//        model.addAttribute("account", account);
+        return "/account/playerTournaments";
+    }
+
 }
 
