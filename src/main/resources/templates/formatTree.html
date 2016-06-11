@@ -35,8 +35,9 @@
             var roundsJson = [[${rounds}]];
             var tournamentRounds = []
             var roundsNames = [];
+            console.log(roundsJson);
 
-            if([[${tournament-type}]] === "Single"){
+            if([[${type}]] === "Single"){
                 $("main").append($('<div></div>').addClass("brackets"));
                 $.each(roundsJson, function (roundKey, roundValue) {
                     roundTab = [];
@@ -140,7 +141,7 @@
     <main>
         <!--/*@thymesVar id="tournamentId" type=""*/-->
         <div  class = "hidden" th:class="${tournamentId}"></div>
-        <div class = "hidden tournament-type"></div>
+        <div class = "hidden type"></div>
         <h1 class="well">Tournament name</h1>
 
     </main>

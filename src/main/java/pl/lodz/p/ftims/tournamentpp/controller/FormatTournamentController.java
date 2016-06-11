@@ -38,10 +38,13 @@ public class FormatTournamentController {
         return "roundRobinExample";
     }
 
-    @RequestMapping(path = "/{tournamentId}/tree", method = RequestMethod.GET)
+    @RequestMapping(path = "tournament" +
+            "/tournament/{tournamentId}/tree",
+            method = RequestMethod.GET)
     public String getTournamentTree(@PathVariable long tournamentId, Model model) {
         model.addAttribute("tournamentId", tournamentId);
-        model.addAttribute("tournament-type", Format.SINGLE_ELIMINATION);
+        model.addAttribute("type", formatTournamentService
+                .getTournament(tournamentId).getFormat());
 
         List<RoundDto> rounds = new ArrayList<>();
 
