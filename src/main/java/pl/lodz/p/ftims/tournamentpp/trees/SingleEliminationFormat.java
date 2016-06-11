@@ -6,9 +6,9 @@ import pl.lodz.p.ftims.tournamentpp.entities.GameEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.RoundEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.TournamentEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  * Created by Daniel on 2016-05-15.
@@ -36,10 +36,9 @@ public class SingleEliminationFormat extends EliminationFormat implements Tourna
     private RoundEntity prepareRoundBasedOnRound(RoundEntity lastRoundEntity) {
         RoundEntity roundEntity = new RoundEntity();
         List<GameEntity> lastGames = lastRoundEntity.getGames();
-        List<CompetitorRoleEntity> competitorsInThisRound = new ArrayList<>();
-        for (GameEntity game : lastGames) {
-            competitorsInThisRound.add(game.getWinner());
-        }
+        List<CompetitorRoleEntity> competitorsInThisRound = lastGames.stream()
+                .map(GameEntity::getWinner)
+                .collect(Collectors.toList());
 
         addNextRoundCompetitorsToRound(roundEntity, competitorsInThisRound);
 

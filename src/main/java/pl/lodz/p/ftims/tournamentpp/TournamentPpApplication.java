@@ -110,9 +110,7 @@ public class TournamentPpApplication {
             roundRepository.deleteAll();
             gameRepository.deleteAll();
 
-            for (AccountEntity account: competitorAccounts) {
-                accountRepository.save(account);
-            }
+            competitorAccounts.forEach(accountRepository::save);
 
             accountRepository.save(organizerAccount);
 

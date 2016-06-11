@@ -18,6 +18,7 @@ import pl.lodz.p.ftims.tournamentpp.repository.TournamentRepository;
 import pl.lodz.p.ftims.tournamentpp.trees.TournamentFormat;
 
 import java.security.SecureRandom;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -99,6 +100,9 @@ public class TournamentService {
                                 + " not accessible"));
         RoundEntity roundEntity =
                 tournamentFormatter.prepareRound(tournamentEntity, random);
+        roundEntity.setTournament(tournamentEntity);
+        roundEntity.setStartTime(LocalDateTime.now());
+        roundEntity.setEndTime(LocalDateTime.now().plusHours(3));
         roundEntity = roundRepository.save(roundEntity);
         tournamentEntity.getRounds().add(roundEntity);
         tournamentRepository.save(tournamentEntity);
