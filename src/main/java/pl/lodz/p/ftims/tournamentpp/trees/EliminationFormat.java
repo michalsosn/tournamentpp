@@ -1,10 +1,8 @@
 package pl.lodz.p.ftims.tournamentpp.trees;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import pl.lodz.p.ftims.tournamentpp.entities.CompetitorRoleEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.GameEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.RoundEntity;
-import pl.lodz.p.ftims.tournamentpp.repository.GameRepository;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,9 +13,6 @@ import java.util.Random;
  * Created by Daniel on 2016-05-16.
  */
 public class EliminationFormat {
-
-    @Autowired
-    private GameRepository gameRepository;
 
     RoundEntity prepareFirstRound(List<CompetitorRoleEntity> competitors, Random random) {
         RoundEntity roundEntity = new RoundEntity();
@@ -30,7 +25,6 @@ public class EliminationFormat {
             GameEntity game = new GameEntity();
             game.getCompetitors().add(first);
             game.getCompetitors().add(second);
-//            gameRepository.save(game);
             roundEntity.getGames().add(game);
         }
 
@@ -47,7 +41,4 @@ public class EliminationFormat {
         }
     }
 
-    protected GameRepository getGameRepository() {
-        return gameRepository;
-    }
 }

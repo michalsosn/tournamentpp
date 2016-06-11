@@ -45,7 +45,7 @@ public class TournamentPpApplication {
         Collection<AccountEntity> competitorAccounts = new ArrayList<>();
 
         AccountEntity accountEntity;
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 8; i++) {
             accountEntity = new AccountEntity("FAJNY" + (i + 1), pe.encode("AAA"), true);
             accountEntity.setName("Zawodnik " + (i + 1));
             competitor = new CompetitorRoleEntity(true, accountEntity);

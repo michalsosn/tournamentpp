@@ -1,13 +1,11 @@
 package pl.lodz.p.ftims.tournamentpp.trees;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import pl.lodz.p.ftims.tournamentpp.entities.CompetitorRoleEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.GameEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.RoundEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.TournamentEntity;
-import pl.lodz.p.ftims.tournamentpp.repository.GameRepository;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -15,8 +13,6 @@ import java.util.stream.Collectors;
 @Component
 public class RoundRobinTournamentFormat implements TournamentFormat {
 
-    @Autowired
-    private GameRepository gameRepository;
 
     @Override
     public RoundEntity prepareRound(TournamentEntity tournament, Random random) {
@@ -65,7 +61,6 @@ public class RoundRobinTournamentFormat implements TournamentFormat {
                                     GameEntity game = new GameEntity();
                                     game.getCompetitors().add(firstCompetitor);
                                     game.getCompetitors().add(secondCompetitor);
-                                    gameRepository.save(game);
                                     round.getGames().add(game);
                         });
         });
