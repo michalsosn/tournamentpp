@@ -69,39 +69,23 @@ public class TournamentPpApplication {
         tournament.setLocation("Twoja matka");
         tournament.setDescription("Zabawy");
 
+        TournamentEntity tournament2 = new TournamentEntity();
+        tournament2.setName("Jedzenie kiślu");
+        tournament2.setStartTime(start);
+        tournament2.setOrganizer((OrganizerRoleEntity)
+                organizerAccount.getRoles().get(Role.ROLE_ORGANIZER));
+        tournament2.setFormat(Format.DOUBLE_ELIMINATION);
+        tournament2.setLocation("Twoja matka");
+        tournament2.setDescription("Zabawy");
 
-//        RoundEntity r1 = new RoundEntity();
-//        r1.setTournament(tournament);
-//        r1.setStartTime(LocalDateTime.now());
-//        r1.setEndTime(LocalDateTime.now().plusHours(1));
-//        RoundEntity r2 = new RoundEntity();
-//        r2.setTournament(tournament);
-//        r2.setStartTime(LocalDateTime.now().plusHours(3));
-//        r2.setEndTime(LocalDateTime.now().plusHours(4));
-//
-//        CompetitorRoleEntity c1 = new CompetitorRoleEntity(true, a1);
-//        CompetitorRoleEntity c2 = new CompetitorRoleEntity(true, a2);
-//        CompetitorRoleEntity c3 = new CompetitorRoleEntity(true, a3);
-//        CompetitorRoleEntity c4 = new CompetitorRoleEntity(true, a4);
-//
-//
-//        GameEntity g1 = new GameEntity();
-//        g1.setRound(r1);
-//        g1.setWinner(c1);
-//        g1.getCompetitors().add(c1);
-//        g1.getCompetitors().add(c2);
-//
-//        GameEntity g2 = new GameEntity();
-//        g2.setRound(r1);
-//        g2.setWinner(c3);
-//        g2.getCompetitors().add(c3);
-//        g2.getCompetitors().add(c4);
-//
-//        GameEntity g3 = new GameEntity();
-//        g3.setRound(r2);
-//        g3.setWinner(c1);
-//        g3.getCompetitors().add(c1);
-//        g3.getCompetitors().add(c3);
+        TournamentEntity tournament3 = new TournamentEntity();
+        tournament3.setName("Polowanie na Robina");
+        tournament3.setStartTime(start);
+        tournament3.setOrganizer((OrganizerRoleEntity)
+                organizerAccount.getRoles().get(Role.ROLE_ORGANIZER));
+        tournament3.setFormat(Format.ROUND_ROBIN);
+        tournament3.setLocation("Twoja matka");
+        tournament3.setDescription("Zabawy");
 
 
         return (args) -> {
@@ -124,15 +108,26 @@ public class TournamentPpApplication {
             }
 
             tournamentRepository.save(tournament);
-//            competitorRoleRepository.save(c1);
-//            competitorRoleRepository.save(c2);
-//            competitorRoleRepository.save(c3);
-//            competitorRoleRepository.save(c4);
+
+            tournamentRepository.save(tournament2);
 //
-//            tournament.getCompetitors().add(c1);
-//            tournament.getCompetitors().add(c2);
-//            tournament.getCompetitors().add(c3);
-//            tournament.getCompetitors().add(c4);
+            for (AccountEntity account: competitorAccounts) {
+                tournament2.getCompetitors()
+                        .add((CompetitorRoleEntity)
+                                account.getRoles().get(Role.ROLE_COMPETITOR));
+            }
+
+            tournamentRepository.save(tournament2);
+
+            tournamentRepository.save(tournament3);
+//
+            for (AccountEntity account: competitorAccounts) {
+                tournament3.getCompetitors()
+                        .add((CompetitorRoleEntity)
+                                account.getRoles().get(Role.ROLE_COMPETITOR));
+            }
+
+            tournamentRepository.save(tournament3);
 
 //            roundRepository.save(r1);
 //            roundRepository.save(r2);

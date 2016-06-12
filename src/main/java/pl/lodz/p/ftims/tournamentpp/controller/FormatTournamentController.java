@@ -42,7 +42,7 @@ public class FormatTournamentController {
     public String getTournamentTree(@PathVariable long tournamentId, Model model) {
         model.addAttribute("tournamentId", tournamentId);
         model.addAttribute("type", formatTournamentService
-                .getTournament(tournamentId).getFormat());
+                .getTournament(tournamentId).getFormat().getNiceName());
 
         List<RoundDto> rounds = new ArrayList<>();
 
@@ -51,6 +51,8 @@ public class FormatTournamentController {
             rounds.add(new RoundDto(r.getGames(), "Round " + i, r.getStartTime()));
             i++;
         }
+        model.addAttribute("competitorsCount", formatTournamentService
+                .getTournament(tournamentId).getCompetitors().size());
         model.addAttribute("rounds", rounds);
         return "formatTree";
     }
