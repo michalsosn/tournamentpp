@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import pl.lodz.p.ftims.tournamentpp.entities.RoundEntity;
 import pl.lodz.p.ftims.tournamentpp.service.FormatTournamentService;
 import pl.lodz.p.ftims.tournamentpp.service.RoundDto;
-import pl.lodz.p.ftims.tournamentpp.trees.Format;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,10 +37,12 @@ public class FormatTournamentController {
         return "roundRobinExample";
     }
 
-    @RequestMapping(path = "/{tournamentId}/tree", method = RequestMethod.GET)
+    @RequestMapping(path = "tournament/tournament/{tournamentId}/tree",
+            method = RequestMethod.GET)
     public String getTournamentTree(@PathVariable long tournamentId, Model model) {
         model.addAttribute("tournamentId", tournamentId);
-        model.addAttribute("tournament-type", Format.SINGLE_ELIMINATION);
+        model.addAttribute("type", formatTournamentService
+                .getTournament(tournamentId).getFormat().getNiceName());
 
         List<RoundDto> rounds = new ArrayList<>();
 
@@ -50,6 +51,8 @@ public class FormatTournamentController {
             rounds.add(new RoundDto(r.getGames(), "Round " + i, r.getStartTime()));
             i++;
         }
+        model.addAttribute("competitorsCount", formatTournamentService
+                .getTournament(tournamentId).getCompetitors().size());
         model.addAttribute("rounds", rounds);
         return "formatTree";
     }
