@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import pl.lodz.p.ftims.tournamentpp.entities.OrganizerRoleEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.RoundEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.TournamentEntity;
@@ -49,6 +50,9 @@ public class TournamentService {
     @Autowired
     private RoundRepository roundRepository;
 
+//    @Autowired
+//    private CompetitorRoleRepository competitorRoleRepository;
+
     private final Random random = new SecureRandom();
 
     @Transactional(readOnly = true)
@@ -58,6 +62,7 @@ public class TournamentService {
         );
         return tournamentRepository.findAll(pageRequest);
     }
+
 
     @Transactional(readOnly = true)
     public Iterable<TournamentEntity> listAllTournaments() {

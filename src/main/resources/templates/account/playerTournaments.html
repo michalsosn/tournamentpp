@@ -27,17 +27,16 @@
       <div class="panel-heading">
         <h3 class="panel-title">Tournaments</h3>
       </div>
-      <div class="panel-body"> <!-- th:object="${account}" >-->
+      <div class="panel-body" th:object="${tournaments}" >
       
 		  <div class="panel panel-default">
 		    <div class="panel-heading">
 		      <h4 class="panel-title">
-		        <a data-toggle="collapse" href="#collapse1">Marzec 2016</a>
+		        <a data-toggle="collapse" href="#collapse1">Wszystkie</a>
 		      </h4>
 		    </div>
 		    <div id="collapse1" class="panel-collapse collapse">
 		    	<div class="panel-body">
-		    					<!-- <div th:if="${not #lists.isEmpty(tournaments)}"> -->
 		          <table id="table" class="display nowrap dataTable dtr-inline" role="grid" aria-describedby="example_info" >
 		            <tr role="row">
 		              <th class="dt-body-center sorting col-md-4" tabindex="0" aria-controls="example" rowspan="1" colspan="1"  aria-label="Name: activate to sort column ascending">Name</th>
@@ -46,76 +45,17 @@
 		              <th class="dt-body-center sorting col-md-2" tabindex="0" aria-controls="example" rowspan="1" colspan="1"  aria-label="Format: activate to sort column ascending">Format</th>
 		              <th class="dt-body-center sorting col-md-1" tabindex="0" aria-controls="example" rowspan="1" colspan="1"  aria-label="Place: activate to sort column ascending">Place</th>
 		            </tr>
-		            <tr class="odd" role="row"> <!-- th:each="tournament : ${tournaments}"> -->
-<!-- 		              <td class="dt-body-center sorting_1 col-md-6" th:text="${tournament.name}"></td>
-		              <td class="dt-body-center sorting_1 col-md-2" th:text="${torunament.date != null} ? ${#temporals.format(tournament.date, 'dd.MM.yyyy')}"></td>
-		              <td class="dt-body-center sorting_1 col-md-2" th:text="${tournament.location}"></td>		              
+		            <tr class="odd" role="row" th:each="tournament : ${tournaments}"> 
+		              <td class="dt-body-center sorting_1 col-md-4" th:text="${tournament.name}"></td>
+		              <td class="dt-body-center sorting_1 col-md-2" th:text="${#temporals.format(tournament.startTime, 'dd.MM.yyyy HH:mm')}"></td>
+		              <td class="dt-body-center sorting_1 col-md-3" th:text="${tournament.location}"></td>
 		              <td class="dt-body-center sorting_1 col-md-2" th:text="${tournament.format}"></td>
-		              <td class="dt-body-center sorting_1 col-md-2" th:text="${tournament.place}"></td> -->
-		              <td class="dt-body-center sorting_1 col-md-4">A</td>
-		              <td class="dt-body-center sorting_1 col-md-2">B</td>
-		              <td class="dt-body-center sorting_1 col-md-3">C</td>
-		              <td class="dt-body-center sorting_1 col-md-2">D</td>
 		              <td class="dt-body-center sorting_1 col-md-1">E</td>
 		            </tr>
 		          </table>
-		        <!-- </div> -->
-		    	</div>
+		        </div> 
 		    </div>
 		   </div>
-      
-<!--         <div class="row">
-          <div class="col-md-2"></div>
-          <div class="col-md-3"></div>
-          <div th:text="*{username}" id="username" class="col-md-4">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-2"></div>
-          <div class="col-md-3">
-            <span class="fa fa-user" aria-hidden="true"></span>
-            <label>Imię i Nazwisko:</label>
-          </div>
-          <div th:text="*{name}" id="name" class="col-md-4">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-2"></div>
-          <div class="col-md-3">
-            <span class="fa fa-calendar" aria-hidden="true"></span>
-            <label>Data urodzenia:</label>
-          </div>
-          <div th:text="${account.birthdate != null} ? ${#temporals.format(account.birthdate, 'dd.MM.yyyy')}"
-               id="birthdate" class="col-md-4">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-2"></div>
-          <div class="col-md-3">
-            <span class="fa fa-envelope" aria-hidden="true"></span>
-            <label>E-Mail:</label>
-          </div>
-          <div th:text="*{email}" id="email" class="col-md-4">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-2"></div>
-          <div class="col-md-3">
-            <span class="fa fa-phone-square" aria-hidden="true"></span>
-            <label>Tel:</label>
-          </div>
-          <div th:text="*{phone}" id="phone" class="col-md-4">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-2"></div>
-          <div class="col-md-3">
-            <span class="fa fa-pencil-square-o" aria-hidden="true"></span>
-            <label>Opis: </label>
-          </div>
-          <div th:text="*{description}" class="col-md-4" id="description">
-          </div>
-        </div> -->
     	</div>
     </div>
   </article>
