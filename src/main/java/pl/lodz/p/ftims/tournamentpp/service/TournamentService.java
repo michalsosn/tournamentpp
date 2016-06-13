@@ -70,6 +70,11 @@ public class TournamentService {
     }
 
     @Transactional(readOnly = true)
+    public Iterable<TournamentEntity> listLastMonthTournaments() {
+        return tournamentRepository.getTournamentFromLastMonth();
+    }
+
+    @Transactional(readOnly = true)
     public TournamentEntity findTournament(long id) {
         return tournamentRepository.findOne(id);
     }
