@@ -43,14 +43,14 @@
 		              <th class="dt-body-center sorting col-md-2" tabindex="0" aria-controls="example" rowspan="1" colspan="1"  aria-label="Date: activate to sort column ascending">Date</th>
 		              <th class="dt-body-center sorting col-md-3" tabindex="0" aria-controls="example" rowspan="1" colspan="1"  aria-label="Location: activate to sort column ascending">Location</th>
 		              <th class="dt-body-center sorting col-md-2" tabindex="0" aria-controls="example" rowspan="1" colspan="1"  aria-label="Format: activate to sort column ascending">Format</th>
-		              <th class="dt-body-center sorting col-md-1" tabindex="0" aria-controls="example" rowspan="1" colspan="1"  aria-label="Place: activate to sort column ascending">Place</th>
+		              <th class="dt-body-center sorting col-md-1" tabindex="0" aria-controls="example" rowspan="1" colspan="1"  aria-label="Place: activate to sort column ascending">Games Won</th>
 		            </tr>
 		            <tr class="odd" role="row" th:each="tournament : ${last_month}"> 
 		              <td class="dt-body-center sorting_1 col-md-4" th:text="${tournament.name}"></td>
 		              <td class="dt-body-center sorting_1 col-md-2" th:text="${#temporals.format(tournament.startTime, 'dd.MM.yyyy HH:mm')}"></td>
 		              <td class="dt-body-center sorting_1 col-md-3" th:text="${tournament.location}"></td>
 		              <td class="dt-body-center sorting_1 col-md-2" th:text="${tournament.format}"></td>
-		              <td class="dt-body-center sorting_1 col-md-1">E</td>
+		              <td class="dt-body-center sorting_1 col-md-1" th:text="${tournament.winCount}"></td>
 		            </tr>
 		          </table>
 		        </div> 

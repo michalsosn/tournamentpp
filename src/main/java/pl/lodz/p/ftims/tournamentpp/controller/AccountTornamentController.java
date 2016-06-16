@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.lodz.p.ftims.tournamentpp.entities.AccountEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.CompetitorRoleEntity;
+import pl.lodz.p.ftims.tournamentpp.entities.GameEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.Role;
 import pl.lodz.p.ftims.tournamentpp.entities.RoleEntity;
+import pl.lodz.p.ftims.tournamentpp.entities.RoundEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.TournamentEntity;
+import pl.lodz.p.ftims.tournamentpp.entities.TournamentWinners;
 import pl.lodz.p.ftims.tournamentpp.service.AccountService;
 import pl.lodz.p.ftims.tournamentpp.service.TournamentService;
 
@@ -46,20 +49,24 @@ public class AccountTornamentController {
         return "/account/playerTournaments";
     }
 
-    @RequestMapping(path = "/roundScore", method = RequestMethod.GET)
-    public String showRoundScore(Model model) {
-        return "/roundScore";
-    }
-
-
-    private List<TournamentEntity> getUserTournaments(Iterable<TournamentEntity>
+    private List<TournamentWinners> getUserTournaments(Iterable<TournamentEntity>
                                                        tournaments, long id) {
-         List<TournamentEntity> userTournaments = new ArrayList<TournamentEntity>();
+         int winCount = 0;
+         List<TournamentWinners> userTournaments = new ArrayList<TournamentWinners>();
          for (TournamentEntity tournamentEntity : tournaments) {
              List<CompetitorRoleEntity> c = tournamentEntity.getCompetitors();
              for (int i = 0; i < c.size(); i++) {
                  if (c.get(i).getId() == id) {
-                    userTournaments.add(tournamentEntity);
+                    for (RoundEntity roleEntity : tournamentEntity.getRounds()) {
+                        for (GameEntity games : roleEntity.getGames()) {
+                            if (games.getWinner().getId() == id) {
+                               winCount++;
+                            }
+                        }
+                    }
+                    TournamentWinners winner =
+                            new TournamentWinners(tournamentEntity, winCount);
+                    userTournaments.add(winner);
                  }
              }
          }
