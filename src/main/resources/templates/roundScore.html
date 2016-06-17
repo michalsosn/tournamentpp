@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="../static/css/bootstrap.min.css"
+        th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  <link href="../static/css/navbar.css"
+        th:href="@{/css/navbar.css}" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"
+        rel="stylesheet">
+   <script src="../static/js/jquery-1.12.3.min.js"
+        th:src="@{/js/jquery-1.12.3.min.js}">
+  </script>
+  <script src="../static/js/bootstrap.min.js"
+          th:src="@{/js/bootstrap.min.js}">
+  </script>
+  <script src="../static/js/brackets.js"
+          th:src="@{/js/brackets.js}">
+  </script>
+<!--   <script src="../static/js/roundRobinExample.js"
+          th:src="@{/js/roundRobinExample.js}">
+  </script> -->
+  <script th:inline="javascript">
+  $(window).load(function() {
+	  /*<![CDATA[*/
+            var tournament_type = [[${tournamentFormat}]];
+            var format;
+            
+            $.each(tournament_type, function(key, element) {
+            	format = element;
+            }); 
+            console.log(format);
+           
+            var roundsJson = 2;
+            var tournamentRounds = [];
+            var roundCompetitors =[[${games}]];
+            groundTab=[];
+            if(format == 'SINGLE_ELIMINATION'){
+                $("main").append($('<div></div>').addClass("brackets"));
+                $.each(roundCompetitors, function (key, value){
+                	roundTab = [];
+                	var i = 0;
+                	tab = [];
+                	$.each(value, function(key2, value2){
+                		tab[i]=value2;
+                		i = i+1;
+                	});
+                	console.log("tab:" +tab);
+                	game = {};
+                	for(var p = 0; p <2;p++){
+	                    game["player" + tab[p*2+1]] = {
+	                            name: tab[p*2],
+	                            ID: tab[p*2+1],
+	                            winner: (tab[p*2+1] === tab[5] ? true : false)
+	                    };
+	                    console.log("p "+ p);
+	                    console.log("game:"+ game);
+	                    roundTab.push(game);
+	                    console.log("Round "+roundTab);
+                	}
+                	groundTab.push(roundTab);
+	            });
+                tournamentRounds.push(groundTab);
+                tournamentRounds.push([])
+                tournamentRounds.push([])
+                tournamentRounds.push([])
+                //Gdyby było wygenerowanych mniej rund niż ma być
+                //trzeba dodać do ostaniej puste wartości
+/*                 competitors = roundCompetitors.lenght*2;
+                startingLength = tournamentRounds.length;
+                if (tournamentRounds.length != competitors){
+                    for(i = 0; i <= competitors- startingLength; i++){
+                        tournamentRounds.push([])
+                    }
+                } */
+                $(".brackets").brackets({
+                    titles: "cos",
+                    rounds: tournamentRounds,
+                    color_title: 'black',
+                    border_color: 'gray',
+                    color_player: 'black',
+                    bg_player: 'white',
+                    color_player_hover: 'lightGray',
+                    bg_player_hover: 'gray',
+                    border_radius_player: '10px',
+                    border_radius_lines: '10px',
+                });
+            }
+                /*
+            }else{
+                //Dla Round robin i double elimination
+
+                $.each(roundsJson, function (roundKey, roundValue) {
+                    tournamentRounds = [];
+                    roundsNames = [];
+                    var roundTab = [];
+                    var secondRound = [];
+                    roundsNames.push(roundValue.round);
+                    $.each(roundValue.games, function (gameKey, gameValue) {
+                        game = {};
+                        $.each(gameValue.competitors, function (competitorKey, competitorValue) {
+                            game["player" + competitorValue.id] = {
+                                name: competitorValue.name,
+                                ID: competitorValue.id,
+                                winner: gameValue.winner === null ? false : (competitorValue.id === gameValue.winner.id ? true : false)
+                            };
+
+                            if(game["player" + competitorValue.id].winner === true){
+                                secondRound.push(game["player" + competitorValue.id] = {
+                                    name: competitorValue.name,
+                                    ID: competitorValue.id,
+                                    winner: true}
+                                );
+                            }
+                        });
+                        roundTab.push(game);
+                    });
+                    tournamentRounds.push(roundTab);
+                    tournamentRounds.push(secondRound);
+                    console.log("rysuję double i robina")
+                    console.log(tournamentRounds)
+                    $("main").append($('<div></div>').addClass("brackets").addClass("col-xs-4"));
+                    competitors = [[${competitorsCount}]]
+                    startingLength = tournamentRounds.length;
+                    if (tournamentRounds.length != competitors/2){
+                        for(i = 0; i <= competitors/2- startingLength; i++){
+                            tournamentRounds.push([])
+                        }
+                    }
+                    $(".brackets").brackets({
+                        titles: roundsNames,
+                        rounds: tournamentRounds,
+                        color_title: 'black',
+                        border_color: 'gray',
+                        color_player: 'black',
+                        bg_player: 'white',
+                        color_player_hover: 'lightGray',
+                        bg_player_hover: 'gray',
+                        border_radius_player: '10px',
+                        border_radius_lines: '10px',
+                    });
+
+                });
+
+                $(".separator-brackets.rd-2").remove();
+            }
+                */
+        }); 
+        /* ]]> */
+    </script>
+  <title>Round Score</title>
+</head>
+<body>
+<div class="container">
+  <header th:replace="fragments/header :: header"></header>
+  <article>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h2 class="panel-title" th:text="${tournamentName}"></h2>
+      </div>
+<!--       <div class="panel-body" th:object="${tournamentName}" >
+            <h1 class="well" th:text="${tournamentFormat}"></h1>
+            <div class="brackets"></div>
+      </div> -->
+      <div class="panel-body" th:object="${games}" >
+      	<div class="row">
+      		<!-- <div class="col-md-1"></div> -->
+      		<div class="col-md-2">Format turnieju:</div>
+      		<label class="col-md-4" th:text="${tournamentFormat}"></label>
+      	</div>
+      	<div class="row">
+      		<div class="col-md-12"></div>
+      	</div>
+ 	    <table id="table" class="display nowrap dataTable dtr-inline" role="grid" aria-describedby="example_info" >
+         <tr role="row">
+           <th class="dt-body-center sorting col-md-4" tabindex="0" aria-controls="example" rowspan="1" colspan="1"  aria-label="Name: activate to sort column ascending">Zawodnik 1</th>
+           <th class="dt-body-center sorting col-md-2" tabindex="0" aria-controls="example" rowspan="1" colspan="1"  aria-label="Date: activate to sort column ascending">Zawodnik 2</th>
+           <th class="dt-body-center sorting col-md-3" tabindex="0" aria-controls="example" rowspan="1" colspan="1"  aria-label="Location: activate to sort column ascending">Zwycięzca</th>
+         </tr>
+         <tr class="odd" role="row" th:each="game : ${games}"> 
+           <td class="dt-body-center sorting_1 col-md-4" th:text="${game.competitor1}"></td>
+           <td class="dt-body-center sorting_1 col-md-2" th:text="${game.competitor2}"></td>
+           <td class="dt-body-center sorting_1 col-md-3" th:text="${game.winner}"></td>
+         </tr>
+       </table>
+      </div>
+    </div>
+  </article>
+</div>
+</body>
+</html>

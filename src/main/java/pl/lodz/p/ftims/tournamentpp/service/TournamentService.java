@@ -55,6 +55,9 @@ public class TournamentService {
     @Autowired
     private RoundRepository roundRepository;
 
+//    @Autowired
+//    private CompetitorRoleRepository competitorRoleRepository;
+
     private final Random random = new SecureRandom();
 
     @Transactional(readOnly = true)
@@ -65,9 +68,15 @@ public class TournamentService {
         return tournamentRepository.findAll(pageRequest);
     }
 
+
     @Transactional(readOnly = true)
     public Iterable<TournamentEntity> listAllTournaments() {
         return tournamentRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public Iterable<TournamentEntity> listLastMonthTournaments() {
+        return tournamentRepository.getTournamentFromLastMonth();
     }
 
     @Transactional(readOnly = true)
