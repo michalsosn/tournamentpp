@@ -1,5 +1,8 @@
 package pl.lodz.p.ftims.tournamentpp.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -8,6 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import pl.lodz.p.ftims.tournamentpp.entities.GameEntity;
+import pl.lodz.p.ftims.tournamentpp.entities.GameCompetitor;
+import pl.lodz.p.ftims.tournamentpp.entities.RoundEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.TournamentEntity;
 import pl.lodz.p.ftims.tournamentpp.service.TournamentService;
 
@@ -44,6 +51,43 @@ public class TournamentOrganizationController {
     public String addNewRound(@PathVariable long id) {
         tournamentService.generateRound(id);
         return "redirect:/tournament/tournament/" + id;
+    }
+
+    @RequestMapping(path = "/tournament/tournament/{id}/round/{roundId}",
+                           method = RequestMethod.GET)
+    public String showRoundScore(@PathVariable long id,
+                                 @PathVariable long roundId,
+                                 Model model) {
+        List<GameCompetitor> gameCompetitor = new ArrayList<GameCompetitor>();
+        final TournamentEntity tournament = tournamentService.findTournament(id);
+        for (RoundEntity round : tournament.getRounds()) {
+            if (round.getId() == roundId) {
+                for (GameEntity games : round.getGames()) {
+                    GameCompetitor game = new GameCompetitor();
+                    game.setWinner(games.getWinner().getAccount().getUsername());
+                    game.setWinnerId(games.getWinner().getAccount().getId());
+                    for (int i = 0; i < games.getCompetitors().size(); i++) {
+                        if (i % 2 == 0) {
+                            game.setCompetitor1(
+                                games.getCompetitors().get(i).getAccount().getUsername());
+                            game.setCompetitor1Id(
+                                games.getCompetitors().get(i).getAccount().getId());
+                        } else {
+                            game.setCompetitor2(
+                                games.getCompetitors().get(i).getAccount().getUsername());
+                            game.setCompetitor2Id(
+                                games.getCompetitors().get(i).getAccount().getId());
+                        }
+                    }
+                    gameCompetitor.add(game);
+                }
+            }
+        }
+        model.addAttribute("games", gameCompetitor);
+        model.addAttribute("tournamentName", tournament.getName());
+        model.addAttribute("tournamentFormat", tournament.getFormat());
+
+        return "/roundScore";
     }
 
 }

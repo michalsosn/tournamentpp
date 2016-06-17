@@ -17,11 +17,11 @@ public class TournamentWinners extends TournamentEntity {
     }
 
     public int getWinCount() {
-		return winCount;
-	}
+        return winCount;
+    }
 
-	public void setWinCount(int winCount) {
-		this.winCount = winCount;
-	}
+    public void setWinCount(int winCount) {
+        this.winCount = winCount;
+    }
 
 }
