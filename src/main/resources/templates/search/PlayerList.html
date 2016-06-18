@@ -37,11 +37,30 @@
 </head>
 <body>
 
+
 <div class="container">
     <header th:replace="fragments/header :: header"></header>
-    <main>
-
-    </main>
-</div>
+    <article>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Searched players</h3>
+            </div>
+            <div class="panel-body" th:object="${players}" >
+                <div th:if="${not #lists.isEmpty(players.content)}">
+                    <table id="table" class="display nowrap dataTable dtr-inline" role="grid" aria-describedby="example_info" >
+                        <tr role="row">
+                            <th class="dt-body-center sorting col-md-4" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 100px;" aria-label="Name: activate to sort column ascending">Username</th>
+                            <th class="dt-body-center sorting col-md-4" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 10px;" aria-label="Location: activate to sort column ascending">Name</th>
+                            <th class="dt-body-center sorting col-md-1" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 5px;" aria-sort="ascending" aria-label="ID: activate to sort column descending">Link</th>
+                        </tr>
+                        <tr class="odd" role="row" th:each="player : ${players.content}">
+                            <td class="dt-body-center sorting_1 col-md-4" th:text="${player.username}"></td>
+                            <td class="dt-body-center sorting_1 col-md-4" th:text="${player.name}"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </article>
 </body>
 </html>

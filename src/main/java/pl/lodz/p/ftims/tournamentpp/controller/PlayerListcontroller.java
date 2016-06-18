@@ -18,7 +18,7 @@ public class PlayerListcontroller {
     private AccountSearchService accountSearchService;
 
     @RequestMapping(path = "/search", method = RequestMethod.GET)
-    public String getStuffPaged(@RequestParam("username")String username,
+    public String getStuffPaged(@RequestParam("username") String username,
                                 Pageable pager, Model model) {
         model.addAttribute("pathingVar", username);
         model.addAttribute("players",
