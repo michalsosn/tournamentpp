@@ -56,6 +56,10 @@
                         <tr class="odd" role="row" th:each="player : ${players.content}">
                             <td class="dt-body-center sorting_1 col-md-4" th:text="${player.username}"></td>
                             <td class="dt-body-center sorting_1 col-md-4" th:text="${player.name}"></td>
+                            <td class="dt-body-center sorting_1 col-md-1">
+                                <a  class="btn btn-primary btn-block" href="/tournament/tournament.html"
+                                    th:href="@{/player/playerTournaments(username=${player.username})}">Go to player tournaments</a>
+                            </td>
                         </tr>
                     </table>
                 </div>

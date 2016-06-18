@@ -1,26 +1,18 @@
 package pl.lodz.p.ftims.tournamentpp.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import pl.lodz.p.ftims.tournamentpp.entities.AccountEntity;
-import pl.lodz.p.ftims.tournamentpp.entities.CompetitorRoleEntity;
-import pl.lodz.p.ftims.tournamentpp.entities.GameEntity;
-import pl.lodz.p.ftims.tournamentpp.entities.Role;
-import pl.lodz.p.ftims.tournamentpp.entities.RoleEntity;
-import pl.lodz.p.ftims.tournamentpp.entities.RoundEntity;
-import pl.lodz.p.ftims.tournamentpp.entities.TournamentEntity;
-import pl.lodz.p.ftims.tournamentpp.entities.TournamentWinners;
+import pl.lodz.p.ftims.tournamentpp.entities.*;
 import pl.lodz.p.ftims.tournamentpp.service.AccountService;
 import pl.lodz.p.ftims.tournamentpp.service.TournamentService;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class AccountTornamentController {
@@ -45,6 +37,23 @@ public class AccountTornamentController {
                 tournamentService.listLastMonthTournaments();
 
         model.addAttribute("tournaments", getUserTournaments(tournaments, role.getId()));
+        model.addAttribute("last_month", getUserTournaments(lastMonth, role.getId()));
+        return "/account/playerTournaments";
+    }
+
+    @RequestMapping(path = "/player/playerTournaments", method = RequestMethod.GET)
+    public String showUserTournaments(@RequestParam("username") String username,
+                                      Model model) {
+        AccountEntity account = accountService.findAccountByUsername(username);
+        Map<Role,RoleEntity> map = account.getRoles();
+        RoleEntity role = map.get(Role.ROLE_COMPETITOR);
+        final Iterable<TournamentEntity> tournaments =
+                tournamentService.listAllTournaments();
+        final Iterable<TournamentEntity> lastMonth =
+                tournamentService.listLastMonthTournaments();
+
+        model.addAttribute("tournaments", getUserTournaments(tournaments,
+                role.getId()));
         model.addAttribute("last_month", getUserTournaments(lastMonth, role.getId()));
         return "/account/playerTournaments";
     }
