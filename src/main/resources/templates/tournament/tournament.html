@@ -10,6 +10,9 @@
         th:href="@{/css/navbar.css}" rel="stylesheet">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"
         rel="stylesheet">
+  <script src="../../static/js/jquery-1.12.3.min.js"
+          th:src="@{/js/jquery-1.12.3.min.js}">
+  </script>
   <script src="../../static/js/bootstrap.min.js"
           th:src="@{/js/bootstrap.min.js}">
   </script>
@@ -84,9 +87,20 @@
         <hr/>
         <div class="row">
           <div class="col-md-3">
-            <form action="#" th:action="@{/tournament/tournament/} + ${tournament.id} + @{/round}" class="form" th:method="post">
-              <input class="btn btn-success" type="submit" value="Add new round"/>
-            </form>
+            <a href="#" data-toggle="collapse" data-target="#form-popup">New round</a>
+            <div id="form-popup" class="collapse">
+              <form action="#" th:action="@{/tournament/tournament/} + ${tournament.id} + @{/round}"
+                    class="form" th:method="post" th:object="${roundParams}">
+                <div class="input-group">
+                  <label for="endDate">Round end</label>
+                  <input id ="endDate" type="datetime-local" class="form-control"
+                         placeholder="yyyy-MM-ddTHH:mm:ss" th:field="*{endDate}" th:value="*{endDate}"/>
+                </div>
+                <div class="input-group">
+                  <input class="btn btn-success" type="submit" value="Add new round"/>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>

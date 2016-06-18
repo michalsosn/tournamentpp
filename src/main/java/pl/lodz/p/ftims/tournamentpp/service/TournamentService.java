@@ -97,7 +97,7 @@ public class TournamentService {
         log.info("Tournament {} created", tournamentEntity.getId());
     }
 
-    public void generateRound(long tournamentId) {
+    public void generateRound(long tournamentId, LocalDateTime endDate) {
         TournamentEntity tournamentEntity = Optional
                 .ofNullable(tournamentRepository.findOne(tournamentId))
                 .orElseThrow(() ->
@@ -117,7 +117,7 @@ public class TournamentService {
         RoundEntity roundEntity = new RoundEntity();
         roundEntity.setTournament(tournamentEntity);
         roundEntity.setStartTime(LocalDateTime.now());
-        roundEntity.setEndTime(LocalDateTime.now().plusHours(3));
+        roundEntity.setEndTime(endDate);
         roundEntity = roundRepository.save(roundEntity);
         for (GameEntity g : roundEntityWithGames.getGames()) {
             g.setRound(roundEntity);
