@@ -31,6 +31,10 @@ public class AccountService {
         return findLoggedUser().get();
     }
 
+    public AccountEntity findAccountByUsername(String username) {
+        return accountRepository.findByUsername(username).get();
+    }
+
     public void createAccount(AccountDto account) {
         checkPassword(account.getPassword());
         checkUsernameUnique(account);
