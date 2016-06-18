@@ -21,8 +21,10 @@ public interface AccountRepository extends
 
     Optional<AccountEntity> findByUsername(String username);
 
-    @Query("SELECT t FROM Account t WHERE " +
-            "LOWER(t.name) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
+    @Query("SELECT t FROM Account t WHERE "
+            +
+            "LOWER(t.name) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR "
+            +
             "LOWER(t.username) LIKE LOWER(CONCAT('%',:searchTerm, '%'))")
     Page<AccountEntity> findBySearchTerm(@Param("searchTerm") String searchTerm,
                                          Pageable pageRequest);

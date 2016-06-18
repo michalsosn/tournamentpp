@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.ftims.tournamentpp.entities.AccountEntity;
+import pl.lodz.p.ftims.tournamentpp.entities.Role;
 import pl.lodz.p.ftims.tournamentpp.repository.AccountRepository;
 
 import java.util.ArrayList;
@@ -21,23 +22,27 @@ public class AccountSearchService {
     @Autowired
     private AccountRepository accountRepository;
 
+    public Page<AccountDto> findBySearchTerm(String searchTerm, Pageable pageRequest) {
+        //Obtain search results by invoking the preferred repository method.
+        Page<AccountEntity> searchResultPage =
+                accountRepository.findBySearchTerm(searchTerm, pageRequest);
+        List<AccountEntity> list = searchResultPage.getContent();
+        List<AccountDto> accountDtoList = new ArrayList<>();
+        for (AccountEntity ae : list) {
+            if (ae.getRoles().get(Role.ROLE_COMPETITOR) != null
+                    && ae.getRoles().get(Role.ROLE_COMPETITOR).isActive()) {
+                accountDtoList.add(convert(ae));
+            }
+        }
+        Page<AccountDto> page = new PageImpl<>(accountDtoList);
+        return page;
+    }
+
     private static AccountDto convert(AccountEntity source) {
         AccountDto ad = new AccountDto();
         ad.setName(source.getName());
         ad.setUsername(source.getUsername());
+        ad.setDescription(source.getDescription());
         return ad;
-    }
-
-    public Page<AccountDto> findBySearchTerm(String searchTerm, Pageable pageRequest) {
-        //Obtain search results by invoking the preferred repository method.
-//        Page<AccountEntity> searchResultPage = accountRepository.findPageByUsername(pageRequest);
-        Page<AccountEntity> searchResultPage = accountRepository.findBySearchTerm(searchTerm, pageRequest);
-        List<AccountEntity> list = searchResultPage.getContent();
-        List<AccountDto> accountDtoList = new ArrayList<>();
-        for (AccountEntity ae : list) {
-            accountDtoList.add(convert(ae));
-        }
-        Page<AccountDto> page = new PageImpl<>(accountDtoList);
-        return page;
     }
 }
