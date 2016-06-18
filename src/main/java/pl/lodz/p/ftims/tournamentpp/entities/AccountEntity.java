@@ -140,4 +140,5 @@ public class AccountEntity implements Serializable {
     public Map<Role, RoleEntity> getRoles() {
         return roles;
     }
+
 }
