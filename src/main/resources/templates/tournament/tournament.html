@@ -87,7 +87,32 @@
         <hr/>
         <div class="row">
           <div class="col-md-3">
-            <a href="#" data-toggle="collapse" data-target="#form-popup">New round</a>
+            <a href="#" data-toggle="collapse" data-target="#rounds-popup"><span class="caret"></span> Rounds</a>
+            <div id="rounds-popup" class="collapse">
+              <table class="table">
+                <thead>
+                  <th>Round</th>
+                  <th>Start time</th>
+                  <th>End time</th>
+                  <th>Games</th>
+                </thead>
+                <tbody>
+                  <tr th:each="round,iterStat : ${tournament.rounds}">
+                    <td th:text="${iterStat.index + 1}">1</td>
+                    <td th:text="${#temporals.format(round.startTime, 'dd.MM.yyyy HH:mm')}">2000-01-01 00:00</td>
+                    <td th:text="${#temporals.format(round.endTime, 'dd.MM.yyyy HH:mm')}">2000-01-01 03:00</td>
+                    <td th:text="${round.games.size()}">1</td>
+                    <td><a class="btn" href="#" th:href="@{/tournament/tournament/} + ${tournament.id} + @{/round/} + ${tournament.id}">See round</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <hr/>
+        <div class="row">
+          <div class="col-md-3">
+            <a href="#" data-toggle="collapse" data-target="#form-popup"><span class="caret"></span> New round</a>
             <div id="form-popup" class="collapse">
               <form action="#" th:action="@{/tournament/tournament/} + ${tournament.id} + @{/round}"
                     class="form" th:method="post" th:object="${roundParams}">

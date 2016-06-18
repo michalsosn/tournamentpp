@@ -6,16 +6,14 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pl.lodz.p.ftims.tournamentpp.entities.GameCompetitor;
-import pl.lodz.p.ftims.tournamentpp.entities.GameEntity;
-import pl.lodz.p.ftims.tournamentpp.entities.RoundEntity;
-import pl.lodz.p.ftims.tournamentpp.entities.TournamentEntity;
+import pl.lodz.p.ftims.tournamentpp.entities.*;
 import pl.lodz.p.ftims.tournamentpp.service.TournamentService;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Michał Sośnicki
@@ -60,14 +58,20 @@ public class TournamentOrganizationController {
     public String showRoundScore(@PathVariable long id,
                                  @PathVariable long roundId,
                                  Model model) {
-        List<GameCompetitor> gameCompetitor = new ArrayList<GameCompetitor>();
+        List<GameCompetitor> gameCompetitor = new ArrayList<>();
         final TournamentEntity tournament = tournamentService.findTournament(id);
         for (RoundEntity round : tournament.getRounds()) {
             if (round.getId() == roundId) {
                 for (GameEntity games : round.getGames()) {
                     GameCompetitor game = new GameCompetitor();
-                    game.setWinner(games.getWinner().getAccount().getUsername());
-                    game.setWinnerId(games.getWinner().getAccount().getId());
+                    game.setWinner(Optional.ofNullable(games.getWinner())
+                            .map(CompetitorRoleEntity::getAccount)
+                            .map(AccountEntity::getUsername)
+                            .orElse(null));
+                    game.setWinnerId(Optional.ofNullable(games.getWinner())
+                            .map(CompetitorRoleEntity::getAccount)
+                            .map(AccountEntity::getId)
+                            .orElse(null));
                     for (int i = 0; i < games.getCompetitors().size(); i++) {
                         if (i % 2 == 0) {
                             game.setCompetitor1(

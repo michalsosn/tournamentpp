@@ -7,7 +7,7 @@ public class GameCompetitor {
     private long competitor1Id;
     private long competitor2Id;
     private String winner;
-    private long winnerId;
+    private Long winnerId;
 
     public String getCompetitor1() {
         return competitor1;
@@ -39,10 +39,10 @@ public class GameCompetitor {
     public void setWinner(String winner) {
         this.winner = winner;
     }
-    public long getWinnerId() {
+    public Long getWinnerId() {
         return winnerId;
     }
-    public void setWinnerId(long winnerId) {
+    public void setWinnerId(Long winnerId) {
         this.winnerId = winnerId;
     }
 }
