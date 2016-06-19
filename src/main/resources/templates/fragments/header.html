@@ -10,6 +10,8 @@
     <link href="../../static/css/navbar.css" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"
           rel="stylesheet">
+    <script src="../../static/js/jquery-1.12.3.min.js">
+    </script>
     <script src="../../static/js/bootstrap.min.js">
     </script>
 </head>
@@ -30,26 +32,36 @@
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li>
-                            <a href="#" th:href="@{/account/account}">
-                                <i class="fa fa-user"></i> Profile
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" th:href="@{/organizer/createTournament}">
-                                <i class="fa fa-trophy"></i> Create Tournament
-                            </a>
-                        </li>
-                        <li>
                             <a href="#" th:href="@{/tournament/tournaments}">
-                                <i class="fa fa-list-ul"></i> Show tournament list
+                                <i class="fa fa-list-ul"></i> Tournaments
                             </a>
+                        </li>
+                        <li class="dropdown" sec:authorize-url="/organizer">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                Organizer <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" th:href="@{/organizer/createTournament}">
+                                    Create tournament
+                                </a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown" sec:authorize-url="/competitor">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                Competitor <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Nothing here yet</a></li>
+                            </ul>
                         </li>
 
                         <li>
                             <form class="navbar-form navbar-left" role="search"
                                   action="#" th:action="@{/search(username=username)}" method="get">
-                                <input type="text" name="username">
-                                <input class="fa fa-search" type="submit" value="Search" />
+                                <div class="form-group">
+                                    <input type="text" name="username">
+                                </div>
+                                <input class="btn btn-default" type="submit" value="Search" />
                             </form>
                         </li>
 
@@ -67,6 +79,11 @@
                         </li>
                     </ul>
                     <ul sec:authorize="isAuthenticated()" class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#" th:href="@{/account/account}">
+                                <i class="fa fa-user"></i> <span th:text="${#authentication.name}">Profile</span>
+                            </a>
+                        </li>
                         <li>
                             <a href="#" th:href="@{/logout}">
                                 <i class="fa fa-sign-out"></i> Sign out

@@ -1,4 +1,4 @@
-package pl.lodz.p.ftims.tournamentpp.service;
+package pl.lodz.p.ftims.tournamentpp.service.dto;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.password.PasswordEncoder;

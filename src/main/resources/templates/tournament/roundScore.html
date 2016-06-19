@@ -176,7 +176,7 @@
   <article>
     <div class="panel panel-primary">
       <div class="panel-heading">
-        <h2 class="panel-title" th:text="${tournamentName}">Nazwa turnieju</h2>
+        <h2 class="panel-title" th:text="${tournament.name}">Tournament name</h2>
       </div>
 <!--       <div class="panel-body" th:object="${tournamentName}" >
             <h1 class="well" th:text="${tournamentFormat}"></h1>
@@ -185,14 +185,14 @@
       <div class="panel-body" th:object="${games}" >
         <div class="row">
           <div class="text-right">
-            <p>Czas do zakończenia</p>
+            <p>End time</p>
             <p id="timer">02:00</p>
           </div>
         </div>
       	<div class="row">
       		<!-- <div class="col-md-1"></div> -->
-      		<div class="col-md-2">Format turnieju:</div>
-      		<label class="col-md-4" th:text="${tournamentFormat}"></label>
+      		<div class="col-md-2">Tournament format:</div>
+      		<label class="col-md-4" th:text="${tournament.format}"></label>
       	</div>
       	<div class="row">
       		<div class="col-md-12"></div>

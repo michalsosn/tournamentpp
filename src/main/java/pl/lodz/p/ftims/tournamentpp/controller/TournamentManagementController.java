@@ -8,12 +8,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import pl.lodz.p.ftims.tournamentpp.entities.RoundEntity;
 import pl.lodz.p.ftims.tournamentpp.service.GameService;
+import pl.lodz.p.ftims.tournamentpp.service.TournamentService;
 
 /**
  * @author Michał Sośnicki
  */
 @Controller
 public class TournamentManagementController {
+
+    @Autowired
+    private TournamentService tournamentService;
 
     @Autowired
     private GameService gameService;

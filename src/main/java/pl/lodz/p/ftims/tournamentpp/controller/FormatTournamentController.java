@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import pl.lodz.p.ftims.tournamentpp.entities.RoundEntity;
 import pl.lodz.p.ftims.tournamentpp.service.FormatTournamentService;
-import pl.lodz.p.ftims.tournamentpp.service.RoundDto;
+import pl.lodz.p.ftims.tournamentpp.service.dto.RoundDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +37,7 @@ public class FormatTournamentController {
         return "roundRobinExample";
     }
 
-    @RequestMapping(path = "tournament/tournament/{tournamentId}/tree",
+    @RequestMapping(path = "/tournament/tournament/{tournamentId}/tree",
             method = RequestMethod.GET)
     public String getTournamentTree(@PathVariable long tournamentId, Model model) {
         model.addAttribute("tournamentId", tournamentId);

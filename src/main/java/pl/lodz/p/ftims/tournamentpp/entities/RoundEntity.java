@@ -5,7 +5,6 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by Daniel on 2016-05-09.
@@ -83,9 +82,6 @@ public class RoundEntity {
     }
 
     public boolean isFinished() {
-        return games.stream()
-                .allMatch(gameEntity ->
-                        Optional.ofNullable(gameEntity.getWinner())
-                                .isPresent());
+        return games.stream().allMatch(gameEntity -> gameEntity.getWinner() != null);
     }
 }

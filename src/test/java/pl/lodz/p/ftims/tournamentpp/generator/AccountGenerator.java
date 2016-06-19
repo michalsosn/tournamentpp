@@ -3,8 +3,8 @@ package pl.lodz.p.ftims.tournamentpp.generator;
 import pl.lodz.p.ftims.tournamentpp.entities.AccountEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.Role;
 import pl.lodz.p.ftims.tournamentpp.entities.RoleEntity;
-import pl.lodz.p.ftims.tournamentpp.service.AccountDto;
-import pl.lodz.p.ftims.tournamentpp.service.ProfileDto;
+import pl.lodz.p.ftims.tournamentpp.service.dto.AccountDto;
+import pl.lodz.p.ftims.tournamentpp.service.dto.ProfileDto;
 
 import java.util.Arrays;
 import java.util.Map;

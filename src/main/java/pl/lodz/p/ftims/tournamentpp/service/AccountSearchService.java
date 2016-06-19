@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.ftims.tournamentpp.entities.AccountEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.Role;
 import pl.lodz.p.ftims.tournamentpp.repository.AccountRepository;
+import pl.lodz.p.ftims.tournamentpp.service.dto.AccountDto;
 
 import java.util.ArrayList;
 import java.util.List;

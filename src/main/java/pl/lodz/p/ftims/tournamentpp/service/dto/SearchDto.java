@@ -1,4 +1,4 @@
-package pl.lodz.p.ftims.tournamentpp.service;
+package pl.lodz.p.ftims.tournamentpp.service.dto;
 
 /**
  * Created by Daniel on 2016-06-18.

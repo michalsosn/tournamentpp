@@ -13,8 +13,6 @@ import java.util.List;
 @DiscriminatorValue(Role.COMPETITOR)
 public class CompetitorRoleEntity extends RoleEntity {
 
-    private static final long serialVersionUID = 1L;
-
     @ManyToMany(mappedBy = "competitors")
     private List<TournamentEntity> tournaments = new ArrayList<>();
 

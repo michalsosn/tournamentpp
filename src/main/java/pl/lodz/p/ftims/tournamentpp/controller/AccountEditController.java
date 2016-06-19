@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import pl.lodz.p.ftims.tournamentpp.entities.AccountEntity;
 import pl.lodz.p.ftims.tournamentpp.service.AccountService;
-import pl.lodz.p.ftims.tournamentpp.service.ProfileDto;
+import pl.lodz.p.ftims.tournamentpp.service.dto.ProfileDto;
 
 import javax.validation.Valid;
 

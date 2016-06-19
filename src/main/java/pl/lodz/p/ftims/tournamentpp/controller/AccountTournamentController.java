@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class AccountTornamentController {
+public class AccountTournamentController {
 
     @Autowired
     private AccountService accountService;
@@ -61,7 +61,7 @@ public class AccountTornamentController {
     private List<TournamentWinners> getUserTournaments(Iterable<TournamentEntity>
                                                        tournaments, long id) {
          int winCount = 0;
-         List<TournamentWinners> userTournaments = new ArrayList<TournamentWinners>();
+         List<TournamentWinners> userTournaments = new ArrayList<>();
          for (TournamentEntity tournamentEntity : tournaments) {
              List<CompetitorRoleEntity> c = tournamentEntity.getCompetitors();
              for (int i = 0; i < c.size(); i++) {

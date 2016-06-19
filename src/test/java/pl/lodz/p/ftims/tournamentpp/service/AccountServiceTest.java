@@ -21,6 +21,8 @@ import pl.lodz.p.ftims.tournamentpp.entities.Role;
 import pl.lodz.p.ftims.tournamentpp.generator.AccountGenerator;
 import pl.lodz.p.ftims.tournamentpp.generator.Environment;
 import pl.lodz.p.ftims.tournamentpp.repository.AccountRepository;
+import pl.lodz.p.ftims.tournamentpp.service.dto.AccountDto;
+import pl.lodz.p.ftims.tournamentpp.service.dto.ProfileDto;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;

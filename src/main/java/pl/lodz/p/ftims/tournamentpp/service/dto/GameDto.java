@@ -1,4 +1,4 @@
-package pl.lodz.p.ftims.tournamentpp.service;
+package pl.lodz.p.ftims.tournamentpp.service.dto;
 
 import pl.lodz.p.ftims.tournamentpp.entities.CompetitorRoleEntity;
 
