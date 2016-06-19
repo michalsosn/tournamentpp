@@ -47,9 +47,10 @@ public class TournamentController {
     @RequestMapping(path = "/organizer/updateTournament/{tournamentId}",
             method = RequestMethod.GET)
     public String updateTournament(Model model, @PathVariable long tournamentId) {
-        TournamentDto tournamentDto = tournamentService.getTournamentDto(tournamentId);
-    	//TournamentEntity tournament = tournamentService.findTournament(tournamentId);
-        model.addAttribute("tournament", tournamentDto);
+        //TournamentDto tournamentDto = tournamentService.getTournamentDto(tournamentId);
+        TournamentEntity tournament = tournamentService.findTournament(tournamentId);
+
+        model.addAttribute("tournament", tournament);
         model.addAttribute("tournamentId", tournamentId);
 
         return "tournament/updateTournament";
@@ -58,20 +59,21 @@ public class TournamentController {
     @RequestMapping(path = "/organizer/updateTournament/{tournamentId}",
             method = RequestMethod.POST)
     public String updateTournament(
-    		@Valid @ModelAttribute("tournament") TournamentDto tournament,
-            BindingResult bindingResult, 
+            @Valid @ModelAttribute("tournament") TournamentDto tournament,
+            BindingResult bindingResult,
             @PathVariable long tournamentId,
             Principal principal) {
+
         if (bindingResult.hasErrors()) {
-            return "updateTournament";
+            return "redirect:/organizer/createTournament";
         }
-        tournamentService.updateTournament(tournament, tournamentId);
+        tournamentService.updateTournament(tournament, tournamentId, principal.getName());
 
         /*
          * TODO
          * na co przekierowywac
          */
-        return "redirect:/organizer/updateTournament";
+        return "redirect:/tournament/tournament/{tournamentId}";
     }
 
     @RequestMapping(path = "/organizer/createTournament", method = RequestMethod.GET)

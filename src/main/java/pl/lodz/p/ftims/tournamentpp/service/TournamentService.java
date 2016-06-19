@@ -56,9 +56,22 @@ public class TournamentService {
         log.info("Tournament id:{} deleted", id);
     }
 
-    public void updateTournament(TournamentDto tournament, Long tournamentId) {
+    public void updateTournament(TournamentDto tournament,
+            Long tournamentId, String username) {
         TournamentEntity tournamentEntity = tournamentRepository.findOne(tournamentId);
         tournament.applyToEntity(tournamentEntity);
+
+        final OrganizerRoleEntity organizer = organizerRoleRepository
+                .findByAccountUsername(username).orElseThrow(() ->
+                        new IllegalArgumentException(
+                                "Tournament with account username "
+                                        + username + " not accessible"));
+        tournamentEntity.setOrganizer(organizer);
+
+        tournamentRepository.save(tournamentEntity);
+        log.info("Tournament {} edited", tournamentEntity.getId());
+    }
+    public void updateTournament(TournamentEntity tournamentEntity) {
         tournamentRepository.save(tournamentEntity);
         log.info("Tournament {} edited", tournamentEntity.getId());
     }

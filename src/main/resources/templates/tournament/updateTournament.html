@@ -26,40 +26,46 @@
 			</header>
 
 			<main class="panel-body">
-			<form th:action="@{{id}(id=${tournamentId})}" th:object="${tournament}"
+			<form th:action="@{/organizer/updateTournament/{id}(id=${tournamentId})}" th:object="${tournament}"
 				method="post" action="#">
 				<div class="form-group"
+					th:class="${#fields.hasErrors('name')}? has-error">
+					<label for="name">Name</label> <input type="text"
+						th:field="*{name}" id="name" class="form-control" /> <span
+						class="help-block" th:each="err : ${#fields.errors('name')}"
+						th:text="${err}" />
+				</div>
+				<div class="form-group"
 					th:class="${#fields.hasErrors('location')}? has-error">
-					<label for="location">Location</label> 
-					<input type="text" th:field="*{location}" id="location" class="form-control" /> 
-					<span class="help-block" th:each="err : ${#fields.errors('location')}"
+					<label for="location">Location</label> <input type="text"
+						th:field="*{location}" id="location" class="form-control" /> <span
+						class="help-block" th:each="err : ${#fields.errors('location')}"
 						th:text="${err}" />
 				</div>
 				<div class="form-group"
 					th:class="${#fields.hasErrors('description')}? has-error">
-					<label for="description">Description</label> 
-					<input type="text" th:field="*{description}" id="description" class="form-control" /> 
-					<span class="help-block" th:each="err : ${#fields.errors('description')}"
-						th:text="${err}" />
+					<label for="description">Description</label>
+					<textarea th:field="*{description}" id="description"
+						class="form-control" />
+					<span class="help-block"
+						th:each="err : ${#fields.errors('description')}" th:text="${err}" />
 				</div>
 				<div class="form-group"
 					th:class="${#fields.hasErrors('startTime')}? has-error">
-					<label for="startTime">Date</label> 
-					<input type="date" th:field="*{startTime}" id="startTime" class="form-control" /> 
-					<span class="help-block" th:each="err : ${#fields.errors('startTime')}"
-						th:text="${err}" />
+					<label for="startTime">Date</label> <input type="datetime-local"
+						th:field="*{startTime}" id="startTime" class="form-control"
+						 /> <span class="help-block"
+						th:each="err : ${#fields.errors('startTime')}" th:text="${err}" />
 				</div>
 
 				<div class="form-group"
-					th:class="${#fields.hasErrors('startTime')}? has-error">
-					<label for="format">Format</label> 
-					<select th:field="*{format}" class="form-control">
-						<option th:each="type : ${allFormats}" 
-							th:value="${type}"
-							th:text="${type.niceName}"></option>
-					</select>
-					<span class="help-block" th:each="err : ${#fields.errors('format')}"
-						th:text="${err}" />
+					th:class="${#fields.hasErrors('format')}? has-error">
+					<label for="format">Format</label> <select th:field="*{format}"
+						id="format" class="form-control">
+						<option th:each="format : ${allFormats}" th:value="${format}"
+							th:text="${format.niceName}"></option>
+					</select> <span class="help-block"
+						th:each="err : ${#fields.errors('format')}" th:text="${err}" />
 				</div>
 
 				<button type="submit" class="btn btn-lg btn-primary btn-block">
