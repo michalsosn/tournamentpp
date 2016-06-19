@@ -72,6 +72,9 @@ public class TournamentEntity implements Serializable {
     @OneToMany(mappedBy = "tournament", orphanRemoval = true)
     private List<RoundEntity> rounds = new ArrayList<>();
 
+    @OneToMany(mappedBy = "tournament", orphanRemoval = true)
+    private List<ApplicationEntity> applications = new ArrayList<>();
+
     public TournamentEntity() {
     }
 
@@ -133,5 +136,9 @@ public class TournamentEntity implements Serializable {
 
     public List<RoundEntity> getRounds() {
         return rounds;
+    }
+
+    public List<ApplicationEntity> getApplications() {
+        return applications;
     }
 }

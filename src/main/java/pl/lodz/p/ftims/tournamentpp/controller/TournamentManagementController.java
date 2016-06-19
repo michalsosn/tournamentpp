@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.ftims.tournamentpp.entities.RoundEntity;
 import pl.lodz.p.ftims.tournamentpp.service.GameService;
 import pl.lodz.p.ftims.tournamentpp.service.TournamentService;
+import pl.lodz.p.ftims.tournamentpp.service.dto.IdForm;
 
 import javax.validation.Valid;
 
@@ -37,21 +38,6 @@ public class TournamentManagementController {
             @Valid @ModelAttribute("winner") IdForm winnerForm) {
         gameService.updateResult(gameId, winnerForm.getId());
         return "redirect:/support/updateResults/" + roundId;
-    }
-
-    static class IdForm {
-        private Long id;
-
-        IdForm() {
-        }
-
-        public Long getId() {
-            return id;
-        }
-
-        public void setId(Long id) {
-            this.id = id;
-        }
     }
 
 }
