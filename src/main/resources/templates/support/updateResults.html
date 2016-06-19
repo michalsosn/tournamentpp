@@ -43,14 +43,18 @@
           <td th:text="${game.competitors[0].account.username}"></td>
           <td th:text="${game.competitors[1].account.username}"></td>
           <td>
-            <form th:action="@{/support/updateResults/__${stat.index}__}"
-                  th:object="${round.games[__${stat.index}__]}"
-                  method="post" action="#" class="form-inline">
+            <form method="post" action="#" class="form-inline" th:name="winner"
+                  th:action="@{/support/updateResults/{roundId}
+                             (roundId=${round.id},gameId=${game.id})}">
               <div class="form-group competitor-select">
-                <select th:field="*{winner}" id="winner" class="form-control">
+                <select th:name="id" class="form-control">
+                  <option value=""></option>
                   <option th:each="competitor : ${game.competitors}"
-                          th:value="${competitor.account.username}"
-                          th:text="${competitor.account.username}">
+                          th:value="${competitor.id}"
+                          th:text="${competitor.account.username}"
+                          th:attr="selected=${round.games[__${stat.index}__].winner != null
+                                   and round.games[__${stat.index}__].winner.id == competitor.id}
+                                   ? selected : null">
                   </option>
                 </select>
               </div>

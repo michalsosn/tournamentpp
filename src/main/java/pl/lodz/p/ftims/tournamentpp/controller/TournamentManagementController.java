@@ -3,12 +3,12 @@ package pl.lodz.p.ftims.tournamentpp.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.ftims.tournamentpp.entities.RoundEntity;
 import pl.lodz.p.ftims.tournamentpp.service.GameService;
 import pl.lodz.p.ftims.tournamentpp.service.TournamentService;
+
+import javax.validation.Valid;
 
 /**
  * @author Michał Sośnicki
@@ -31,9 +31,27 @@ public class TournamentManagementController {
 
     @RequestMapping(path = "/support/updateResults/{roundId}",
                     method = RequestMethod.POST)
-    public String updateResults(@PathVariable long roundId, Model model) {
-        // do something plz
-        return "/support/updateResults";
+    public String updateResults(
+            @PathVariable long roundId,
+            @RequestParam long gameId,
+            @Valid @ModelAttribute("winner") IdForm winnerForm) {
+        gameService.updateResult(gameId, winnerForm.getId());
+        return "redirect:/support/updateResults/" + roundId;
+    }
+
+    static class IdForm {
+        private Long id;
+
+        IdForm() {
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
     }
 
 }
