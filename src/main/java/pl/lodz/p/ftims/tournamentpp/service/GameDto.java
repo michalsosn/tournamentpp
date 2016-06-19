@@ -29,6 +29,9 @@ public class GameDto {
     }
 
     public void setWinner(CompetitorRoleEntity winner) {
-        this.winner = new CompetitorDto(winner.getId(), winner.getAccount().getName());
+        if (winner != null) {
+            this.winner = new CompetitorDto(winner.getId(),
+                    winner.getAccount().getName());
+        }
     }
 }

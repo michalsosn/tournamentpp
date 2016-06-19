@@ -22,7 +22,7 @@ public class EliminationFormat {
         for (int i = 0; i < competitorsInRounds.size() / 2; ++i) {
             final CompetitorRoleEntity first = competitorsInRounds.get(2 * i);
             final CompetitorRoleEntity second = competitorsInRounds.get(2 * i + 1);
-            GameEntity game = new GameEntity(roundEntity);
+            GameEntity game = new GameEntity();
             game.getCompetitors().add(first);
             game.getCompetitors().add(second);
             roundEntity.getGames().add(game);

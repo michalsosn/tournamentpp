@@ -30,7 +30,7 @@ public enum Role {
     ) {
         Map<Role, RoleEntity> returnMap = new HashMap<>(values().length);
         for (Role role : values()) {
-            boolean active = roles.contains(role);
+            boolean active = roles != null && roles.contains(role);
             RoleEntity roleEntity = role.getConstructor().apply(active, accountEntity);
             returnMap.put(role, roleEntity);
         }

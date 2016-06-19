@@ -30,13 +30,15 @@
 
             var message = [[${tournamentId}]];
             console.log(message);
-            var message2 = [[${type}]];
-            console.log(message2);
+            var tournament_type = [[${type}]];
+            console.log(tournament_type);
             var roundsJson = [[${rounds}]];
             var tournamentRounds = []
             var roundsNames = [];
+            console.log(roundsJson);
+            console.log("Ludziów "+[[${competitorsCount}]])
 
-            if([[${tournament-type}]] === "Single"){
+            if(tournament_type == 'Single elimination'){
                 $("main").append($('<div></div>').addClass("brackets"));
                 $.each(roundsJson, function (roundKey, roundValue) {
                     roundTab = [];
@@ -47,23 +49,26 @@
                             game["player" + competitorValue.id] = {
                                 name: competitorValue.name,
                                 ID: competitorValue.id,
-                                winner: competitorValue.id === gameValue.winner.id ? true : false
+                                winner: gameValue.winner === null ? false : (competitorValue.id === gameValue.winner.id ? true : false)
                             };
                         });
                         roundTab.push(game);
                     });
                     tournamentRounds.push(roundTab);
                 });
-                //Trzeba pobrać ostatniego zawodnika, jeśli była tam para
-                lastWinner = {};
-
-                $.each(tournamentRounds[tournamentRounds.length-1][0], function(playerKey, playerValue){
-                    if(playerValue.winner === true){
-                        lastWinner = playerValue;
+//                tournamentRounds.push([])
+//                tournamentRounds.push([])
+//                tournamentRounds.push([])
+                //Gdyby było wygenerowanych mniej rund niż ma być
+                //trzeba dodać do ostaniej puste wartości
+                competitors = [[${competitorsCount}]]
+                startingLength = tournamentRounds.length;
+                if (tournamentRounds.length != competitors/2){
+                    for(i = 0; i <= competitors/2- startingLength; i++){
+                        tournamentRounds.push([])
                     }
-                });
-                tournamentRounds.push([{winner: lastWinner}]);
-
+                }
+                console.log(tournamentRounds)
                 $(".brackets").brackets({
                     titles: roundsNames,
                     rounds: tournamentRounds,
@@ -91,7 +96,7 @@
                             game["player" + competitorValue.id] = {
                                 name: competitorValue.name,
                                 ID: competitorValue.id,
-                                winner: competitorValue.id === gameValue.winner.id ? true : false
+                                winner: gameValue.winner === null ? false : (competitorValue.id === gameValue.winner.id ? true : false)
                             };
 
                             if(game["player" + competitorValue.id].winner === true){
@@ -106,10 +111,17 @@
                     });
                     tournamentRounds.push(roundTab);
                     tournamentRounds.push(secondRound);
-
-                    $("main").append($('<div></div>').addClass("brackets"+roundValue.round).addClass("col-xs-4"));
-
-                    $(".brackets"+roundValue.round).brackets({
+                    console.log("rysuję double i robina")
+                    console.log(tournamentRounds)
+                    $("main").append($('<div></div>').addClass("brackets").addClass("col-xs-4"));
+                    competitors = [[${competitorsCount}]]
+                    startingLength = tournamentRounds.length;
+                    if (tournamentRounds.length != competitors/2){
+                        for(i = 0; i <= competitors/2- startingLength; i++){
+                            tournamentRounds.push([])
+                        }
+                    }
+                    $(".brackets").brackets({
                         titles: roundsNames,
                         rounds: tournamentRounds,
                         color_title: 'black',
@@ -131,7 +143,7 @@
         /*]]>*/
     </script>
 
-    <title>Single elimination</title>
+    <title>[[${type}]]</title>
 </head>
 <body>
 
@@ -140,9 +152,8 @@
     <main>
         <!--/*@thymesVar id="tournamentId" type=""*/-->
         <div  class = "hidden" th:class="${tournamentId}"></div>
-        <div class = "hidden tournament-type"></div>
+        <div class = "hidden type"></div>
         <h1 class="well">Tournament name</h1>
-
     </main>
 </div>
 </body>

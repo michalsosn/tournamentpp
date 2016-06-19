@@ -10,15 +10,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.lodz.p.ftims.tournamentpp.entities.GameEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.OrganizerRoleEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.RoundEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.TournamentEntity;
+import pl.lodz.p.ftims.tournamentpp.repository.GameRepository;
 import pl.lodz.p.ftims.tournamentpp.repository.OrganizerRoleRepository;
 import pl.lodz.p.ftims.tournamentpp.repository.RoundRepository;
 import pl.lodz.p.ftims.tournamentpp.repository.TournamentRepository;
 import pl.lodz.p.ftims.tournamentpp.trees.TournamentFormat;
 
 import java.security.SecureRandom;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -90,10 +93,16 @@ public class TournamentService {
     }
 
     @Autowired
+    private GameRepository gameRepository;
+
+    @Autowired
     private OrganizerRoleRepository organizerRoleRepository;
 
     @Autowired
     private RoundRepository roundRepository;
+
+//    @Autowired
+//    private CompetitorRoleRepository competitorRoleRepository;
 
     private final Random random = new SecureRandom();
 
@@ -105,9 +114,15 @@ public class TournamentService {
         return tournamentRepository.findAll(pageRequest);
     }
 
+
     @Transactional(readOnly = true)
     public Iterable<TournamentEntity> listAllTournaments() {
         return tournamentRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public Iterable<TournamentEntity> listLastMonthTournaments() {
+        return tournamentRepository.getTournamentFromLastMonth();
     }
 
     @Transactional(readOnly = true)
@@ -143,8 +158,18 @@ public class TournamentService {
                         "Formatter for format "
                                 + tournamentEntity.getFormat().name()
                                 + " not accessible"));
-        RoundEntity roundEntity =
+        RoundEntity roundEntityWithGames =
                 tournamentFormatter.prepareRound(tournamentEntity, random);
+        RoundEntity roundEntity = new RoundEntity();
+        roundEntity.setTournament(tournamentEntity);
+        roundEntity.setStartTime(LocalDateTime.now());
+        roundEntity.setEndTime(LocalDateTime.now().plusHours(3));
+        roundEntity = roundRepository.save(roundEntity);
+        for (GameEntity g : roundEntityWithGames.getGames()) {
+            g.setRound(roundEntity);
+            gameRepository.save(g);
+            roundEntity.getGames().add(g);
+        }
         roundEntity = roundRepository.save(roundEntity);
         tournamentEntity.getRounds().add(roundEntity);
         tournamentRepository.save(tournamentEntity);

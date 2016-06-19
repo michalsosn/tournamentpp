@@ -24,6 +24,7 @@ public final class TournamentGenerator {
         return env -> {
             final TournamentEntity tournament = new TournamentEntity();
 
+            tournament.setName(makeShortString().apply(env));
             tournament.setLocation(makeShortString().apply(env));
             tournament.setDescription(makeLongString().apply(env));
             tournament.setStartTime(makeFutureTime(14).apply(env));

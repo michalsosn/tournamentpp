@@ -117,10 +117,12 @@ public class DoubleEliminationFormat extends EliminationFormat implements Tourna
             GameEntity game = new GameEntity();
             game.setWinner(competitorsForThisRound.get(0));
             game.getCompetitors().add(competitorsForThisRound.get(0));
+//            super.getGameRepository().save(game);
             roundEntity.getGames().add(game);
             game = new GameEntity();
             game.getCompetitors().add(competitorsForThisRound.get(1));
             game.getCompetitors().add(competitorsForThisRound.get(2));
+//            super.getGameRepository().save(game);
             roundEntity.getGames().add(game);
             return roundEntity;
 

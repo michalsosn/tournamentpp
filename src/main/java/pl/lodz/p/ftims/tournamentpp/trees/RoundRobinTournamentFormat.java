@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 @Component
 public class RoundRobinTournamentFormat implements TournamentFormat {
 
+
     @Override
     public RoundEntity prepareRound(TournamentEntity tournament, Random random) {
         if (CollectionUtils.isEmpty(tournament.getRounds())) {
@@ -58,7 +59,6 @@ public class RoundRobinTournamentFormat implements TournamentFormat {
                                         !filteredCompetitors.contains(competitor))
                                 .forEach(secondCompetitor -> {
                                     GameEntity game = new GameEntity();
-                                    game.setRound(round);
                                     game.getCompetitors().add(firstCompetitor);
                                     game.getCompetitors().add(secondCompetitor);
                                     round.getGames().add(game);
