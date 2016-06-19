@@ -59,7 +59,7 @@
 				<div class="form-group"
 					th:class="${#fields.hasErrors('startTime')}? has-error">
 					<label for="startTime">Date</label> <input type="datetime-local"	
-						th:field="*{startTime}"
+						th:field="*{startTime}" placeholder="dd-MM-yyyy HH:mm:ss"
 						id="startTime" class="form-control"
 						 /> <span class="help-block"
 						th:each="err : ${#fields.errors('startTime')}" th:text="${err}" />

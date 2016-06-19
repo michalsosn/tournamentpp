@@ -83,6 +83,7 @@ public class TournamentService {
         TournamentDto tournamentDto = new TournamentDto();
         TournamentEntity tournamentEntity = tournamentRepository.findOne(id);
 
+        tournamentDto.setName(tournamentEntity.getName());
         tournamentDto.setDescription(tournamentEntity.getDescription());
         tournamentDto.setFormat(tournamentEntity.getFormat());
         tournamentDto.setLocation(tournamentEntity.getLocation());

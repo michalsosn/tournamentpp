@@ -51,8 +51,8 @@ public class TournamentController {
     @RequestMapping(path = "/organizer/updateTournament/{tournamentId}",
             method = RequestMethod.GET)
     public String updateTournament(Model model, @PathVariable long tournamentId) {
-        //TournamentDto tournamentDto = tournamentService.getTournamentDto(tournamentId);
-        TournamentEntity tournament = tournamentService.findTournament(tournamentId);
+        TournamentDto tournament = tournamentService.getTournamentDto(tournamentId);
+        //TournamentEntity tournament = tournamentService.findTournament(tournamentId);
 
         model.addAttribute("tournament", tournament);
         model.addAttribute("tournamentId", tournamentId);
