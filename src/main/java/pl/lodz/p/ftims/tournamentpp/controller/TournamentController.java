@@ -80,24 +80,6 @@ public class TournamentController {
         return "redirect:/tournament/tournament/{tournamentId}";
     }
 
-    @RequestMapping(path = "/organizer/createTournament", method = RequestMethod.GET)
-    public String createTournament(Model model) {
-        model.addAttribute("tournament", new TournamentDto());
-        return "/organizer/createTournament";
-    }
-
-    @RequestMapping(path = "/organizer/createTournament", method = RequestMethod.POST)
-    public String createTournament(
-            @Valid @ModelAttribute("tournament") TournamentDto tournament,
-            BindingResult bindingResult,
-            Principal principal) {
-        if (bindingResult.hasErrors()) {
-            return "/organizer/createTournament";
-        }
-        tournamentService.createTournament(tournament, principal.getName());
-        return "redirect:/organizer/createTournament";
-    }
-
     @RequestMapping(path = {"/", "/tournament/tournaments"}, method = RequestMethod.GET)
     public String listTournaments(
             @RequestParam(name = "page", defaultValue = "0") Integer page,
