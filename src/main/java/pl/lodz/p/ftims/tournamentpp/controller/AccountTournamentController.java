@@ -3,6 +3,7 @@ package pl.lodz.p.ftims.tournamentpp.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -80,6 +81,28 @@ public class AccountTournamentController {
              }
          }
          return userTournaments;
+    }
+
+    @RequestMapping(path = "/organizer/addPlayer/{tournamentId}",
+            method = RequestMethod.GET)
+    public String addPlayer(Model model, @PathVariable long tournamentId) {
+
+        List<AccountEntity> players = accountService.listPlayers(tournamentId);
+
+        model.addAttribute("players", players);
+        model.addAttribute("tournamentId", tournamentId);
+
+        return "tournament/addPlayer";
+    }
+
+    @RequestMapping(path = "/organizer/addPlayer/{tournamentId}/{playerID}",
+            method = RequestMethod.GET)
+    public String addPlayer(Model model, @PathVariable long tournamentId,
+            @PathVariable long playerID) {
+
+        tournamentService.addPlayer(tournamentId, playerID);
+
+        return "redirect:/organizer/addPlayer/{tournamentId}";
     }
 
 }

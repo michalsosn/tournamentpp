@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.ftims.tournamentpp.entities.*;
+import pl.lodz.p.ftims.tournamentpp.repository.AccountRepository;
 import pl.lodz.p.ftims.tournamentpp.repository.GameRepository;
 import pl.lodz.p.ftims.tournamentpp.repository.OrganizerRoleRepository;
 import pl.lodz.p.ftims.tournamentpp.repository.RoundRepository;
@@ -112,7 +113,6 @@ public class TournamentService {
         return tournamentRepository.findAll(pageRequest);
     }
 
-
     @Transactional(readOnly = true)
     public Iterable<TournamentEntity> listAllTournaments() {
         return tournamentRepository.findAll();
@@ -210,6 +210,19 @@ public class TournamentService {
         public List<GameCompetitorResult> getGames() {
             return games;
         }
+    }
+
+    @Autowired
+    private AccountRepository accountRepository;
+
+    public void addPlayer(long tournamentId, long playerID) {
+        TournamentEntity tournamentEntity = tournamentRepository.findOne(tournamentId);
+        List<CompetitorRoleEntity> list = tournamentEntity.getCompetitors();
+
+        AccountEntity accountEntity = accountRepository.findOne(playerID);
+        list.add((CompetitorRoleEntity) accountEntity.getRoles()
+                .get(Role.ROLE_COMPETITOR));
+
     }
 
 }
