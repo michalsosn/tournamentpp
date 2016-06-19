@@ -80,4 +80,8 @@ public class RoundEntity {
     public List<GameEntity> getGames() {
         return games;
     }
+
+    public boolean isFinished() {
+        return games.stream().allMatch(gameEntity -> gameEntity.getWinner() != null);
+    }
 }

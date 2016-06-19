@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.ftims.tournamentpp.entities.AccountEntity;
 import pl.lodz.p.ftims.tournamentpp.repository.AccountRepository;
+import pl.lodz.p.ftims.tournamentpp.service.dto.AccountDto;
+import pl.lodz.p.ftims.tournamentpp.service.dto.ProfileDto;
 
 import java.util.Optional;
 
@@ -29,6 +31,10 @@ public class AccountService {
 
     public AccountEntity findAccount() {
         return findLoggedUser().get();
+    }
+
+    public AccountEntity findAccountByUsername(String username) {
+        return accountRepository.findByUsername(username).get();
     }
 
     public void createAccount(AccountDto account) {

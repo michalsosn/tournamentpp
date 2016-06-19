@@ -33,7 +33,7 @@ public class TournamentPpApplication {
         return new SpringSecurityDialect();
     }
 
-    @Bean
+//    @Bean
     public CommandLineRunner demo(AccountRepository accountRepository,
                                   TournamentRepository tournamentRepository,
                                   GameRepository gameRepository,

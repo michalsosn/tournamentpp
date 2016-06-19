@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,8 +10,13 @@
         th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
   <link href="../../static/css/navbar.css"
         th:href="@{/css/navbar.css}" rel="stylesheet">
+  <link href="../../static/css/buttons.css"
+        th:href="@{/css/buttons.css}" rel="stylesheet">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"
         rel="stylesheet">
+  <script src="../../static/js/jquery-1.12.3.min.js"
+          th:src="@{/js/jquery-1.12.3.min.js}">
+  </script>
   <script src="../../static/js/bootstrap.min.js"
           th:src="@{/js/bootstrap.min.js}">
   </script>
@@ -69,7 +76,7 @@
             <span class="fa fa-bookmark" aria-hidden="true"></span>
             <label>Format:</label>
           </div>
-          <div th:text="*{format}" id="format" class="col-md-4">Some format
+          <div th:text="*{format.niceName}" id="format" class="col-md-4">Some format
           </div>
         </div>
         <div class="row">
@@ -83,15 +90,59 @@
         </div>
         <hr/>
         <div class="row">
-          <div class="col-md-3">
-            <form action="#" th:action="@{/tournament/tournament/} + ${tournament.id} + @{/round}" class="form" th:method="post">
-              <input class="btn btn-success" type="submit" value="Add new round"/>
-            </form>
-            <form action="#" th:action="@{/organizer/deleteTournament/} + ${tournament.id}" class="form" th:method="post">
-              <input class="btn btn-success" type="submit" value="Delete tournament"/>
-            </form>
-            <a  class="btn btn-primary btn-block" href="/tournament/updateTournament.html"
-                    th:href="@{/organizer/updateTournament/{id}(id=${tournament.id})}">Update Tournament</a>
+          <div class="col-md-12">
+            <a href="#" data-toggle="collapse" data-target="#rounds-popup"><span class="caret"></span> Rounds</a>
+            <div id="rounds-popup" class="collapse">
+              <table class="table">
+                <thead>
+                  <th>Round</th>
+                  <th>Start time</th>
+                  <th>End time</th>
+                  <th>Games</th>
+                  <th>Actions</th>
+                </thead>
+                <tbody>
+                  <tr th:each="round,iterStat : ${tournament.rounds}">
+                    <td th:text="${iterStat.index + 1}">1</td>
+                    <td th:text="${#temporals.format(round.startTime, 'dd.MM.yyyy HH:mm')}">2000-01-01 00:00</td>
+                    <td th:text="${#temporals.format(round.endTime, 'dd.MM.yyyy HH:mm')}">2000-01-01 03:00</td>
+                    <td th:text="${round.games.size()}">1</td>
+                    <td class="side-by-side">
+                      <a class="btn btn-link" href="#"
+                         th:href="@{/tournament/tournament/{tournamentId}/round/{roundId}
+                                  (tournamentId=${tournament.id},roundId=${round.id})}">
+                        See round
+                      </a>
+                      <a class="btn btn-link" href="../support/updateResults.html"
+                         th:href="@{/support/updateResults/{roundId}(roundId=${round.id})}"
+                         sec:authorize-url="/support">
+                        Update results
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <hr/>
+        <div class="row" sec:authorize-url="/support">
+          <div class="col-md-12">
+            <a href="#" data-toggle="collapse" data-target="#form-popup"><span class="caret"></span> New round</a>
+            <div id="form-popup" class="collapse">
+              <form class="form" action="#"
+                    th:action="@{/support/tournament/{tournamentId}/round(tournamentId=${tournament.id})}"
+                    th:method="post" th:object="${roundParams}">
+                <div class="input-group">
+                  <label for="endDate">Round end</label>
+                  <input id ="endDate" type="datetime-local" class="form-control"
+                         placeholder="yyyy-MM-ddTHH:mm:ss" th:field="*{endDate}" th:value="*{endDate}"/>
+                </div>
+                <div class="input-group">
+                  <input class="btn btn-success" type="submit" value="Add new round"/>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>

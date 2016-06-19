@@ -20,6 +20,9 @@
   <script src="../static/js/brackets.js"
           th:src="@{/js/brackets.js}">
   </script>
+  <script src="../static/js/moment.min.js"
+          th:src="@{/js/moment.min.js}">
+  </script>
 <!--   <script src="../static/js/roundRobinExample.js"
           th:src="@{/js/roundRobinExample.js}">
   </script> -->
@@ -151,6 +154,20 @@
         }); 
         /* ]]> */
     </script>
+  <script th:inline="javascript">
+    $(document).ready(function(){
+	  /*<![CDATA[*/
+      var roundEnd = /*[[${roundEnd}]]*/ '01-01-2000';
+      var timer = $('#timer'),
+          date = moment(new Date(roundEnd)),
+          update = function () {
+            timer.html(moment(date.diff(moment())).format('HH:mm:ss'));
+          };
+      update();
+      setInterval(update, 1000);
+      /* ]]> */
+    });
+  </script>
   <title>Round Score</title>
 </head>
 <body>
@@ -159,17 +176,23 @@
   <article>
     <div class="panel panel-primary">
       <div class="panel-heading">
-        <h2 class="panel-title" th:text="${tournamentName}"></h2>
+        <h2 class="panel-title" th:text="${tournament.name}">Tournament name</h2>
       </div>
 <!--       <div class="panel-body" th:object="${tournamentName}" >
             <h1 class="well" th:text="${tournamentFormat}"></h1>
             <div class="brackets"></div>
       </div> -->
       <div class="panel-body" th:object="${games}" >
+        <div class="row">
+          <div class="text-right">
+            <p>End time</p>
+            <p id="timer">02:00</p>
+          </div>
+        </div>
       	<div class="row">
       		<!-- <div class="col-md-1"></div> -->
-      		<div class="col-md-2">Format turnieju:</div>
-      		<label class="col-md-4" th:text="${tournamentFormat}"></label>
+      		<div class="col-md-2">Tournament format:</div>
+      		<label class="col-md-4" th:text="${tournament.format}"></label>
       	</div>
       	<div class="row">
       		<div class="col-md-12"></div>

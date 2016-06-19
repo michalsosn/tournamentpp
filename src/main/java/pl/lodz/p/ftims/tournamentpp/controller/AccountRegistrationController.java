@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import pl.lodz.p.ftims.tournamentpp.entities.Role;
-import pl.lodz.p.ftims.tournamentpp.service.AccountDto;
+import pl.lodz.p.ftims.tournamentpp.service.dto.AccountDto;
 import pl.lodz.p.ftims.tournamentpp.service.AccountService;
 
 import javax.validation.Valid;
@@ -31,13 +31,13 @@ public class AccountRegistrationController {
 
     @RequestMapping(path = "/signin", method = RequestMethod.GET)
     public String signInAccount() {
-        return "signin";
+        return "/signin";
     }
 
     @RequestMapping(path = "/register", method = RequestMethod.GET)
     public String registerAccount(Model model) {
         model.addAttribute("account", new AccountDto());
-        return "register";
+        return "/register";
     }
 
     @RequestMapping(path = "/register", method = RequestMethod.POST)
@@ -46,7 +46,7 @@ public class AccountRegistrationController {
             BindingResult bindingResult
     ) {
         if (bindingResult.hasErrors()) {
-            return "register";
+            return "/register";
         }
         accountService.createAccount(account);
         return "redirect:/register";

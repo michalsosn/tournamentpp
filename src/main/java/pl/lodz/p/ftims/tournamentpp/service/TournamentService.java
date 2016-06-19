@@ -10,21 +10,21 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.lodz.p.ftims.tournamentpp.entities.GameEntity;
-import pl.lodz.p.ftims.tournamentpp.entities.OrganizerRoleEntity;
-import pl.lodz.p.ftims.tournamentpp.entities.RoundEntity;
-import pl.lodz.p.ftims.tournamentpp.entities.TournamentEntity;
+import pl.lodz.p.ftims.tournamentpp.entities.*;
 import pl.lodz.p.ftims.tournamentpp.repository.GameRepository;
 import pl.lodz.p.ftims.tournamentpp.repository.OrganizerRoleRepository;
 import pl.lodz.p.ftims.tournamentpp.repository.RoundRepository;
 import pl.lodz.p.ftims.tournamentpp.repository.TournamentRepository;
+import pl.lodz.p.ftims.tournamentpp.service.dto.TournamentDto;
 import pl.lodz.p.ftims.tournamentpp.trees.TournamentFormat;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  * @author Michał Sośnicki
@@ -37,12 +37,12 @@ public class TournamentService {
 
     private static final int PAGE_SIZE = 10;
 
+    private final List<TournamentFormat> tournamentFormats;
+
     @Autowired
     public TournamentService(List<TournamentFormat> tournamentFormats) {
         this.tournamentFormats = tournamentFormats;
     }
-
-    private final List<TournamentFormat> tournamentFormats;
 
     @Autowired
     private TournamentRepository tournamentRepository;
@@ -101,9 +101,6 @@ public class TournamentService {
     @Autowired
     private RoundRepository roundRepository;
 
-//    @Autowired
-//    private CompetitorRoleRepository competitorRoleRepository;
-
     private final Random random = new SecureRandom();
 
     @Transactional(readOnly = true)
@@ -143,7 +140,7 @@ public class TournamentService {
         log.info("Tournament {} created", tournamentEntity.getId());
     }
 
-    public void generateRound(long tournamentId) {
+    public void generateRound(long tournamentId, LocalDateTime endDate) {
         TournamentEntity tournamentEntity = Optional
                 .ofNullable(tournamentRepository.findOne(tournamentId))
                 .orElseThrow(() ->
@@ -163,7 +160,7 @@ public class TournamentService {
         RoundEntity roundEntity = new RoundEntity();
         roundEntity.setTournament(tournamentEntity);
         roundEntity.setStartTime(LocalDateTime.now());
-        roundEntity.setEndTime(LocalDateTime.now().plusHours(3));
+        roundEntity.setEndTime(endDate);
         roundEntity = roundRepository.save(roundEntity);
         for (GameEntity g : roundEntityWithGames.getGames()) {
             g.setRound(roundEntity);
@@ -173,6 +170,45 @@ public class TournamentService {
         roundEntity = roundRepository.save(roundEntity);
         tournamentEntity.getRounds().add(roundEntity);
         tournamentRepository.save(tournamentEntity);
+    }
+
+    public RoundScoreResult findRoundScore(long tournamentId, long roundId) {
+        final TournamentEntity tournament
+                = tournamentRepository.findOne(tournamentId);
+        final Optional<RoundEntity> round = roundRepository.findById(roundId);
+
+        List<GameCompetitorResult> games = round
+                .map(roundEntity -> roundEntity.getGames().stream()
+                        .map(GameCompetitorResult::new)
+                        .collect(Collectors.toList()))
+                .orElseGet(Collections::emptyList);
+
+        return new RoundScoreResult(tournament, round.orElse(null), games);
+    }
+
+    public class RoundScoreResult {
+        private final TournamentEntity tournament;
+        private final RoundEntity round;
+        private final List<GameCompetitorResult> games;
+
+        public RoundScoreResult(TournamentEntity tournament, RoundEntity round,
+                                List<GameCompetitorResult> games) {
+            this.tournament = tournament;
+            this.round = round;
+            this.games = games;
+        }
+
+        public TournamentEntity getTournament() {
+            return tournament;
+        }
+
+        public RoundEntity getRound() {
+            return round;
+        }
+
+        public List<GameCompetitorResult> getGames() {
+            return games;
+        }
     }
 
 }
