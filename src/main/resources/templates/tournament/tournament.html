@@ -85,14 +85,28 @@
             <span class="fa fa-pencil" aria-hidden="true"></span>
             <label>Description:</label>
           </div>
+          <div th:text="*{description}" id="description" class="col-md-4">Some description
+          </div>
           
-          <div>
+          <div class="row">
+          </div>
+          <div class="row">
           <a  class="btn btn-primary btn-block" href="/tournament/updateTournament.html"
                     th:href="@{/organizer/updateTournament/{id}(id=${tournament.id})}">Update Tournament</a>
           </div>
-          	
-          <div th:text="*{description}" id="description" class="col-md-4">Some description
+          <div class="row">
+          <a  class="btn btn-primary btn-block" href="/tournament/tournaments.html"
+                    th:href="@{/organizer/deleteTournament/{id}(id=${tournament.id})}">Delete Tournament</a>
           </div>
+          <div class="row">
+          <a  class="btn btn-primary btn-block" href="/tournament/updateTournament.html"
+                    th:href="@{/organizer/updateTournament/{id}(id=${tournament.id})}">Add Player</a>
+          </div>
+          <div class="row">
+          <a  class="btn btn-primary btn-block" href="/tournament/updateTournament.html"
+                    th:href="@{/organizer/updateTournament/{id}(id=${tournament.id})}">Delete Player</a>
+          </div>
+          
         </div>
         <hr/>
         <div class="row">

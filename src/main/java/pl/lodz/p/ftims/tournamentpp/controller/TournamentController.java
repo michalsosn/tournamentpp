@@ -36,7 +36,7 @@ public class TournamentController {
     }
 
     @RequestMapping(path = "/organizer/deleteTournament/{tournamentId}",
-            method = RequestMethod.POST)
+            method = RequestMethod.GET)
     public String deleteTournament(@PathVariable long tournamentId) {
 
         tournamentService.deleteTournament(tournamentId);
@@ -45,7 +45,7 @@ public class TournamentController {
          * TODO
          * na co przekierowywac
          */
-        return "redirect:/organizer/createTournament";
+        return "redirect:/tournament/tournaments";
     }
 
     @RequestMapping(path = "/organizer/updateTournament/{tournamentId}",
