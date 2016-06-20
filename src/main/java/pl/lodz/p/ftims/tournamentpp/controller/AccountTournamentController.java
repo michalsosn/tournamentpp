@@ -85,7 +85,7 @@ public class AccountTournamentController {
             method = RequestMethod.GET)
     public String addPlayer(Model model, @PathVariable long tournamentId) {
 
-        List<AccountEntity> players = accountService.listPlayers(tournamentId);
+        List<AccountEntity> players = accountService.listPlayersToAdd(tournamentId);
 
         model.addAttribute("players", players);
         model.addAttribute("tournamentId", tournamentId);
@@ -101,6 +101,28 @@ public class AccountTournamentController {
         tournamentService.addPlayer(tournamentId, playerID);
 
         return "redirect:/organizer/addPlayer/{tournamentId}";
+    }
+
+    @RequestMapping(path = "/organizer/deletePlayer/{tournamentId}",
+            method = RequestMethod.GET)
+    public String deletePlayer(Model model, @PathVariable long tournamentId) {
+
+        List<AccountEntity> players = accountService.listPlayersToDelete(tournamentId);
+
+        model.addAttribute("players", players);
+        model.addAttribute("tournamentId", tournamentId);
+
+        return "tournament/deletePlayer";
+    }
+
+    @RequestMapping(path = "/organizer/deletePlayer/{tournamentId}/{playerID}",
+            method = RequestMethod.GET)
+    public String deletePlayer(Model model, @PathVariable long tournamentId,
+            @PathVariable long playerID) {
+
+        tournamentService.deletePlayer(tournamentId, playerID);
+
+        return "redirect:/organizer/deletePlayer/{tournamentId}";
     }
 
 }

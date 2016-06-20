@@ -225,4 +225,14 @@ public class TournamentService {
 
     }
 
+    public void deletePlayer(long tournamentId, long playerID) {
+        TournamentEntity tournamentEntity = tournamentRepository.findOne(tournamentId);
+        List<CompetitorRoleEntity> list = tournamentEntity.getCompetitors();
+
+        AccountEntity accountEntity = accountRepository.findOne(playerID);
+        list.remove((CompetitorRoleEntity) accountEntity.getRoles()
+                .get(Role.ROLE_COMPETITOR));
+
+    }
+
 }

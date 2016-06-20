@@ -92,7 +92,7 @@ public class AccountService {
     }
 
     @Transactional(readOnly = true)
-    public List<AccountEntity> listPlayers(long tournamentId) {
+    public List<AccountEntity> listPlayersToAdd(long tournamentId) {
 
         // wszystkie
         Iterable<AccountEntity> accounts = accountRepository.findAll();
@@ -126,6 +126,21 @@ public class AccountService {
         }
 
         return competitors;
+    }
+
+    @Transactional(readOnly = true)
+    public List<AccountEntity> listPlayersToDelete(long tournamentId) {
+
+        // tylko z danego tournamentu
+        List<CompetitorRoleEntity> competitorRole =
+                tournamentRepository.findOne(tournamentId).getCompetitors();
+
+        List<AccountEntity> players = new ArrayList<AccountEntity>();
+        for (CompetitorRoleEntity cr : competitorRole) {
+            players.add(cr.getAccount());
+        }
+
+        return players;
     }
 
 }

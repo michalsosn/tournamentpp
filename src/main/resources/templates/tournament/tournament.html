@@ -90,21 +90,21 @@
           
           <div class="row">
           </div>
-          <div class="row">
+          <div class="row col-md-3">
           <a  class="btn btn-primary btn-block" href="/tournament/updateTournament.html"
                     th:href="@{/organizer/updateTournament/{id}(id=${tournament.id})}">Update Tournament</a>
           </div>
-          <div class="row">
+          <div class="row col-md-3">
           <a  class="btn btn-primary btn-block" href="/tournament/tournaments.html"
                     th:href="@{/organizer/deleteTournament/{id}(id=${tournament.id})}">Delete Tournament</a>
           </div>
-          <div class="row">
+          <div class="row col-md-3">
           <a  class="btn btn-primary btn-block" href="/tournament/addPlayer.html"
                     th:href="@{/organizer/addPlayer/{id}(id=${tournament.id})}">Add Player</a>
           </div>
-          <div class="row">
-          <a  class="btn btn-primary btn-block" href="/tournament/updateTournament.html"
-                    th:href="@{/organizer/updateTournament/{id}(id=${tournament.id})}">Delete Player</a>
+          <div class="row col-md-3">
+          <a  class="btn btn-primary btn-block" href="/tournament/deleteTournament.html"
+                    th:href="@{/organizer/deletePlayer/{id}(id=${tournament.id})}">Delete Player</a>
           </div>
           
         </div>
