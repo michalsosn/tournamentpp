@@ -187,7 +187,7 @@ public class TournamentService {
         return new RoundScoreResult(tournament, round.orElse(null), games);
     }
 
-    public class RoundScoreResult {
+    public static class RoundScoreResult {
         private final TournamentEntity tournament;
         private final RoundEntity round;
         private final List<GameCompetitorResult> games;

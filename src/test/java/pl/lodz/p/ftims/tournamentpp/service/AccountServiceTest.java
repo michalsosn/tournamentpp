@@ -70,7 +70,7 @@ public class AccountServiceTest extends AbstractTransactionalJUnit4SpringContext
                 = accountRepository.findByUsername(accountDto.getUsername());
         assertThat(account).isPresent();
         assertThat(accountDto).isEqualToIgnoringGivenFields(
-                account.get(), "password", "roles"
+                account.get(), "password", "roles", "__cobertura_counters"
         );
     }
 
@@ -175,7 +175,7 @@ public class AccountServiceTest extends AbstractTransactionalJUnit4SpringContext
 
         // then
         assertThat(accountDto).isEqualToIgnoringGivenFields(
-                account, "password", "roles"
+                account, "password", "roles", "__cobertura_counters"
         );
     }
 
@@ -193,7 +193,7 @@ public class AccountServiceTest extends AbstractTransactionalJUnit4SpringContext
         // then
         final AccountEntity account = accountService.findAccount();
         assertThat(profileDto).isEqualToIgnoringGivenFields(
-                account, "password"
+                account, "password", "__cobertura_counters"
         );
         assertThat(passwordEncoder.matches(
                 profileDto.getPassword(), account.getPassword()
@@ -214,7 +214,7 @@ public class AccountServiceTest extends AbstractTransactionalJUnit4SpringContext
         // then
         final AccountEntity account = accountService.findAccount();
         assertThat(profileDto).isEqualToIgnoringGivenFields(
-                account, "password"
+                account, "password", "__cobertura_counters"
         );
         assertThat(passwordEncoder.matches(
                 accountDto.getPassword(), account.getPassword()

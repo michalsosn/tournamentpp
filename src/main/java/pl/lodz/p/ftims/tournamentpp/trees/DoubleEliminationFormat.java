@@ -48,8 +48,8 @@ public class DoubleEliminationFormat extends EliminationFormat implements Tourna
             CompetitorRoleEntity lastWinner = lastGames.get(i).getWinner();
             lastWinners.add(lastWinner);
             for (CompetitorRoleEntity competitor : lastGames.get(i).getCompetitors()) {
-                if (competitor.getAccount().getUsername()
-                        != lastWinner.getAccount().getUsername()) {
+                if (!competitor.getAccount().getUsername()
+                        .equals(lastWinner.getAccount().getUsername())) {
                     lastLosers.add(competitor);
                     break;
                 }

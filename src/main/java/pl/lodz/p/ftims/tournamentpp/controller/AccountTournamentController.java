@@ -26,10 +26,8 @@ public class AccountTournamentController {
 
     @RequestMapping(path = "/account/playerTournaments", method = RequestMethod.GET)
     public String showUserTournaments(@RequestParam(name = "page", defaultValue = "0")
-        Integer page, Model model) {
+                                      Model model) {
         AccountEntity account = accountService.findAccount();
-        CompetitorRoleEntity competitorRoleEntity =
-               new CompetitorRoleEntity(true, account);
         Map<Role,RoleEntity> map = account.getRoles();
         RoleEntity role = map.get(Role.ROLE_COMPETITOR);
         final Iterable<TournamentEntity> tournaments =

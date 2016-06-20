@@ -109,8 +109,7 @@
           
         </div>
         <hr/>
-        <div class="row">
-          <div class="col-md-12">
+        <div>
             <a href="#" data-toggle="collapse" data-target="#rounds-popup"><span class="caret"></span> Rounds</a>
             <div id="rounds-popup" class="collapse">
               <table class="table">
@@ -143,27 +142,34 @@
                 </tbody>
               </table>
             </div>
-          </div>
         </div>
-        <hr/>
-        <div class="row" sec:authorize-url="/support">
-          <div class="col-md-12">
-            <a href="#" data-toggle="collapse" data-target="#form-popup"><span class="caret"></span> New round</a>
-            <div id="form-popup" class="collapse">
-              <form class="form" action="#"
-                    th:action="@{/support/tournament/{tournamentId}/round(tournamentId=${tournament.id})}"
-                    th:method="post" th:object="${roundParams}">
-                <div class="input-group">
-                  <label for="endDate">Round end</label>
-                  <input id ="endDate" type="datetime-local" class="form-control"
-                         placeholder="yyyy-MM-ddTHH:mm:ss" th:field="*{endDate}" th:value="*{endDate}"/>
-                </div>
-                <div class="input-group">
-                  <input class="btn btn-success" type="submit" value="Add new round"/>
-                </div>
-              </form>
+        <hr sec:authorize-url="/support"/>
+        <div sec:authorize-url="/support">
+          <h3>Create round</h3>
+          <form class="form" action="#"
+                th:action="@{/support/tournament/{tournamentId}/round(tournamentId=${tournament.id})}"
+                th:method="post" th:object="${roundParams}">
+            <div class="input-group">
+              <label for="endDate">Round end</label>
+              <input id ="endDate" type="datetime-local" class="form-control"
+                     placeholder="yyyy-MM-ddTHH:mm:ss" th:field="*{endDate}" th:value="*{endDate}"/>
             </div>
-          </div>
+            <div class="input-group">
+              <input class="btn btn-success" type="submit" value="Add new round"/>
+            </div>
+          </form>
+        </div>
+        <div sec:authorize-url="/competitor">
+          <a class="btn btn-primary"
+             th:href="@{/competitor/application/{tournamentId}(tournamentId=${tournament.id})}">
+            Apply for the tournament
+          </a>
+        </div>
+        <div sec:authorize-url="/organizer">
+          <a class="btn btn-primary"
+             th:href="@{/organizer/applications/{tournamentId}(tournamentId=${tournament.id})}">
+            View competitor applications
+          </a>
         </div>
       </div>
     </div>
