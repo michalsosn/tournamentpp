@@ -1,11 +1,12 @@
 package pl.lodz.p.ftims.tournamentpp.service.dto;
 
+import java.time.LocalDateTime;
+
 import org.springframework.format.annotation.DateTimeFormat;
+
 import pl.lodz.p.ftims.tournamentpp.entities.OrganizerRoleEntity;
 import pl.lodz.p.ftims.tournamentpp.entities.TournamentEntity;
 import pl.lodz.p.ftims.tournamentpp.trees.Format;
-
-import java.time.LocalDateTime;
 
 public class TournamentDto {
 
@@ -16,6 +17,7 @@ public class TournamentDto {
     private String description;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+
     private LocalDateTime startTime;
 
     private Format format;
@@ -71,6 +73,7 @@ public class TournamentDto {
     }
 
     public void applyToEntity(TournamentEntity tournamentEntity) {
+
         tournamentEntity.setName(name);
         tournamentEntity.setLocation(location);
         tournamentEntity.setDescription(description);

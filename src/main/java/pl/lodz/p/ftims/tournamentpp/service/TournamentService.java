@@ -3,6 +3,7 @@ package pl.lodz.p.ftims.tournamentpp.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.ftims.tournamentpp.entities.*;
+import pl.lodz.p.ftims.tournamentpp.repository.AccountRepository;
 import pl.lodz.p.ftims.tournamentpp.repository.GameRepository;
 import pl.lodz.p.ftims.tournamentpp.repository.OrganizerRoleRepository;
 import pl.lodz.p.ftims.tournamentpp.repository.RoundRepository;
@@ -46,6 +48,52 @@ public class TournamentService {
     @Autowired
     private TournamentRepository tournamentRepository;
 
+    public void createTournament(TournamentDto tournament) {
+        TournamentEntity tournamentEntity = new TournamentEntity();
+        tournament.applyToEntity(tournamentEntity);
+        tournamentRepository.save(tournamentEntity);
+        log.info("Tournament {} created", tournamentEntity.getId());
+    }
+
+    public void deleteTournament(Long id) {
+        tournamentRepository.delete(id);
+        log.info("Tournament id:{} deleted", id);
+    }
+
+    public void updateTournament(TournamentDto tournament,
+            Long tournamentId, String username) {
+        TournamentEntity tournamentEntity = tournamentRepository.findOne(tournamentId);
+        tournament.applyToEntity(tournamentEntity);
+
+        final OrganizerRoleEntity organizer = organizerRoleRepository
+                .findByAccountUsername(username).orElseThrow(() ->
+                        new IllegalArgumentException(
+                                "Tournament with account username "
+                                        + username + " not accessible"));
+        tournamentEntity.setOrganizer(organizer);
+
+        tournamentRepository.save(tournamentEntity);
+        log.info("Tournament {} edited", tournamentEntity.getId());
+    }
+    public void updateTournament(TournamentEntity tournamentEntity) {
+        tournamentRepository.save(tournamentEntity);
+        log.info("Tournament {} edited", tournamentEntity.getId());
+    }
+
+    public TournamentDto getTournamentDto(Long id) {
+        TournamentDto tournamentDto = new TournamentDto();
+        TournamentEntity tournamentEntity = tournamentRepository.findOne(id);
+
+        tournamentDto.setName(tournamentEntity.getName());
+        tournamentDto.setDescription(tournamentEntity.getDescription());
+        tournamentDto.setFormat(tournamentEntity.getFormat());
+        tournamentDto.setLocation(tournamentEntity.getLocation());
+        tournamentDto.setOrganizer(tournamentEntity.getOrganizer());
+        tournamentDto.setStartTime(tournamentEntity.getStartTime());
+
+        return tournamentDto;
+    }
+
     @Autowired
     private GameRepository gameRepository;
 
@@ -64,7 +112,6 @@ public class TournamentService {
         );
         return tournamentRepository.findAll(pageRequest);
     }
-
 
     @Transactional(readOnly = true)
     public Iterable<TournamentEntity> listAllTournaments() {
@@ -163,6 +210,29 @@ public class TournamentService {
         public List<GameCompetitorResult> getGames() {
             return games;
         }
+    }
+
+    @Autowired
+    private AccountRepository accountRepository;
+
+    public void addPlayer(long tournamentId, long playerID) {
+        TournamentEntity tournamentEntity = tournamentRepository.findOne(tournamentId);
+        List<CompetitorRoleEntity> list = tournamentEntity.getCompetitors();
+
+        AccountEntity accountEntity = accountRepository.findOne(playerID);
+        list.add((CompetitorRoleEntity) accountEntity.getRoles()
+                .get(Role.ROLE_COMPETITOR));
+
+    }
+
+    public void deletePlayer(long tournamentId, long playerID) {
+        TournamentEntity tournamentEntity = tournamentRepository.findOne(tournamentId);
+        List<CompetitorRoleEntity> list = tournamentEntity.getCompetitors();
+
+        AccountEntity accountEntity = accountRepository.findOne(playerID);
+        list.remove((CompetitorRoleEntity) accountEntity.getRoles()
+                .get(Role.ROLE_COMPETITOR));
+
     }
 
 }
