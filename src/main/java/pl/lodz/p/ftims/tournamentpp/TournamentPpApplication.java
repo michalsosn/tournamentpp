@@ -3,13 +3,18 @@ package pl.lodz.p.ftims.tournamentpp;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import pl.lodz.p.ftims.tournamentpp.entities.*;
-import pl.lodz.p.ftims.tournamentpp.repository.*;
+import pl.lodz.p.ftims.tournamentpp.repository.AccountRepository;
+import pl.lodz.p.ftims.tournamentpp.repository.GameRepository;
+import pl.lodz.p.ftims.tournamentpp.repository.RoundRepository;
+import pl.lodz.p.ftims.tournamentpp.repository.TournamentRepository;
 import pl.lodz.p.ftims.tournamentpp.trees.Format;
 
 import java.time.LocalDateTime;
@@ -17,10 +22,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @SpringBootApplication
-public class TournamentPpApplication {
+public class TournamentPpApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
         SpringApplication.run(TournamentPpApplication.class, args);
+    }
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(TournamentPpApplication.class);
     }
 
     @Bean

@@ -81,11 +81,11 @@
                     <ul sec:authorize="isAuthenticated()" class="nav navbar-nav navbar-right">
                         <li>
                             <a href="#" th:href="@{/account/account}">
-                                <i class="fa fa-user"></i> <span th:text="${#authentication.name}">Profile</span>
+                                <i class="fa fa-user"></i> <span id="authentication-username" th:text="${#authentication.name}">Profile</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#" th:href="@{/logout}">
+                            <a href="#" th:href="@{/logout}" id="signout-link">
                                 <i class="fa fa-sign-out"></i> Sign out
                             </a>
                         </li>

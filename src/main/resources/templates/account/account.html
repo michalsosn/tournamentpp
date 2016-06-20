@@ -27,7 +27,7 @@
       <div class="panel-heading">
         <h3 class="panel-title">Your Account</h3>
       </div>
-      <div class="panel-body" th:object="${account}">
+      <div class="panel-body" th:object="${account}" id="account-panel">
         <div class="row">
           <div class="col-md-2"></div>
           <div class="col-md-3"></div>
@@ -38,7 +38,7 @@
           <div class="col-md-2"></div>
           <div class="col-md-3">
             <span class="fa fa-user" aria-hidden="true"></span>
-            <label>Imię i Nazwisko:</label>
+            <label>Name:</label>
           </div>
           <div th:text="*{name}" id="name" class="col-md-4">
           </div>
@@ -47,7 +47,7 @@
           <div class="col-md-2"></div>
           <div class="col-md-3">
             <span class="fa fa-calendar" aria-hidden="true"></span>
-            <label>Data urodzenia:</label>
+            <label>Birthdate:</label>
           </div>
           <div th:text="${account.birthdate != null} ? ${#temporals.format(account.birthdate, 'dd.MM.yyyy')}"
                id="birthdate" class="col-md-4">
@@ -57,7 +57,7 @@
           <div class="col-md-2"></div>
           <div class="col-md-3">
             <span class="fa fa-envelope" aria-hidden="true"></span>
-            <label>E-Mail:</label>
+            <label>Email:</label>
           </div>
           <div th:text="*{email}" id="email" class="col-md-4">
           </div>
@@ -75,7 +75,7 @@
           <div class="col-md-2"></div>
           <div class="col-md-3">
             <span class="fa fa-pencil-square-o" aria-hidden="true"></span>
-            <label>Opis: </label>
+            <label>Description: </label>
           </div>
           <div th:text="*{description}" class="col-md-4" id="description">
           </div>

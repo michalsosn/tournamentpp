@@ -22,12 +22,12 @@
 <div class="container">
   <header th:replace="fragments/header :: header"></header>
   <main>
-    <article class="panel panel-default">
+    <article id="signin-panel" class="panel panel-default">
       <header class="panel-heading panel-title">
         Sign in
       </header>
       <main class="panel-body">
-        <form th:action="@{/signin}" method="post">
+        <form th:action="@{/signin}" method="post" id="signin-form">
           <div th:if="${param.error}" class="alert alert-danger">
             Invalid username and password.
           </div>

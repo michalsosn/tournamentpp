@@ -37,7 +37,7 @@ public final class AccountGenerator {
             account.setActive(active);
 
             account.setName(maybeNull(makeShortString()).apply(env));
-            account.setEmail(maybeNull(makeShortString()).apply(env));
+            account.setEmail(maybeNull(makeEmail()).apply(env));
             account.setBirthdate(maybeNull(makePastDate(70)).apply(env));
             account.setPhone(maybeNull(makeNumeric(9)).apply(env));
             account.setDescription(maybeNull(makeLongString()).apply(env));
@@ -66,7 +66,7 @@ public final class AccountGenerator {
             accountDto.getRoles().addAll(Arrays.asList(roleTypes));
 
             accountDto.setName(maybeNull(makeShortString()).apply(env));
-            accountDto.setEmail(maybeNull(makeShortString()).apply(env));
+            accountDto.setEmail(maybeNull(makeEmail()).apply(env));
             accountDto.setBirthdate(maybeNull(makePastDate(70)).apply(env));
             accountDto.setPhone(maybeNull(makeNumeric(9)).apply(env));
             accountDto.setDescription(maybeNull(makeLongString()).apply(env));
@@ -99,6 +99,12 @@ public final class AccountGenerator {
 
     private static Generator<String> makeShortString() {
         return NumberGenerator.makeInt(4, 16).flatMap(StringGenerator::makeAlpha);
+    }
+
+    private static Generator<String> makeEmail() {
+        return makeShortString().map(email ->
+                new StringBuilder(email).insert(email.length() / 2, '@').toString()
+        );
     }
 
     private static Generator<String> makeLongString() {

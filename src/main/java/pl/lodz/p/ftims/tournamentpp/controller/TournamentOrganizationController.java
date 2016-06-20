@@ -7,8 +7,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import pl.lodz.p.ftims.tournamentpp.service.dto.TournamentDto;
 import pl.lodz.p.ftims.tournamentpp.service.TournamentService;
+import pl.lodz.p.ftims.tournamentpp.service.dto.TournamentDto;
 
 import javax.validation.Valid;
 import java.security.Principal;

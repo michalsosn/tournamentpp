@@ -49,7 +49,7 @@ public class MemoryLinker implements GeneratorLinker {
 
     @Override
     public Generator<GameEntity> makeGame() {
-        return memorized(games, env ->{
+        return memorized(games, env -> {
             final RoundEntity round = CollectionGenerator.getAny(rounds).apply(env);
             return GameGenerator.makeGame(round).apply(env);
         });

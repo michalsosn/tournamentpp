@@ -22,9 +22,9 @@
 <div class="container">
   <header th:replace="fragments/header :: header"></header>
   <main>
-    <article class="panel panel-default">
+    <article id="editAccount-panel" class="panel panel-default">
       <header class="panel-heading panel-title">
-        Edit Account
+        Edit account
       </header>
       <main class="panel-body">
         <form th:action="@{/account/editAccount}" th:object="${account}" method="post" action="#">

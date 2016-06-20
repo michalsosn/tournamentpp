@@ -37,9 +37,9 @@ public final class StringGenerator {
         if (next < numRange) {
             return (char) (next + '0');
         } else if (next < upperRange) {
-            return (char) (next + 'A');
+            return (char) (next - numRange + 'A');
         } else {
-            return (char) (next + 'a');
+            return (char) (next - upperRange + 'a');
         }
     }
 
