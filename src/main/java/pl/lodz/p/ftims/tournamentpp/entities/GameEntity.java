@@ -1,6 +1,7 @@
 package pl.lodz.p.ftims.tournamentpp.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,9 @@ import java.util.List;
 @Entity(name = "game")
 @Table(name = "games")
 @SequenceGenerator(name = "game_gen", sequenceName = "game_gen", allocationSize = 1)
-public class GameEntity {
+public class GameEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "game_gen")

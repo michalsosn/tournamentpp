@@ -2,6 +2,7 @@ package pl.lodz.p.ftims.tournamentpp.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity(name = "Application")
 @Table(name = "applications", indexes = {
@@ -10,7 +11,9 @@ import javax.validation.constraints.NotNull;
 })
 @SequenceGenerator(name = "application_sequence", sequenceName = "application_sequence",
                    allocationSize = 1)
-public class ApplicationEntity {
+public class ApplicationEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,

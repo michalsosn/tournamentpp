@@ -2,6 +2,7 @@ package pl.lodz.p.ftims.tournamentpp.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,9 @@ import java.util.List;
 @Entity(name = "Round")
 @Table(name = "rounds")
 @SequenceGenerator(name = "round_gen", sequenceName = "round_gen", allocationSize = 1)
-public class RoundEntity {
+public class RoundEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "round_gen")
