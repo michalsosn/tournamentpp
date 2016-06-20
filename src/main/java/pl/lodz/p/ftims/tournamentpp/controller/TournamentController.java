@@ -8,12 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.ftims.tournamentpp.entities.TournamentEntity;
 import pl.lodz.p.ftims.tournamentpp.service.TournamentService;
-import pl.lodz.p.ftims.tournamentpp.trees.Format;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
 
 @Controller
 public class TournamentController {
@@ -21,10 +18,6 @@ public class TournamentController {
     @Autowired
     private TournamentService tournamentService;
 
-    @ModelAttribute("allFormats")
-    public List<Format> populateFormats() {
-        return Arrays.asList(Format.values());
-    }
 
     @RequestMapping(path = {"/", "/tournament/tournaments"}, method = RequestMethod.GET)
     public String listTournaments(
@@ -46,7 +39,7 @@ public class TournamentController {
     }
 
     @RequestMapping(path = "/support/tournament/{id}/round",
-                    method = RequestMethod.POST)
+            method = RequestMethod.POST)
     public String addNewRound(
             @PathVariable long id,
             @Valid @ModelAttribute("roundParams") RoundParamsPlaceholder roundParams
@@ -56,7 +49,7 @@ public class TournamentController {
     }
 
     @RequestMapping(path = "/tournament/tournament/{tournamentId}/round/{roundId}",
-                    method = RequestMethod.GET)
+            method = RequestMethod.GET)
     public String showRoundScore(
             @PathVariable long tournamentId, @PathVariable long roundId, Model model
     ) {

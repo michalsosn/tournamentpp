@@ -57,7 +57,9 @@ public class TournamentPpApplication {
                 pe.encode("DDD"), true);
         organizerAccount.setName("Organizator mega fajny");
         RoleEntity organizer = new OrganizerRoleEntity(true, organizerAccount);
+        RoleEntity support = new SupportRoleEntity(true, organizerAccount);
         organizerAccount.getRoles().put(Role.ROLE_ORGANIZER, organizer);
+        organizerAccount.getRoles().put(Role.ROLE_SUPPORT, support);
 
         LocalDateTime start = LocalDateTime.now();
         TournamentEntity tournament = new TournamentEntity();
@@ -66,7 +68,7 @@ public class TournamentPpApplication {
         tournament.setOrganizer((OrganizerRoleEntity)
                 organizerAccount.getRoles().get(Role.ROLE_ORGANIZER));
         tournament.setFormat(Format.SINGLE_ELIMINATION);
-        tournament.setLocation("Twoja matka");
+        tournament.setLocation("Dom Czerwonego Kapturka");
         tournament.setDescription("Zabawy");
 
         TournamentEntity tournament2 = new TournamentEntity();
@@ -75,7 +77,7 @@ public class TournamentPpApplication {
         tournament2.setOrganizer((OrganizerRoleEntity)
                 organizerAccount.getRoles().get(Role.ROLE_ORGANIZER));
         tournament2.setFormat(Format.DOUBLE_ELIMINATION);
-        tournament2.setLocation("Twoja matka");
+        tournament2.setLocation("Dom Majkelusa Sośnickusa");
         tournament2.setDescription("Zabawy");
 
         TournamentEntity tournament3 = new TournamentEntity();
@@ -84,8 +86,8 @@ public class TournamentPpApplication {
         tournament3.setOrganizer((OrganizerRoleEntity)
                 organizerAccount.getRoles().get(Role.ROLE_ORGANIZER));
         tournament3.setFormat(Format.ROUND_ROBIN);
-        tournament3.setLocation("Twoja matka");
-        tournament3.setDescription("Zabawy");
+        tournament3.setLocation("Bat-jaskinia");
+        tournament3.setDescription("Będą Bat-ciastka i Bat-mleko");
 
 
         return (args) -> {
