@@ -1,6 +1,7 @@
 package pl.lodz.p.ftims.tournamentpp.service;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import pl.lodz.p.ftims.tournamentpp.entities.Role;
 import pl.lodz.p.ftims.tournamentpp.entities.TournamentEntity;
 import pl.lodz.p.ftims.tournamentpp.generator.Environment;
 import pl.lodz.p.ftims.tournamentpp.generator.GeneratorLinker;
+import pl.lodz.p.ftims.tournamentpp.rules.EnvironmentRule;
+import pl.lodz.p.ftims.tournamentpp.rules.RepeatRule;
 import pl.lodz.p.ftims.tournamentpp.trees.Format;
 
 import java.util.List;
@@ -29,6 +32,12 @@ import java.util.List;
 @Commit
 public class GameServiceTest extends AbstractTransactionalJUnit4SpringContextTests {
 
+    @Rule
+    public RepeatRule repeatRule = new RepeatRule();
+
+    @Rule
+    public EnvironmentRule environmentRule = new EnvironmentRule();
+
     @Autowired
     private GeneratorLinker linker;
 
@@ -36,7 +45,7 @@ public class GameServiceTest extends AbstractTransactionalJUnit4SpringContextTes
 
     @Before
     public void setUp() throws Exception {
-        env = Environment.makeDefault();
+        env = environmentRule.getEnvironment();
 
         linker.makeAccount(true, Role.ROLE_ORGANIZER).apply(env);
         for (int i = 0; i < 16; ++i) {

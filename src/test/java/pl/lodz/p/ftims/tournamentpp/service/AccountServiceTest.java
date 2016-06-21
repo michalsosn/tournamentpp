@@ -1,6 +1,7 @@
 package pl.lodz.p.ftims.tournamentpp.service;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ import pl.lodz.p.ftims.tournamentpp.entities.Role;
 import pl.lodz.p.ftims.tournamentpp.generator.AccountGenerator;
 import pl.lodz.p.ftims.tournamentpp.generator.Environment;
 import pl.lodz.p.ftims.tournamentpp.repository.AccountRepository;
+import pl.lodz.p.ftims.tournamentpp.rules.EnvironmentRule;
+import pl.lodz.p.ftims.tournamentpp.rules.Repeat;
+import pl.lodz.p.ftims.tournamentpp.rules.RepeatRule;
 import pl.lodz.p.ftims.tournamentpp.service.dto.AccountDto;
 import pl.lodz.p.ftims.tournamentpp.service.dto.ProfileDto;
 
@@ -40,6 +44,12 @@ import static org.assertj.core.groups.Tuple.tuple;
 @Commit
 public class AccountServiceTest extends AbstractTransactionalJUnit4SpringContextTests {
 
+    @Rule
+    public RepeatRule repeatRule = new RepeatRule();
+
+    @Rule
+    public EnvironmentRule environmentRule = new EnvironmentRule();
+
     @Autowired
     private AccountService accountService;
     @Autowired
@@ -51,10 +61,11 @@ public class AccountServiceTest extends AbstractTransactionalJUnit4SpringContext
 
     @Before
     public void setUp() throws Exception {
-        env = Environment.makeDefault();
+        env = environmentRule.getEnvironment();
     }
 
     @Test
+    @Repeat(10)
     public void shouldCreateNewAccount() throws Exception {
         // given
         final AccountDto accountDto = AccountGenerator.makeAccountDto().apply(env);
@@ -76,6 +87,7 @@ public class AccountServiceTest extends AbstractTransactionalJUnit4SpringContext
 
     @Test
     @Rollback
+    @Repeat(10)
     public void shouldNotCreateAccountWhenPasswordTooShort() throws Exception {
         // given
         final AccountDto accountDto = AccountGenerator.makeAccountDto().apply(env);
@@ -92,6 +104,7 @@ public class AccountServiceTest extends AbstractTransactionalJUnit4SpringContext
 
     @Test
     @Rollback
+    @Repeat(10)
     public void shouldNotCreateAccountWhenLoginNotUnique() throws Exception {
         // given
         final AccountDto accountDto1 = AccountGenerator.makeAccountDto().apply(env);
@@ -109,6 +122,7 @@ public class AccountServiceTest extends AbstractTransactionalJUnit4SpringContext
     }
 
     @Test
+    @Repeat(10)
     public void shouldCreateAllRoles() throws Exception {
         // given
         final AccountDto accountDto
@@ -127,6 +141,7 @@ public class AccountServiceTest extends AbstractTransactionalJUnit4SpringContext
     }
 
     @Test
+    @Repeat(10)
     public void shouldActivateSelectedRoles() throws Exception {
         // given
         final Role[] activeRoles = { Role.ROLE_SUPPORT, Role.ROLE_COMPETITOR };
@@ -151,6 +166,7 @@ public class AccountServiceTest extends AbstractTransactionalJUnit4SpringContext
 
     @Test
     @Rollback
+    @Repeat(10)
     public void shouldFailWhenAccountNotExists() throws Exception {
         // when
         final Throwable throwable = catchThrowable(() ->
@@ -162,6 +178,7 @@ public class AccountServiceTest extends AbstractTransactionalJUnit4SpringContext
     }
 
     @Test
+    @Repeat(10)
     public void shouldReturnAccountWhenManyAccounts() throws Exception {
         // given
         accountService.createAccount(AccountGenerator.makeAccountDto().apply(env));
@@ -180,6 +197,7 @@ public class AccountServiceTest extends AbstractTransactionalJUnit4SpringContext
     }
 
     @Test
+    @Repeat(10)
     public void shouldEditAccount() throws Exception {
         // given
         final AccountDto accountDto = AccountGenerator.makeAccountDto().apply(env);
@@ -201,6 +219,7 @@ public class AccountServiceTest extends AbstractTransactionalJUnit4SpringContext
     }
 
     @Test
+    @Repeat(10)
     public void shouldNotChangePasswordWhenEmpty() throws Exception {
         // given
         final AccountDto accountDto = AccountGenerator.makeAccountDto().apply(env);
@@ -223,6 +242,7 @@ public class AccountServiceTest extends AbstractTransactionalJUnit4SpringContext
 
     @Test
     @Rollback
+    @Repeat(10)
     public void shouldNotEditWhenPasswordTooShort() throws Exception {
         // given
         final AccountDto accountDto = AccountGenerator.makeAccountDto().apply(env);
