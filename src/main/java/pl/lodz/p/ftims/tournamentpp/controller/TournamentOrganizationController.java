@@ -9,9 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import pl.lodz.p.ftims.tournamentpp.service.TournamentService;
 import pl.lodz.p.ftims.tournamentpp.service.dto.TournamentDto;
+import pl.lodz.p.ftims.tournamentpp.trees.Format;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Michał Sośnicki
@@ -21,6 +24,11 @@ public class TournamentOrganizationController {
 
     @Autowired
     private TournamentService tournamentService;
+
+    @ModelAttribute("allFormats")
+    public List<Format> populateFormats() {
+        return Arrays.asList(Format.values());
+    }
 
     @RequestMapping(path = "/organizer/createTournament", method = RequestMethod.GET)
     public String createTournament(Model model) {

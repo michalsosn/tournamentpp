@@ -8,23 +8,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.ftims.tournamentpp.entities.TournamentEntity;
 import pl.lodz.p.ftims.tournamentpp.service.TournamentService;
-import pl.lodz.p.ftims.tournamentpp.trees.Format;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
 
 @Controller
 public class TournamentController {
 
     @Autowired
     private TournamentService tournamentService;
-
-    @ModelAttribute("allFormats")
-    public List<Format> populateFormats() {
-        return Arrays.asList(Format.values());
-    }
 
     @RequestMapping(path = {"/", "/tournament/tournaments"}, method = RequestMethod.GET)
     public String listTournaments(
